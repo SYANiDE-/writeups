@@ -1,11 +1,3 @@
-# Obsidian Notes
+# Deliverables
 
-Publish your public notes with MkDocs
-
-## Hello World!
-
-The `index.md` in the `/docs` folder is the homepage you see here.
-
-The folders in `/docs` appear as the main sections on the navigation bar.
-
-The notes appear as pages within these sections. For example, [[Note 1]] in `Topic 1`
+Here you might find writeups for CTF challenges, retired HTB/Offsec lab machines, etc.  Maybe a blog to talk about security-related topics involving CTFs or challenges.
