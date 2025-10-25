@@ -1,4 +1,5 @@
 site_name: SYANiDE-.github.io writeups
+site_url: https://syanide-.github.io/writeups/
 
 theme:
     name: 'material'
