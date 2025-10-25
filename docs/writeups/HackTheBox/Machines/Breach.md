@@ -505,7 +505,7 @@ SQL (BREACH\svc_mssql  guest@master)> exit
 
 I do have the credentials for the svc_mssql user, and their spn is `MSSQLSvc/breachdc.breach.vl:1433`.  I could forge a silver ticket for that SPN for christine.  Lets do that
 
-```
+```python
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ cat ~/bin/password_to_ntlm_hash.py 
 #!/usr/bin/env python3
