@@ -1228,22 +1228,22 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 SQL (BREACH\svc_mssql  guest@master)&gt; exit
 </code></pre></div></p>
 <p>I do have the credentials for the svc_mssql user, and their spn is <code>MSSQLSvc/breachdc.breach.vl:1433</code>.  I could forge a silver ticket for that SPN for christine.  Lets do that</p>
-<div class="highlight"><pre><span></span><code>┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
-└─$ cat ~/bin/password_to_ntlm_hash.py 
-#!/usr/bin/env python3
-import hashlib
-import binascii
+<div class="highlight"><pre><span></span><code><span class="err">┌──</span><span class="p">(</span><span class="n">notroot</span><span class="err">㉿</span><span class="n">elysium</span><span class="p">)</span><span class="o">-</span><span class="p">[(</span><span class="n">master</span><span class="p">)</span> <span class="mi">1</span> <span class="o">~/</span><span class="n">htb</span><span class="o">/</span><span class="n">machines</span><span class="o">/</span><span class="n">breach</span><span class="p">]</span>
+<span class="err">└─$</span> <span class="n">cat</span> <span class="o">~/</span><span class="nb">bin</span><span class="o">/</span><span class="n">password_to_ntlm_hash</span><span class="o">.</span><span class="n">py</span> 
+<span class="c1">#!/usr/bin/env python3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">binascii</span>
 
-def convert_to_ntlm(password):
-    encoded_password = password.encode(&#39;utf-16le&#39;)
-    md4_hash = hashlib.new(&#39;md4&#39;, encoded_password).digest()
-    ntlm_hash = binascii.hexlify(md4_hash).decode(&#39;utf-8&#39;)
-    return ntlm_hash
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_ntlm</span><span class="p">(</span><span class="n">password</span><span class="p">):</span>
+    <span class="n">encoded_password</span> <span class="o">=</span> <span class="n">password</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-16le&#39;</span><span class="p">)</span>
+    <span class="n">md4_hash</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;md4&#39;</span><span class="p">,</span> <span class="n">encoded_password</span><span class="p">)</span><span class="o">.</span><span class="n">digest</span><span class="p">()</span>
+    <span class="n">ntlm_hash</span> <span class="o">=</span> <span class="n">binascii</span><span class="o">.</span><span class="n">hexlify</span><span class="p">(</span><span class="n">md4_hash</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ntlm_hash</span>
 
-password = input(&quot;Give password:&gt; &quot;)
-ntlm_hash = convert_to_ntlm(password)
-print(f&quot;Password: {password}&quot;)
-print(f&quot;NTLM Hash: {ntlm_hash}&quot;)
+<span class="n">password</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Give password:&gt; &quot;</span><span class="p">)</span>
+<span class="n">ntlm_hash</span> <span class="o">=</span> <span class="n">convert_to_ntlm</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Password: </span><span class="si">{</span><span class="n">password</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NTLM Hash: </span><span class="si">{</span><span class="n">ntlm_hash</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>Hash svc_mssqls password
 <div class="highlight"><pre><span></span><code>┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
