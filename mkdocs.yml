@@ -3,24 +3,31 @@ site_url: https://syanide-.github.io/writeups/
 
 theme:
     name: 'material'
+    features:
+      - navigation.instant
+      - navigation.instant.progress
+      - navigation.tabs
+      - navigation.tabs.sticky
+      - navigation.expand
+
     palette:
 
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: pink
-      accent: indigo
+      primary: black
+      accent: deep orange
       toggle:
-        icon: material/toggle-switch-off-outline
+        icon: material/lightbulb
         name: Switch to dark mode
 
     # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: blue
-      accent: blue
+      primary: black
+      accent: deep orange
       toggle:
-        icon: material/toggle-switch
+        icon: material/lightbulb-outline
         name: Switch to light mode
 
 # Extensions
