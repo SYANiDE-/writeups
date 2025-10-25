@@ -447,7 +447,7 @@ INFO: Compressing output into 20251025015627_bloodhound.zip
 ```
 
 Interestingly, Julia.wong is a member of Staff and Print Operators.
-![[Pasted_image_20251025020124.png]]
+![[https://github.com/SYANiDE-/writeups/tree/gh-pages/Pasted_image_20251025020124.png]]
 
 There is nothing particularly interesting about the Staff group, but Print Operators:
 https://notes.dollarboysushil.com/windows-privilege-escalation/group-privileges/print-operators
@@ -467,7 +467,7 @@ Maybe this is something, maybe it is not.  I might circle back to this.
 
 One other thing I saw was that there is a domain admin user, christine.bruce, which has password not required set:
 
-![[Pasted_image_20251025025356.png]]
+![[https://github.com/SYANiDE-/writeups/tree/gh-pages/Pasted_image_20251025025356.png]]
 
 That is pretty interesting, but not sure how that could work out from here.
 
