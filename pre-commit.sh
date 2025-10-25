@@ -1,5 +1,7 @@
 #!/bin/bash
 
+image_prefix='https:\/\/github.com\/SYANiDE-\/writeups\/tree\/gh-pages\/'
+
 ## Find all referenced pastedimages and add them to docs, renaming spaces to underscore
 for item in $(find . -name "*.md"); do 
     found=($(grep -Po "Pasted image .+.png" $item | tr ' ' '_')); 
@@ -15,6 +17,6 @@ for item in $(find . -name "*.md"); do
     IFS=$'\n' found=($(grep -Po "Pasted image .+.png" $item))
     for meti in "${found[@]}"; do 
         repl="${meti// /_}"
-        sed -re "s/$meti/$repl/g" $item -i
+        sed -re "s/$meti/$image_prefix$repl/g" $item -i
     done
 done
