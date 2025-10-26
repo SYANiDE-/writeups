@@ -447,6 +447,7 @@ INFO: Compressing output into 20251025015627_bloodhound.zip
 ```
 
 Interestingly, Julia.wong is a member of Staff and Print Operators.
+
 ![[Pasted_image_20251025020124.png]]
 
 There is nothing particularly interesting about the Staff group, but Print Operators:
