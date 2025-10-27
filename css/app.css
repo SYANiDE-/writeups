@@ -51,7 +51,7 @@ p code {
     flex-flow: column nowrap !important;
 }
 
-.highlight pre code .codewrap {
+.codewrap {
     display: flex !important;
     flex-flow: column nowrap !important;
 }
@@ -62,7 +62,7 @@ p code {
     flex-flow: row nowrap !important;
 }
 
-.highlight pre code .codewrap > *{
+.codewrap > *{
     white-space: pre-wrap !important;
     overflow-x: hidden !important;
     flex-flow: row wrap !important;
