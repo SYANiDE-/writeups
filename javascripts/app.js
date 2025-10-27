@@ -1,6 +1,6 @@
 // extra.js
 document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('#highlight pre code').forEach(codeBlock => {
+    document.querySelectorAll('.highlight pre code').forEach(codeBlock => {
         const toggleButton = document.createElement('button');
         toggleButton.textContent = 'Toggle Wrap';
         toggleButton.className = 'code-wrap-toggle';
