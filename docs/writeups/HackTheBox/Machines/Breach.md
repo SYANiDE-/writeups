@@ -1,3 +1,6 @@
+
+## Nmap Scan
+
 Nmap scan of the target host
 ```
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb]
@@ -103,7 +106,7 @@ https://github.com/SYANiDE-/tooling
 	- `sudo systemctl start vbox-disable-timesync.service`
 	- `sudo ntpdate -u breachdc`
 
-### enumeration
+### Enumeration
 The guest account is enabled
 ```
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb]
@@ -322,7 +325,7 @@ Valid starting       Expires              Service principal
         renew until 10/26/2025 01:29:19
 ```
 
-### What can julia.wong do
+## What can julia.wong do
 
 read/write on the `share` share, and read on the `users` share
 ```

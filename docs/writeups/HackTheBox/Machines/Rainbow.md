@@ -1,8 +1,6 @@
 ![[Pasted_image_20251025172750.png]]
 
-Here we go again.
-
-Start with an nmap scan.
+## Nmap scan
 
 ```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb]
@@ -243,7 +241,7 @@ Port 8080 is the development webapp, its homepage aligns with the `index.html` f
 Anonymous access doesn't allow upload to the FTP share, so straight to webshell is off the table.
 
 
-# Static Analysis
+## Static Analysis
 
 I tried analyzing the `rainbow.exe` using `AvaloniaILSpy` (https://github.com/icsharpcode/AvaloniaILSpy) but the executable isn't managed code:
 
@@ -366,7 +364,7 @@ That looks an awful lot like a function pointer exec, save for the three argumen
 There is nothing left to analyze here at the moment.
 
 
-# Dynamic analysis
+## Dynamic analysis
 Only way forward is to debug it live.  The following can help expedite managing the lifecycle of the binary and attaching windbg to it.  one of the challenges is that the application blocks while its running, and it has console output .  So it has to be started as a background process and output redirected to a file while trying to one-liner starting and attaching to it.
 
 Additionally I have set an initial breakpoint at the instruction that calls Ordinal_16 (recv).
@@ -485,7 +483,7 @@ The following has two breakpoints, one at the call for recv, the other at the fu
 ```
 
 
-# Finding a crash
+## Finding a crash
 
 I found that if I debug without any breakpoints, and if I send a POST request with 0x1000 bytes, I get a response back.
 ```sh
@@ -518,7 +516,7 @@ buf += ("\x41" * 0xf00)
 ^^ 3908 bytes total
 
 
-# Finding the pattern
+## Finding the pattern
 
 Retesting with a pattern, with the following buffer.  I'll pass the pattern string in at CLI invocation.
 ```python
@@ -569,7 +567,7 @@ Invalid exception stack at 40404040
 ```
 
 
-# Finding Badchars
+## Finding Badchars
 
 Real quick though, test for badchars.  I have a function I built for that:
 
@@ -674,7 +672,7 @@ badchars = "\x00\x0a"
 Nothing uses the variable beyond hunting for badchars.
 
 
-# Finding PopPopRet
+## Finding PopPopRet
 Of note, only the rainbow binary will do.  Everything else has DEP and ASLR enabled, and, why fight them if you don't have to.
 ```sh
 0:003> !load narly
@@ -813,7 +811,7 @@ rainbow+0x94da:
 Very nice, ret will return to the 0x40404040.  
 
 
-# To SEH or nSEH, that is the question
+## To SEH or nSEH, that is the question
 Not much of a question
 
 Need a small kickback, maybe 0x8 bytes.
@@ -899,7 +897,7 @@ After jmp esp, Perfect.  Land right at the beginning of `sled1`
 ```
 
 
-# Shellcode
+## Shellcode
 The only thing left to do is generate the shellcode and complete the PoC.
 ```python
 #!/usr/bin/env python3
@@ -988,7 +986,7 @@ if __name__=="__main__":
     main()
 ```
 
-# Getting a foothold
+## Getting a foothold
 
 It shells:
 
@@ -1002,7 +1000,7 @@ type user.txt
 ```
 
 
-# Post-exploitation enumeration
+## Post-exploitation enumeration
 
 Need to upgrade my shell to something a little more feature rich, reliable, etc.
 
@@ -1052,7 +1050,7 @@ Registry AutoLogon Found
 ```
 
 
-# Elevate 
+## Elevate 
 I'll try a number of UAC bypasses.  What I found worked for me is the ComputerDefaults bypass.
 
 ```powershell
@@ -1077,7 +1075,7 @@ Remove-Item "HKCU:\Software\Classes\ms-settings\" -Recurse -Force
 ```
 
 
-# Escalate
+## Escalate
 
 On the new session, I find that the process integrity is High, and the process tokens include SeImpersonatePrivilege in an enabled state
 
