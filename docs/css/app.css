@@ -52,6 +52,7 @@ p code {
     display: flex !important;
     flex-flow: row nowrap !important;
     justify-content: flex-start !important;
+    align-self:flex-start !important;
 }
 
 .highlight pre code.codewrap {
@@ -60,4 +61,5 @@ p code {
     white-space: pre-wrap !important;
     overflow-x: hidden !important;
     justify-content: flex-start !important;
+    align-self: flex-start !important;
 }
