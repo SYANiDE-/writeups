@@ -46,14 +46,14 @@ p code {
     font-family: monospace, monospace !important;
 }
 
-.highlight pre code {
+.highlight pre code :not(.codewrap) {
     white-space: pre !important;
     overflow-x: auto !important;
     display: flex !important;
     flex-flow: row nowrap !important;
 }
 
-.highlight pre code .codewrap {
+.highlight pre code.codewrap {
     display: flex !important;
     flex-flow: row wrap !important;
     white-space: pre-wrap !important;
