@@ -1,4 +1,4 @@
-![[Pasted image 20251025172750.png]]
+![[Pasted_image_20251025172750.png]]
 
 Here we go again.
 
@@ -238,7 +238,7 @@ Start-sleep -s 30
 Port 80 is a default IIS start page.
 Port 8080 is the development webapp, its homepage aligns with the `index.html` found in the `wwwroot` directory in the FTP share.
 
-![[Pasted image 20251025174111.png]]
+![[Pasted_image_20251025174111.png]]
 
 Anonymous access doesn't allow upload to the FTP share, so straight to webshell is off the table.
 
@@ -247,23 +247,23 @@ Anonymous access doesn't allow upload to the FTP share, so straight to webshell 
 
 I tried analyzing the `rainbow.exe` using `AvaloniaILSpy` (https://github.com/icsharpcode/AvaloniaILSpy) but the executable isn't managed code:
 
-![[Pasted image 20251025174908.png]]
+![[Pasted_image_20251025174908.png]]
 
 Examining the binary in `Ghidra`, I find that the binary has a number of imports, one of which is `ws2_32.dll`.  A good sign the binary features network connection-related operations.
 
-![[Pasted image 20251025182226.png]]
+![[Pasted_image_20251025182226.png]]
 
 Following the entrypoint, a stack cookie is set up, and a single function is called, which had another name but I renamed it "main", which seems fitting in this context.
 
-![[Pasted image 20251025182456.png]]
+![[Pasted_image_20251025182456.png]]
 
 Following the `main()` function, there is not much to be said about the first two -thirds of the function; likely initialization of the console.  However the near-end of the function starts a webserver, seems to get the address of a loaded module, and an ESI is returned if in good standing. All other scenarios lead to raising SEH exception.  
 
-![[Pasted image 20251025183355.png]]
+![[Pasted_image_20251025183355.png]]
 
 Examining the `start_webserver()` function.
 
-![[Pasted image 20251025185956.png]]
+![[Pasted_image_20251025185956.png]]
 
 The function on line 8 I named `std_cout`, because it seems like that's what its doing is directing stdout to console.
 
@@ -308,17 +308,17 @@ The client function will need a closer examination, because this is where there 
 
 On line 69, I see a zeroing of memory using `memset`.  This is followed by a `recv` of  0x1000 bytes, followed by a `closesocket`.  The `local_28` variable is passed to the call of `closesocket`, so it must be a socket handle for the client. Curiously, Lines 76-78 seem to iterate over the `recv`'d bytes like `(int x=0; x<len(recvd); x=x+1)` like a for-range type iterator.  However what is strange is the comparison of the indexed value to the `local_28` client sock fdescriptor.  So we seem to be avoiding a buffer overflow by checking if we reached the fdescriptor at offset +5 of the iterator.  Basically looking ahead at the dword adjacent to the iterator. 
 
-![[Pasted image 20251025191934.png]]
+![[Pasted_image_20251025191934.png]]
 
 This is where things get interesting, because if we do manage to match to local_28, then a short jump to label `LAB_004019cb` occurs.  This looks like a shift left operation.  Every iteration, the byte pointed at by `local_14[local_18+5]` is reassigned the byte pointed at by `local_14[local_18+6]`.  There is no initializer in the for range loop, here we seem to be finishing off the remainder of the initial for range loop started on line 76. 
 
 Once the shift operation has finished, the dword pointed at by `local_14[4]` is decremented by 1.  Then `local_30` is incremented by 1.   Then a short jump back up to start an `accept`,  `recv` all over again (label `LAB_00401894`).
 
-![[Pasted image 20251025193932.png]]
+![[Pasted_image_20251025193932.png]]
 
 If for some reason we can get to the end of the iterator in the initial for range loop without ever matching `local_14[local_18 + 5]` to the client sock fdescriptor, we enter a whole other branch.
 
-![[Pasted image 20251025195814.png]]
+![[Pasted_image_20251025195814.png]]
 
 Real quick, the three short jump labels go to 
 1. increment local_30 +1 then go back to `accept`, `recv`
@@ -333,7 +333,7 @@ So it appears that, if there is something important to do with the received buff
 
 Lets examine the function on line 87.
 
-![[Pasted image 20251025200847.png]]
+![[Pasted_image_20251025200847.png]]
 
 I'm renaming this function `depth1`
 
@@ -341,7 +341,7 @@ The `_unfancy()` function just returns whatever was passed to it.  In this way p
 
 The function call on line 18 is, for lack of a better term, obnoxious:
 
-![[Pasted image 20251025201504.png]]
+![[Pasted_image_20251025201504.png]]
 
 We can skip close analysis of the first four function calls.  The first one, has deep recursion and at the end of all the recursion is obtaining structs.  I can't help but feel like its setting up for calling an SEH chain.  The other three are freeing memory and returning pointers to memory.  
 
@@ -351,7 +351,7 @@ Well, and this is a major disappointment.
 
 I think that's exactly what it does.
 
-![[Pasted image 20251025202851.png]]
+![[Pasted_image_20251025202851.png]]
 
 The first function on line 21 creates a compressed pair (???) , an obvious C++ construct related to optimization of empty memory storage (when empty).
 
@@ -359,7 +359,7 @@ The other function calls occurring between lines 21 and 31 are just using an alt
 
 Ah, but the function on line 33 is something else entirely.
 
-![[Pasted image 20251025203742.png]]
+![[Pasted_image_20251025203742.png]]
 
 That looks an awful lot like a function pointer exec, save for the three argument being passed to it.  We can see that pointer-to-param1 is being cast as a pointer-to-code-pointer, and then getting called with three arguments.
 
@@ -376,7 +376,7 @@ c:\rainbow>((cmd.exe /c "taskkill /F /IM rainbow.exe" && timeout 3 && START /B "
 
 In `IDAPro`, that would actually be here:
 
-![[Pasted image 20251025221501.png]]
+![[Pasted_image_20251025221501.png]]
 
 To cause the application to hit the breakpoint, I can start with an initial curl command, although this is just a hello world; this is about to become a PoC.
 ```sh
@@ -500,7 +500,7 @@ If I back that off just by 0x100 bytes, I get AccessViolation.
 └─$ perl -e "printf 'A'x0x0f00" | curl -X POST http://192.168.56.100:8080/index.html -d "fuzzed=$(cat -)"
 ```
 
-![[Pasted image 20251026012334.png]]
+![[Pasted_image_20251026012334.png]]
 
 The exception chain shows that it has been overwritten with As:
 ```sh
@@ -992,7 +992,7 @@ if __name__=="__main__":
 
 It shells:
 
-![[Pasted image 20251026063455.png]]
+![[Pasted_image_20251026063455.png]]
 
 Flag
 ```sh
@@ -1081,7 +1081,7 @@ Remove-Item "HKCU:\Software\Classes\ms-settings\" -Recurse -Force
 
 On the new session, I find that the process integrity is High, and the process tokens include SeImpersonatePrivilege in an enabled state
 
-![[Pasted image 20251026171700.png]]
+![[Pasted_image_20251026171700.png]]
 
 Upload GodPotato
 ```sh
@@ -1151,4 +1151,4 @@ sliver (REMOTE_JACKAL) > cat /users/administrator/desktop/root.txt
 ```
 
 
-![[Pasted image 20251026172423.png]]
+![[Pasted_image_20251026172423.png]]
