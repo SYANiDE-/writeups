@@ -47,11 +47,23 @@ p code {
 }
 
 .highlight pre code {
-    white-space: pre !important;
-    overflow-x: auto !important;
+    display: flex !important;
+    flex-flow: column nowrap !important;
 }
 
 .highlight pre code .codewrap {
+    display: flex !important;
+    flex-flow: column nowrap !important;
+}
+
+.highlight pre code > * {
+    white-space: pre !important;
+    overflow-x: auto !important;
+    flex-flow: row nowrap !important;
+}
+
+.highlight pre code .codewrap > *{
     white-space: pre-wrap !important;
     overflow-x: hidden !important;
+    flex-flow: row wrap !important;
 }
