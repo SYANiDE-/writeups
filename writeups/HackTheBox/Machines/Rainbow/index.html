@@ -46,6 +46,14 @@
       
     
     
+      <link rel="stylesheet" href="../../../../css/app.css">
+    
+      <link rel="stylesheet" href="../../../../css/terminal-player.css">
+    
+      <link rel="stylesheet" href="../../../../css/asciinema-player.css">
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/panzoom.css">
+    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -63,7 +71,8 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
-        </style></head>
+        </style><meta name="panzoom-theme" content="material">
+<meta name="panzoom-data" content='{"selectors": [".mermaid", ".d2"], "initial_zoom_level": 1.0}'> </head>
   
   
     
@@ -891,7 +900,7 @@ Port 8080 is the development webapp, its homepage aligns with the <code>index.ht
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174111.png" data-desc-position="bottom"><img alt="Pasted_image_20251025174111.png" src="../../../../Pasted_image_20251025174111.png"></a></p>
 <p>Anonymous access doesn't allow upload to the FTP share, so straight to webshell is off the table.</p>
 <h1 id="static-analysis">Static Analysis<a class="headerlink" href="#static-analysis" title="Permanent link">¶</a></h1>
-<p>I tried analyzing the <code>rainbow.exe</code> using <code>AvaloniaILSpy</code> (https://github.com/icsharpcode/AvaloniaILSpy) but the executable isn't managed code:</p>
+<p>I tried analyzing the <code>rainbow.exe</code> using <code>AvaloniaILSpy</code> (<a href="https://github.com/icsharpcode/AvaloniaILSpy">https://github.com/icsharpcode/AvaloniaILSpy</a>) but the executable isn't managed code:</p>
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174908.png" data-desc-position="bottom"><img alt="Pasted_image_20251025174908.png" src="../../../../Pasted_image_20251025174908.png"></a></p>
 <p>Examining the binary in <code>Ghidra</code>, I find that the binary has a number of imports, one of which is <code>ws2_32.dll</code>.  A good sign the binary features network connection-related operations.</p>
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025182226.png" data-desc-position="bottom"><img alt="Pasted_image_20251025182226.png" src="../../../../Pasted_image_20251025182226.png"></a></p>
@@ -975,7 +984,7 @@ The third function on line 91 is also a check if a VirtualProcessor is available
 └─$<span class="w"> </span>perl<span class="w"> </span>-e<span class="w"> </span><span class="s2">"printf 'A'x0x1020"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.56.100:8080/index.html<span class="w"> </span>-d<span class="w"> </span><span class="s2">"fuzzed=</span><span class="k">$(</span>cat<span class="w"> </span>-<span class="k">)</span><span class="s2">"</span>
 </code></pre></div><p></p>
 <p>The convention for calling <code>ws2_32::recv</code></p>
-<p>https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-recv</p>
+<p><a href="https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-recv">https://learn.microsoft.com/en-us/windows/win32/api/winsock2/nf-winsock2-recv</a></p>
 <div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="n">WSAAPI</span><span class="w"> </span><span class="nf">recv</span><span class="p">(</span>
 <span class="w">  </span><span class="p">[</span><span class="n">in</span><span class="p">]</span><span class="w">  </span><span class="n">SOCKET</span><span class="w"> </span><span class="n">s</span><span class="p">,</span>
 <span class="w">  </span><span class="p">[</span><span class="n">out</span><span class="p">]</span><span class="w"> </span><span class="kt">char</span><span class="w">   </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span>
@@ -1249,7 +1258,7 @@ Available<span class="w"> </span>commands:
 </code></pre></div><p></p>
 <p>Well with null byte being a bad character, and given the address space of the binary, that means the boundary for the buffer has to end after the third byte of SEH in order to get the address placed on the stack correctly, because the last byte of the address is always null.   The end of the string (zero-terminated) will have to be what places the null byte for the fourth and final byte.</p>
 <p>Gadget hunt with a tool I built, that wraps around rp++. </p>
-<p>https://github.com/SYANiDE-/rp-ng</p>
+<p><a href="https://github.com/SYANiDE-/rp-ng">https://github.com/SYANiDE-/rp-ng</a></p>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/rainbow<span class="o">]</span>
 └─$<span class="w"> </span>rp++-ng<span class="w"> </span>--va<span class="w"> </span>0x00400000<span class="w"> </span>--file<span class="w"> </span>dump/rainbow.exe<span class="w"> </span>-r<span class="w"> </span><span class="m">3</span><span class="w"> </span>--regex<span class="w"> </span><span class="s2">"pop.*pop.*ret"</span><span class="w"> </span><span class="m">2</span>&gt;/dev/null
 
@@ -1731,6 +1740,14 @@ Logon<span class="w"> </span>ID:<span class="w"> </span>NT<span class="w"> </spa
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+        <script src="../../../../javascripts/app.js"></script>
+      
+        <script src="../../../../js/asciinema-player.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/panzoom.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/zoompan.js"></script>
       
     
   

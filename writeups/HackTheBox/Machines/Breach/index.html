@@ -48,6 +48,14 @@
       
     
     
+      <link rel="stylesheet" href="../../../../css/app.css">
+    
+      <link rel="stylesheet" href="../../../../css/terminal-player.css">
+    
+      <link rel="stylesheet" href="../../../../css/asciinema-player.css">
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/panzoom.css">
+    
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -65,7 +73,8 @@
             body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
             body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
             body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
-        </style></head>
+        </style><meta name="panzoom-theme" content="material">
+<meta name="panzoom-data" content='{"selectors": [".mermaid", ".d2"], "initial_zoom_level": 1.0}'> </head>
   
   
     
@@ -820,7 +829,7 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 106.28 seconds
 </code></pre></div><p></p>
 <p>As this appears to be a domain controller, I have configured my environment for operation within a Kerberos realm, using tooling for this purpose
-https://github.com/SYANiDE-/tooling</p>
+<a href="https://github.com/SYANiDE-/tooling">https://github.com/SYANiDE-/tooling</a></p>
 <ul>
 <li>entries in /etc/hosts<ul>
 <li><code>echo "10.129.38.236 breachdc.breach.vl breach.vl breach breachdc" | sudo tee -a /etc/hosts</code></li>
@@ -1142,7 +1151,7 @@ INFO: Compressing output into 20251025015627_bloodhound.zip
 <p>Interestingly, Julia.wong is a member of Staff and Print Operators.</p>
 <p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025020124.png" data-desc-position="bottom"><img alt="Pasted_image_20251025020124.png" src="../../../../Pasted_image_20251025020124.png"></a></p>
 <p>There is nothing particularly interesting about the Staff group, but Print Operators:
-https://notes.dollarboysushil.com/windows-privilege-escalation/group-privileges/print-operators
+<a href="https://notes.dollarboysushil.com/windows-privilege-escalation/group-privileges/print-operators">https://notes.dollarboysushil.com/windows-privilege-escalation/group-privileges/print-operators</a>
 </p><div class="highlight"><pre><span></span><code>The **Print Operators** group is a highly privileged group in Windows that grants its members several significant permissions, including:
 
 - `**SeLoadDriverPrivilege**`: Allows members to load and manage system drivers.
@@ -1603,6 +1612,14 @@ fc98f418f94f8cdb9a30ef026fe64345
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+      
+        <script src="../../../../javascripts/app.js"></script>
+      
+        <script src="../../../../js/asciinema-player.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/panzoom.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/zoompan.js"></script>
       
     
   

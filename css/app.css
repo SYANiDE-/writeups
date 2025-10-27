@@ -1,0 +1,55 @@
+
+h1{
+    color: rgb(0, 155, 0);
+    margin-top: 2.5em;
+    margin-bottom: 0.75em;
+    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.600);
+}
+
+h2 {
+    color: rgb(100, 155, 0);
+    margin-top: 1.6em;
+    margin-bottom: 0.64em;
+    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.600);
+}
+
+h3 {
+    color: rgb(150, 116, 0);
+    margin-top: 1.3em;
+    margin-bottom: 0.53em;
+    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.600);
+}
+
+h4 {
+    color: rgb(200, 116, 0);
+    margin-top: 1.2em;
+    margin-bottom: 0.42em;
+    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.600);
+}
+
+h4 {
+    color: rgb(250, 116, 0);
+    margin-top: 1.1em;
+    margin-bottom: 0.31em;
+    text-decoration: underline;
+    background-color: rgba(0, 0, 0, 0.600);
+}
+
+p code {
+    background-color: rgba(0, 0, 0, 0.600);
+    color: rgb(190, 190, 190);
+}
+
+.highlight pre code {
+    white-space: pre;
+    overflow-x: auto;
+}
+
+.highlight pre code .codewrap {
+    white-space: pre-wrap;
+    overflow-x: hidden;
+}
