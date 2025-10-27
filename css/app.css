@@ -53,7 +53,7 @@ p code {
     flex-flow: row nowrap !important;
 }
 
-.codewrap {
+.highlight pre code .codewrap {
     display: flex !important;
     flex-flow: row wrap !important;
     white-space: pre-wrap !important;
