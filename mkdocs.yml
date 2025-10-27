@@ -79,6 +79,19 @@ plugins:
   - git-revision-date-localized:
       enable_creation_date: true
       type: date
+  - glightbox:
+      closeEffect: zoom
+      openEffect: zoom
+      closebutton: show
+      closeOnOutsideClick: true
+      descPosition: top
+      touchNavigation: false
+      loop: false
+      effect: zoom
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: true
       
 
 extra_javascript:
