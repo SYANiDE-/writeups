@@ -24,5 +24,8 @@ jobs:
       - run: pip install mkdocs-rss-plugin
       - run: pip install mkdocs-git-revision-date-localized-plugin
       - run: pip install mkdocs-glightbox
+      - run: pip install mkdocs-asciinema-player
+      - run: pip install mkdocs-panzoom-plugin
+
       # - run: pip install mkdocs-mermaid2-plugin
       - run: mkdocs gh-deploy --force

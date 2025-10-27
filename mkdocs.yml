@@ -45,9 +45,9 @@ markdown_extensions:
   # - attr_list
   - pymdownx.arithmatex:
       generic: true
-  # - pymdownx.superfences
-  # - pymdownx.details
-  # - pymdownx.magiclink
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.magiclink
   - pymdownx.tasklist:
       custom_checkbox: true
   - def_list
@@ -92,6 +92,11 @@ plugins:
       height: auto
       zoomable: true
       draggable: true
+  - asciinema-player
+  - panzoom:
+      always_show_hint: true # default false
+      key: "alt" # default alt
+
       
 
 extra_javascript:
@@ -99,6 +104,10 @@ extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - https://unpkg.com/mermaid/dist/mermaid.min.js 
+  - javascripts/app.js
+
+extra_css:
+  - css/app.css
 
 extra:
   social:
