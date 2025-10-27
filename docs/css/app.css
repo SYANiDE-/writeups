@@ -46,7 +46,7 @@ p code {
     font-family: monospace, monospace !important;
 }
 
-.highlight pre code:not(.codewrap) {
+/* .highlight pre code:not(.codewrap) {
     white-space: pre !important;
     overflow-x: auto !important;
 }
@@ -58,4 +58,4 @@ p code {
     overflow-x: hidden !important;
     justify-content: flex-start !important;
     align-self: flex-start !important;
-}
+} */
