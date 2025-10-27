@@ -49,10 +49,6 @@ p code {
 .highlight pre code:not(.codewrap) {
     white-space: pre !important;
     overflow-x: auto !important;
-    display: flex !important;
-    flex-flow: row nowrap !important;
-    justify-content: flex-start !important;
-    align-self:flex-start !important;
 }
 
 .highlight pre code.codewrap {
