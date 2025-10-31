@@ -1,4 +1,4 @@
-![[Pasted image 20251029225945.png]]
+![[Pasted_image_20251029225945.png]]
 
 ## Enumeration
 
@@ -305,11 +305,11 @@ The master password is `Fall2024!`.
 
 Lets open up the `Shared.kdbx` using `keepass`
 
-![[Pasted image 20251029234334.png]]
+![[Pasted_image_20251029234334.png]]
 
 There are a number of folders (IT, Helpdesk, Finance), and each one has a number of stored credentials.
 
-![[Pasted image 20251029234554.png]]
+![[Pasted_image_20251029234554.png]]
 
 Here is what I collected:
 
@@ -905,7 +905,7 @@ Logging directory is set to /home/notroot/.powerview/logs/redelegate-marie.curie
 ```
 
 If I analyze through the web interface, I noticed that RID 1109 does exist:
-![[Pasted image 20251030113607.png]]
+![[Pasted_image_20251030113607.png]]
 
 However upon closer inspection, the SID doesn't match up:
 ```
@@ -917,7 +917,7 @@ Probably that is a SID from the machine-local domain (workgroup).
 
 However, I found my controlled user is a member of the `HelpDesk` group:
 
-![[Pasted image 20251030114432.png]]
+![[Pasted_image_20251030114432.png]]
 
 That gives me two separate SIDs to be on the lookout for, in DACLs:
 
@@ -994,7 +994,7 @@ At any rate, Bloodhound collection is worth investigating.
 
 In fact, `marie.curie` has just that `ForceChangePassword` Outbound Object Control over a number of user accounts:
 
-![[Pasted image 20251030123838.png]]
+![[Pasted_image_20251030123838.png]]
 
 Another point of interest, but `Helen.Frost` is a member of `Remote Management Users` (which means WinRM), and also a member of `IT`, which has `GenericAll` over `FS01$`.  The following cipher query embodies both of those connections.
 
@@ -1005,7 +1005,7 @@ WHERE (g.name = "REMOTE MANAGEMENT USERS@REDELEGATE.VL" or g.name = "IT@REDELEGA
 return p1, p2
 ```
 
-![[Pasted image 20251030131518.png]]
+![[Pasted_image_20251030131518.png]]
 
 ## Take control of helen.frost
 
@@ -1130,15 +1130,15 @@ Impacket v0.13.0.dev0 - Copyright Fortra, LLC and its affiliated companies
 
 That is because the `Administrator` user account is marked with the `NOT_DELEGATED` flag in its `userAccountControl`, so its TGTs are not forwardable.   Therefore, the user account can't be used in any delegation scenario.
 
-![[Pasted image 20251030162008.png]]
+![[Pasted_image_20251030162008.png]]
 
 the `michael.pontiac` user doesn't have that problem.
 
-![[Pasted image 20251030162902.png]]
+![[Pasted_image_20251030162902.png]]
 
 Same goes for the DC
 
-![[Pasted image 20251030165116.png]]
+![[Pasted_image_20251030165116.png]]
 
 Perform constrained delegation, impersonating the DC
 
@@ -1204,7 +1204,7 @@ ee25f5b2f6aa6fa97f16e75b1db43431
 ```
 
 
-![[Pasted image 20251030164855.png]]
+![[Pasted_image_20251030164855.png]]
 
 
 
