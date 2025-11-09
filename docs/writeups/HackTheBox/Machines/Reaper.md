@@ -1,6 +1,6 @@
 https://app.hackthebox.com/machines/Reaper
 
-![[Pasted image 20251031132749.png]]
+![[Pasted_image_20251031132749.png]]
 
 ## Enumeration
 
@@ -150,18 +150,18 @@ Nmap done: 1 IP address (1 host up) scanned in 0.12 seconds
 
 `Ghidra` shows that the binary is a 64bit executable.  This is made obvious by the fact that the address size is 64, and the min/max address is in a range that is also only possible in a 64bit context.
 
-![[Pasted image 20251031220323.png]]
+![[Pasted_image_20251031220323.png]]
 
 ## Ghidra analysis
 
 The entrypoint starts out by creating a stack cookie.  The only other function call is to `__scrt_common_main_seh()`
 
-![[Pasted image 20251031223630.png]]
+![[Pasted_image_20251031223630.png]]
 
 ### common_main_seh()
 Once within this function, the function of interest is `FUN_140001bd0()`, which I have renamed to `bind_server` due to functions with ordinal numbers, which align to `ws2_32.dll`, and calls consistent with standing up a bind server.
 
-![[Pasted image 20251031225644.png]]
+![[Pasted_image_20251031225644.png]]
 
 ### bind_server()
 
@@ -185,7 +185,7 @@ create table ws2_32 ( ordinal int32, name varchar[32] );
 
 Now in `bind_server()`:
 
-![[Pasted image 20251031230337.png]]
+![[Pasted_image_20251031230337.png]]
 
 I am seeing calls to ordinals in the following order:
 ```
@@ -212,11 +212,11 @@ These translate to the following `ws2_32` function calls:
 
 Making it easier to visually follow once the references are renamed (a manual process but well worth it, wherever possible)
 
-![[Pasted image 20251031231057.png]]
+![[Pasted_image_20251031231057.png]]
 
 But, it's really here within line 49 where we are interested.
 
-![[Pasted image 20251031231809.png]]
+![[Pasted_image_20251031231809.png]]
 
 1. `FUN_14000ee50`: This function calls functions like `CreateThread`, `CloseHandle`, and `FreeLibrary` 
 2. `FUN_140001000`:  This function calls `VirtualAlloc` twice, followed by `ws2_32` ordinals 19, 16, and 3
@@ -233,7 +233,7 @@ It is for that reason I have named the function `bind_client`.  This is a functi
 
 ### bind_client()
 
-![[Pasted image 20251109102039.png]]
+![[Pasted_image_20251109102039.png]]
 
 We can see on line 24 and 25 above that there are two `VirtualAlloc`s that occur into local variables `local_48` and `local_40`.  Probably `recv` and `working_set` type buffers.  On line 27 it is shown a string, likely one that will be used in a prompt to select an option, either (1) `Set key` or (2) `Activate key`.  We enter into a `while` loop that is greater than what is displayed, and immediately enter into two more nested `while` loops.  This is where the string is sent to the user, and input is received by the user.  If the user input isn't "1", we break out of the third `while` loop, and nothing follows that `while` loop so we effectively break out of the second `while` loop as well.  
 
@@ -248,7 +248,7 @@ The function call on line 41 to `validate_key_format` is particularly interestin
 
 But it is what occurs after the first `while` loop that is most interesting.
 
-![[Pasted image 20251109103106.png]]
+![[Pasted_image_20251109103106.png]]
 
 The function call to `find_key` does things like open a file `keys.txt` for reading, and nested function call within it seems to do what appears to be base64 decoding (could be wrong), and some string comparison.
 
@@ -258,11 +258,11 @@ But it is the call to `case_exec` where the magic is at.  It is called with a po
 
 The `case_exec` function starts off with a rather long `switch`/`case` statement, longer than I could fit in a screenshot so I include the first part of it
 
-![[Pasted image 20251109103837.png]]
+![[Pasted_image_20251109103837.png]]
 
 In order to trace with some dynamic analysis I rebase the application to 0x0, so I can use relative offsets in `windbg`.   For that, I open memory map in Ghidra, click the house icon, and rebase to 0x0.
 
-![[Pasted image 20251109104546.png]]
+![[Pasted_image_20251109104546.png]]
 
 I use `windbg` to place a breakpoint at the call and step into it once the breakpoint is hit.  Here is what I use to handle lifecycle and breakpoint.
 
@@ -281,15 +281,15 @@ The function starts off with some function prologue followed by moving the base 
 
 Shortly after, there is a comparison of `maxlen` (arg3) to `0xf`.  `0x1000` is obviously greater than this, so we would take this jump, which basically we skip the `switch`/`case` statement.
 
-![[Pasted image 20251109104931.png]]
+![[Pasted_image_20251109104931.png]]
 
 Stepping through execution to the jump above instruction, that is exactly what happens.
 
-![[Pasted image 20251109105050.png]]
+![[Pasted_image_20251109105050.png]]
 
 That brings us here:
 
-![[Pasted image 20251109105334.png]]
+![[Pasted_image_20251109105334.png]]
 
 
 We can skip over the IF statement on line 73 because `maxlen` is `0x1000`, so we know `maxlen` can't be less than `0x21`.
@@ -298,21 +298,21 @@ We can also skip over the IF statement on line 79 because at the time we reach t
 
 A comparison statement on line 106 is what follows.
 
-![[Pasted image 20251109110513.png]]
+![[Pasted_image_20251109110513.png]]
 
 If execution can enter the innermost IF statement visible in the screenshot above, `maxlen` is tested against `0x120` through `0x1ff` through a series of `case` statements.  There are other cases too like `0x100` and a `default` case, only the latter of which doesn't result in a `vmovntdq_avx`.  That instruction moves memory around in chunks of 256 bytes based on analysis.
 
 But at the end of this operation there is another function pointer exec.
 
-![[Pasted image 20251109111014.png]]
+![[Pasted_image_20251109111014.png]]
 
 Examining the code that is in fact exactly what happens
 
-![[Pasted image 20251109111336.png]]
+![[Pasted_image_20251109111336.png]]
 
 If I set a breakpoint on this `jmp r11` instruction and continue (g), sure enough, that is where execution lands.
 
-![[Pasted image 20251109111639.png]]
+![[Pasted_image_20251109111639.png]]
 
 But unfortunately, it appears we actually just jump to code that zeroes out the memory
 
@@ -338,11 +338,11 @@ Based on what I understand so far, it seems we need to fill a buffer through Opt
 
 If I run the application on my sandbox VM, it opens a port 4141.  If I connect to it using `netcat`, and try supplying one of the keys provided in `dev_keys.txt`, it says it couldn't find the key.
 
-![[Pasted image 20251101113232.png]]
+![[Pasted_image_20251101113232.png]]
 
 The console output of the application server-side:
 
-![[Pasted image 20251101113453.png]]
+![[Pasted_image_20251101113453.png]]
 
 The function `find_key` does make mention of `keys.txt`, but just to be sure where it expects it...
 
@@ -351,7 +351,7 @@ If I use Process Monitor from Sysinternals (https://learn.microsoft.com/en-us/sy
 
 When I resend the same flow of requests (option 1, option 2), there is an attempt to `CreateFile`(handle) on a file `keys.txt` in the same working directory as the binary.
 
-![[Pasted image 20251101114028.png]]
+![[Pasted_image_20251101114028.png]]
 
 So I'll create the file with the same contents as provided in the original `dev_keys.txt`:
 
@@ -411,15 +411,15 @@ ModLoad: 00007ff7`66a80000 00007ff7`66ab3000   C:\reaper\dev_keysvc.exe
 
 Obviously my `Ghidra` analysis will need to be rebased to this range.  That is done by opening Alt+W (window), selecting Memory Map, and selecting the Home icon.
 
-![[Pasted image 20251101154640.png]]
+![[Pasted_image_20251101154640.png]]
 
 Afterward all of the addressing will match up with `windbg`.  I need to break at the function call to `find_key`
 
-![[Pasted image 20251101160445.png]]
+![[Pasted_image_20251101160445.png]]
 
 After rebase, it is at `7ff766a811ca`
 
-![[Pasted image 20251101160555.png]]
+![[Pasted_image_20251101160555.png]]
 
 ### Fuzzing for a controllable crash
 
@@ -460,11 +460,11 @@ dev_keysvc+0x11ca:
 ```
 
 
-![[Pasted image 20251101182531.png]]
+![[Pasted_image_20251101182531.png]]
 
 Looking at the exception chain, it is already overflowed by the buffer.
 
-![[Pasted image 20251101182803.png]]
+![[Pasted_image_20251101182803.png]]
 
 For reference, this crash occured with an input buffer (before base64) of just 3000 bytes.  Obviously these 3000 bytes get base64'd and appended to the beginning of the key.
 
@@ -1275,11 +1275,11 @@ def ROPchain1(base):
 
 In order to debug the ROPchain, I need to figure out the exact return address that  crashes.  As it turns out, it is the return instruction of the function I step over, not a nested return.  `00007ff74bcf16f1`
 
-![[Pasted image 20251102135755.png]]
+![[Pasted_image_20251102135755.png]]
 
 For reference we're talking about this function here:
 
-![[Pasted image 20251109120758.png]]
+![[Pasted_image_20251109120758.png]]
 
 I set a breakpoint for the address of the return instruction at the end of `crash_in_here`, after the three continues, that way I can step into the return, which takes me right to the ROPchain.
 
@@ -1919,7 +1919,7 @@ It was an inevitability, really, that I take a look at `reaper.sys`.  As it turn
 
 I found the module has a main runtime, 
 
-![[Pasted image 20251108193415.png]]
+![[Pasted_image_20251108193415.png]]
 
 The main runtime calls APIs such as `RtlGetVersion`, `IoCreateDevice`, `IoCreateSymbolicLink`, and `IoDeleteDevice`.  In the above screenshot, I found the top red box to be assignment operations, the righthand-operand shows `0x1000` but it is in fact a function call, that goes off to call `IofCompleteRequest`.  It just shows that way because I rebased to 0x0 so that I could get relative offsets while debugging.  
 
@@ -1927,7 +1927,7 @@ The second red box also calls a function which in the screenshot above I named `
 
 It is that second red box that is actually the most interesting and relevant to the task at hand.
 
-![[Pasted image 20251108195337.png]]
+![[Pasted_image_20251108195337.png]]
 
 When we think about the way `DispatchDeviceControl` is meant to be implemented, https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/dispatchdevicecontrol-and-dispatchinternaldevicecontrol-routines
 
@@ -1939,7 +1939,7 @@ For every common type of peripheral device, the system defines a set of I/O cont
 
 The conditional statements on lines 14, 30, and 31 directly correlate to the following values seen as the source value in the comparison op:
 
-![[Pasted image 20251108200018.png]]
+![[Pasted_image_20251108200018.png]]
 
 We can see that with a control code of `-0x7fffdffd`, or `0x80002003`, in the IF statement and clause, on line 21 there is a call to `ExAllocatePoolWithTag`.  The size is `0x20`, or 64 bytes.  The tag is `0x70616552`, which translates to `peaR`, or `Reap` backwards.  
 
@@ -2077,7 +2077,7 @@ The following, ran from the debugging host:
 
 After which point I can connect to the target debugee by rebooting it, and it connects automatically.
 
-![[Pasted image 20251108213616.png]]
+![[Pasted_image_20251108213616.png]]
 
 ### Building the PoC
 
@@ -2235,9 +2235,9 @@ However there are a number of things that need adjustment.  For example it shoul
 
 And for the offsets, `EPROCESS` under `Windows 10 Pro x64`:
 
-![[Pasted image 20251109012409.png]]
+![[Pasted_image_20251109012409.png]]
 
-![[Pasted image 20251109012511.png]]
+![[Pasted_image_20251109012511.png]]
 
 Here is what I finally settled on:
 
@@ -2316,7 +2316,7 @@ Other notable mentions:
 
 ### Getting the shell
 
-![[Pasted image 20251109021310.png]]
+![[Pasted_image_20251109021310.png]]
 
 Upon exit:
 
@@ -2332,6 +2332,6 @@ I am reapthereaper
 ```
 
 
-![[Pasted image 20251109021631.png]]
+![[Pasted_image_20251109021631.png]]
 
 Scythes out for Reaper
