@@ -80,11 +80,9 @@ plugins:
       enable_creation_date: true
       type: date
   - glightbox:
-      closeEffect: zoom
-      openEffect: zoom
-      closebutton: show
-      closeOnOutsideClick: true
-      descPosition: top
+      effect: zoom
+      close_on_outside_click: true
+      caption_position: top
       touchNavigation: false
       loop: false
       effect: zoom

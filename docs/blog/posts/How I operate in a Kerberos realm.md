@@ -1,3 +1,8 @@
+---
+date: 2025-11-13
+---
+
+
 When I am working in a Kerberos realm, there are a few things I do as a collection of standard procedure on any given engagement.
 
 1. `/etc/hosts`: Add hostname mappings to IPs, and for DCs, explode every component of the DCs FQDN and associate it to the IP of the domain controller
