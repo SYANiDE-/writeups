@@ -395,8 +395,6 @@
       
         
       
-        
-      
     
     
     
@@ -1072,7 +1070,7 @@
 
   <h1>Rainbow</h1>
 
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025172750.png" data-desc-position="bottom"><img alt="Pasted_image_20251025172750.png" src="../../../../Pasted_image_20251025172750.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025172750.png" data-desc-position="top"><img alt="Pasted_image_20251025172750.png" src="../../../../Pasted_image_20251025172750.png"></a></p>
 <h2 id="nmap-scan">Nmap scan<a class="headerlink" href="#nmap-scan" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb<span class="o">]</span>
 └─$<span class="w"> </span>nmap<span class="w"> </span>-A<span class="w"> </span>-Pn<span class="w"> </span><span class="m">10</span>.129.234.171
@@ -1296,19 +1294,19 @@ Prompting<span class="w"> </span>off<span class="w"> </span><span class="k">for<
 </code></pre></div><p></p>
 <p>Port 80 is a default IIS start page.
 Port 8080 is the development webapp, its homepage aligns with the <code>index.html</code> found in the <code>wwwroot</code> directory in the FTP share.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174111.png" data-desc-position="bottom"><img alt="Pasted_image_20251025174111.png" src="../../../../Pasted_image_20251025174111.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174111.png" data-desc-position="top"><img alt="Pasted_image_20251025174111.png" src="../../../../Pasted_image_20251025174111.png"></a></p>
 <p>Anonymous access doesn't allow upload to the FTP share, so straight to webshell is off the table.</p>
 <h2 id="static-analysis">Static Analysis<a class="headerlink" href="#static-analysis" title="Permanent link">¶</a></h2>
 <p>I tried analyzing the <code>rainbow.exe</code> using <code>AvaloniaILSpy</code> (<a href="https://github.com/icsharpcode/AvaloniaILSpy">https://github.com/icsharpcode/AvaloniaILSpy</a>) but the executable isn't managed code:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174908.png" data-desc-position="bottom"><img alt="Pasted_image_20251025174908.png" src="../../../../Pasted_image_20251025174908.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025174908.png" data-desc-position="top"><img alt="Pasted_image_20251025174908.png" src="../../../../Pasted_image_20251025174908.png"></a></p>
 <p>Examining the binary in <code>Ghidra</code>, I find that the binary has a number of imports, one of which is <code>ws2_32.dll</code>.  A good sign the binary features network connection-related operations.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025182226.png" data-desc-position="bottom"><img alt="Pasted_image_20251025182226.png" src="../../../../Pasted_image_20251025182226.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025182226.png" data-desc-position="top"><img alt="Pasted_image_20251025182226.png" src="../../../../Pasted_image_20251025182226.png"></a></p>
 <p>Following the entrypoint, a stack cookie is set up, and a single function is called, which had another name but I renamed it "main", which seems fitting in this context.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025182456.png" data-desc-position="bottom"><img alt="Pasted_image_20251025182456.png" src="../../../../Pasted_image_20251025182456.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025182456.png" data-desc-position="top"><img alt="Pasted_image_20251025182456.png" src="../../../../Pasted_image_20251025182456.png"></a></p>
 <p>Following the <code>main()</code> function, there is not much to be said about the first two -thirds of the function; likely initialization of the console.  However the near-end of the function starts a webserver, seems to get the address of a loaded module, and an ESI is returned if in good standing. All other scenarios lead to raising SEH exception.  </p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025183355.png" data-desc-position="bottom"><img alt="Pasted_image_20251025183355.png" src="../../../../Pasted_image_20251025183355.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025183355.png" data-desc-position="top"><img alt="Pasted_image_20251025183355.png" src="../../../../Pasted_image_20251025183355.png"></a></p>
 <p>Examining the <code>start_webserver()</code> function.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025185956.png" data-desc-position="bottom"><img alt="Pasted_image_20251025185956.png" src="../../../../Pasted_image_20251025185956.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025185956.png" data-desc-position="top"><img alt="Pasted_image_20251025185956.png" src="../../../../Pasted_image_20251025185956.png"></a></p>
 <p>The function on line 8 I named <code>std_cout</code>, because it seems like that's what its doing is directing stdout to console.</p>
 <p>Lines 9 and 11  are setting the port range talked about in the <code>dev.txt</code>.   Well, not quite, because that said <code>8080-8090</code>, this clearly won't work for ports <code>8089</code> and <code>8090</code>. </p>
 <div class="highlight"><pre><span></span><code>┌──(notroot㉿elysium)-[(master) 1 ~/htb/machines/rainbow/dump]
@@ -1340,12 +1338,12 @@ Port 8080 is the development webapp, its homepage aligns with the <code>index.ht
 </code></pre></div><p></p>
 <p>The client function will need a closer examination, because this is where there appears to be actual substance to the application.</p>
 <p>On line 69, I see a zeroing of memory using <code>memset</code>.  This is followed by a <code>recv</code> of  0x1000 bytes, followed by a <code>closesocket</code>.  The <code>local_28</code> variable is passed to the call of <code>closesocket</code>, so it must be a socket handle for the client. Curiously, Lines 76-78 seem to iterate over the <code>recv</code>'d bytes like <code>(int x=0; x&lt;len(recvd); x=x+1)</code> like a for-range type iterator.  However what is strange is the comparison of the indexed value to the <code>local_28</code> client sock fdescriptor.  So we seem to be avoiding a buffer overflow by checking if we reached the fdescriptor at offset +5 of the iterator.  Basically looking ahead at the dword adjacent to the iterator. </p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025191934.png" data-desc-position="bottom"><img alt="Pasted_image_20251025191934.png" src="../../../../Pasted_image_20251025191934.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025191934.png" data-desc-position="top"><img alt="Pasted_image_20251025191934.png" src="../../../../Pasted_image_20251025191934.png"></a></p>
 <p>This is where things get interesting, because if we do manage to match to local_28, then a short jump to label <code>LAB_004019cb</code> occurs.  This looks like a shift left operation.  Every iteration, the byte pointed at by <code>local_14[local_18+5]</code> is reassigned the byte pointed at by <code>local_14[local_18+6]</code>.  There is no initializer in the for range loop, here we seem to be finishing off the remainder of the initial for range loop started on line 76. </p>
 <p>Once the shift operation has finished, the dword pointed at by <code>local_14[4]</code> is decremented by 1.  Then <code>local_30</code> is incremented by 1.   Then a short jump back up to start an <code>accept</code>,  <code>recv</code> all over again (label <code>LAB_00401894</code>).</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025193932.png" data-desc-position="bottom"><img alt="Pasted_image_20251025193932.png" src="../../../../Pasted_image_20251025193932.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025193932.png" data-desc-position="top"><img alt="Pasted_image_20251025193932.png" src="../../../../Pasted_image_20251025193932.png"></a></p>
 <p>If for some reason we can get to the end of the iterator in the initial for range loop without ever matching <code>local_14[local_18 + 5]</code> to the client sock fdescriptor, we enter a whole other branch.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025195814.png" data-desc-position="bottom"><img alt="Pasted_image_20251025195814.png" src="../../../../Pasted_image_20251025195814.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025195814.png" data-desc-position="top"><img alt="Pasted_image_20251025195814.png" src="../../../../Pasted_image_20251025195814.png"></a></p>
 <p>Real quick, the three short jump labels go to 
 1. increment local_30 +1 then go back to <code>accept</code>, <code>recv</code>
 2. just go back to <code>accept</code>, <code>recv</code>
@@ -1355,20 +1353,20 @@ The second function on line 89 is a check if a VirtualProcessor is available, if
 The third function on line 91 is also a check if a VirtualProcessor is available, if not then terminate().</p>
 <p>So it appears that, if there is something important to do with the received buffer, as all other paths lead away from using the buffer, then it has to happen in the first function found on line 87.  Because after that between the five choices you have two functions that both terminate-equiv, two labels that get a new client recv, and a label that terminates.</p>
 <p>Lets examine the function on line 87.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025200847.png" data-desc-position="bottom"><img alt="Pasted_image_20251025200847.png" src="../../../../Pasted_image_20251025200847.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025200847.png" data-desc-position="top"><img alt="Pasted_image_20251025200847.png" src="../../../../Pasted_image_20251025200847.png"></a></p>
 <p>I'm renaming this function <code>depth1</code></p>
 <p>The <code>_unfancy()</code> function just returns whatever was passed to it.  In this way passed parameters get assigned to function-local variables.</p>
 <p>The function call on line 18 is, for lack of a better term, obnoxious:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025201504.png" data-desc-position="bottom"><img alt="Pasted_image_20251025201504.png" src="../../../../Pasted_image_20251025201504.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025201504.png" data-desc-position="top"><img alt="Pasted_image_20251025201504.png" src="../../../../Pasted_image_20251025201504.png"></a></p>
 <p>We can skip close analysis of the first four function calls.  The first one, has deep recursion and at the end of all the recursion is obtaining structs.  I can't help but feel like its setting up for calling an SEH chain.  The other three are freeing memory and returning pointers to memory.  </p>
 <p>The function of interest is the <code>beginthreadex</code> call on line 39,  it has a function as an argument.  If the application is going to do something interesting with the <code>recv</code> buffer, now is its chance, because the function calls on lines 43, 46, and 49 are either throw an error, or do garbage collection and return.  However with the preamble that leads up to it, it is most likely what calls the SEH chain.</p>
 <p>Well, and this is a major disappointment.</p>
 <p>I think that's exactly what it does.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025202851.png" data-desc-position="bottom"><img alt="Pasted_image_20251025202851.png" src="../../../../Pasted_image_20251025202851.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025202851.png" data-desc-position="top"><img alt="Pasted_image_20251025202851.png" src="../../../../Pasted_image_20251025202851.png"></a></p>
 <p>The first function on line 21 creates a compressed pair (???) , an obvious C++ construct related to optimization of empty memory storage (when empty).</p>
 <p>The other function calls occurring between lines 21 and 31 are just using an alternate form of, turn arguments into local variables.  This time, from what I can tell, the parameters are those of the parent function's, as nothing was passed to this function.</p>
 <p>Ah, but the function on line 33 is something else entirely.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025203742.png" data-desc-position="bottom"><img alt="Pasted_image_20251025203742.png" src="../../../../Pasted_image_20251025203742.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025203742.png" data-desc-position="top"><img alt="Pasted_image_20251025203742.png" src="../../../../Pasted_image_20251025203742.png"></a></p>
 <p>That looks an awful lot like a function pointer exec, save for the three argument being passed to it.  We can see that pointer-to-param1 is being cast as a pointer-to-code-pointer, and then getting called with three arguments.</p>
 <p>There is nothing left to analyze here at the moment.</p>
 <h2 id="dynamic-analysis">Dynamic analysis<a class="headerlink" href="#dynamic-analysis" title="Permanent link">¶</a></h2>
@@ -1377,7 +1375,7 @@ The third function on line 91 is also a check if a VirtualProcessor is available
 </p><div class="highlight"><pre><span></span><code>c:<span class="se">\r</span>ainbow&gt;<span class="o">((</span>cmd.exe<span class="w"> </span>/c<span class="w"> </span><span class="s2">"taskkill /F /IM rainbow.exe"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"c:\rainbow\rainbow.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\u</span>sers<span class="se">\a</span>dmin<span class="se">\d</span>esktop<span class="se">\c</span>urrent_thing<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"c:\rainbow\rainbow.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\u</span>sers<span class="se">\a</span>dmin<span class="se">\d</span>esktop<span class="se">\c</span>urrent_thing<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\windbg.exe"</span><span class="w"> </span>-WF<span class="w"> </span>C:<span class="se">\w</span>indbg_custom.WEW<span class="w"> </span>-pn<span class="w"> </span>rainbow.exe<span class="w"> </span>-c<span class="w"> </span><span class="s1">'bp 0x00401971; g'</span>
 </code></pre></div><p></p>
 <p>In <code>IDAPro</code>, that would actually be here:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025221501.png" data-desc-position="bottom"><img alt="Pasted_image_20251025221501.png" src="../../../../Pasted_image_20251025221501.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025221501.png" data-desc-position="top"><img alt="Pasted_image_20251025221501.png" src="../../../../Pasted_image_20251025221501.png"></a></p>
 <p>To cause the application to hit the breakpoint, I can start with an initial curl command, although this is just a hello world; this is about to become a PoC.
 </p><div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/rainbow/dump<span class="o">]</span>
 └─$<span class="w"> </span>perl<span class="w"> </span>-e<span class="w"> </span><span class="s2">"printf 'A'x0x1020"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.56.100:8080/index.html<span class="w"> </span>-d<span class="w"> </span><span class="s2">"fuzzed=</span><span class="k">$(</span>cat<span class="w"> </span>-<span class="k">)</span><span class="s2">"</span>
@@ -1473,7 +1471,7 @@ rainbow+0x1977:
 </p><div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">2</span><span class="w"> </span>~/htb/machines/rainbow<span class="o">]</span>
 └─$<span class="w"> </span>perl<span class="w"> </span>-e<span class="w"> </span><span class="s2">"printf 'A'x0x0f00"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.56.100:8080/index.html<span class="w"> </span>-d<span class="w"> </span><span class="s2">"fuzzed=</span><span class="k">$(</span>cat<span class="w"> </span>-<span class="k">)</span><span class="s2">"</span>
 </code></pre></div><p></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026012334.png" data-desc-position="bottom"><img alt="Pasted_image_20251026012334.png" src="../../../../Pasted_image_20251026012334.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026012334.png" data-desc-position="top"><img alt="Pasted_image_20251026012334.png" src="../../../../Pasted_image_20251026012334.png"></a></p>
 <p>The exception chain shows that it has been overwritten with As:
 </p><div class="highlight"><pre><span></span><code><span class="m">0</span>:003&gt;<span class="w"> </span>!exchain
 009bfbe4:<span class="w"> </span><span class="m">41414141</span>
@@ -1879,7 +1877,7 @@ rainbow+0x94da:
 </code></pre></div><p></p>
 <h2 id="getting-a-foothold">Getting a foothold<a class="headerlink" href="#getting-a-foothold" title="Permanent link">¶</a></h2>
 <p>It shells:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026063455.png" data-desc-position="bottom"><img alt="Pasted_image_20251026063455.png" src="../../../../Pasted_image_20251026063455.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026063455.png" data-desc-position="top"><img alt="Pasted_image_20251026063455.png" src="../../../../Pasted_image_20251026063455.png"></a></p>
 <p>Flag
 </p><div class="highlight"><pre><span></span><code>C:<span class="se">\U</span>sers<span class="se">\r</span>ainbow<span class="se">\D</span>esktop&gt;type<span class="w"> </span>user.txt
 <span class="nb">type</span><span class="w"> </span>user.txt
@@ -1943,7 +1941,7 @@ sliver<span class="w"> </span><span class="o">(</span>REMOTE_JACKAL<span class="
 </code></pre></div><p></p>
 <h2 id="escalate">Escalate<a class="headerlink" href="#escalate" title="Permanent link">¶</a></h2>
 <p>On the new session, I find that the process integrity is High, and the process tokens include SeImpersonatePrivilege in an enabled state</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026171700.png" data-desc-position="bottom"><img alt="Pasted_image_20251026171700.png" src="../../../../Pasted_image_20251026171700.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026171700.png" data-desc-position="top"><img alt="Pasted_image_20251026171700.png" src="../../../../Pasted_image_20251026171700.png"></a></p>
 <p>Upload GodPotato
 </p><div class="highlight"><pre><span></span><code>sliver<span class="w"> </span><span class="o">(</span>REMOTE_JACKAL<span class="o">)</span><span class="w"> </span>&gt;<span class="w"> </span>upload<span class="w"> </span>/var/www/html/GodPotato-NET4.exe<span class="w"> </span>/windows/tasks/GodPotato.exe
 
@@ -2000,7 +1998,7 @@ Logon<span class="w"> </span>ID:<span class="w"> </span>NT<span class="w"> </spa
 
 4f5858163e52fd36d6cb7c6074c50a40
 </code></pre></div><p></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026172423.png" data-desc-position="bottom"><img alt="Pasted_image_20251026172423.png" src="../../../../Pasted_image_20251026172423.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251026172423.png" data-desc-position="top"><img alt="Pasted_image_20251026172423.png" src="../../../../Pasted_image_20251026172423.png"></a></p>
 
 
 

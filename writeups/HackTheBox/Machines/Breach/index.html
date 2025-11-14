@@ -8,7 +8,7 @@
         <link rel="canonical" href="https://syanide-.github.io/writeups/writeups/HackTheBox/Machines/Breach/">
       
       
-        <link rel="prev" href="../../../../blog/How%20I%20operate%20in%20a%20Kerberos%20realm/">
+        <link rel="prev" href="../../../../blog/archive/2025/">
       
       
         <link rel="next" href="../Rainbow/">
@@ -391,8 +391,6 @@
       
         
           
-        
-      
         
       
         
@@ -973,7 +971,7 @@
 
   <h1>Breach</h1>
 
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029221058.png" data-desc-position="bottom"><img alt="Pasted_image_20251029221058.png" src="../../../../Pasted_image_20251029221058.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029221058.png" data-desc-position="top"><img alt="Pasted_image_20251029221058.png" src="../../../../Pasted_image_20251029221058.png"></a></p>
 <p>Nmap scan of the target host
 </p><div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb<span class="o">]</span>
 └─$<span class="w"> </span>nmap<span class="w"> </span>-A<span class="w"> </span>-Pn<span class="w"> </span><span class="m">10</span>.129.38.236
@@ -1374,7 +1372,7 @@ INFO:<span class="w"> </span>Done<span class="w"> </span><span class="k">in</spa
 INFO:<span class="w"> </span>Compressing<span class="w"> </span>output<span class="w"> </span>into<span class="w"> </span>20251025015627_bloodhound.zip
 </code></pre></div>
 <p>Interestingly, <code>Julia.wong</code> is a member of <code>Staff</code> and <code>Print Operators</code>.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025020124.png" data-desc-position="bottom"><img alt="Pasted_image_20251025020124.png" src="../../../../Pasted_image_20251025020124.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025020124.png" data-desc-position="top"><img alt="Pasted_image_20251025020124.png" src="../../../../Pasted_image_20251025020124.png"></a></p>
 <p>There is nothing particularly interesting about the <code>Staff</code> group, but <code>Print Operators</code>:
 <a href="https://notes.dollarboysushil.com/windows-privilege-escalation/group-privileges/print-operators">https://notes.dollarboysushil.com/windows-privilege-escalation/group-privileges/print-operators</a>
 </p><div class="highlight"><pre><span></span><code>The **Print Operators** group is a highly privileged group in Windows that grants its members several significant permissions, including:
@@ -1388,7 +1386,7 @@ INFO:<span class="w"> </span>Compressing<span class="w"> </span>output<span clas
 <p>There is also the potential to execute shellcode in the context of <code>NT AUTHORITY\System</code>, using the <code>Capcom.sys</code> driver.</p>
 <p>Maybe this is something, maybe it is not.  I might circle back to this. </p>
 <p>One other thing I saw was that there is a domain admin user, <code>christine.bruce</code>, which has password not required set:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025025356.png" data-desc-position="bottom"><img alt="Pasted_image_20251025025356.png" src="../../../../Pasted_image_20251025025356.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251025025356.png" data-desc-position="top"><img alt="Pasted_image_20251025025356.png" src="../../../../Pasted_image_20251025025356.png"></a></p>
 <p>That is pretty interesting, but not sure how that could work out from here.</p>
 <h2 id="get-a-shell">Get a shell<a class="headerlink" href="#get-a-shell" title="Permanent link">¶</a></h2>
 <p>Both of my controlled users are guests on the <code>mssql</code> instance</p>
@@ -1699,7 +1697,7 @@ Logon<span class="w"> </span>ID:<span class="w"> </span>NT<span class="w"> </spa
 
 fc98f418f94f8cdb9a30ef026fe64345
 </code></pre></div>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029221158.png" data-desc-position="bottom"><img alt="Pasted_image_20251029221158.png" src="../../../../Pasted_image_20251029221158.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029221158.png" data-desc-position="top"><img alt="Pasted_image_20251029221158.png" src="../../../../Pasted_image_20251029221158.png"></a></p>
 
 
 

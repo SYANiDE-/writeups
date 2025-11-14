@@ -395,8 +395,6 @@
       
         
       
-        
-      
     
     
     
@@ -1228,7 +1226,7 @@
 
   <h1>Reaper</h1>
 
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031132749.png" data-desc-position="bottom"><img alt="Pasted_image_20251031132749.png" src="../../../../Pasted_image_20251031132749.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031132749.png" data-desc-position="top"><img alt="Pasted_image_20251031132749.png" src="../../../../Pasted_image_20251031132749.png"></a></p>
 <h2 id="enumeration">Enumeration<a class="headerlink" href="#enumeration" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb<span class="o">]</span>
 └─$<span class="w"> </span>nmap<span class="w"> </span>-A<span class="w"> </span>-Pn<span class="w"> </span><span class="m">10</span>.129.234.200
@@ -1358,13 +1356,13 @@ PORT<span class="w">     </span>STATE<span class="w"> </span>SERVICE
 Nmap<span class="w"> </span><span class="k">done</span>:<span class="w"> </span><span class="m">1</span><span class="w"> </span>IP<span class="w"> </span>address<span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="w"> </span>host<span class="w"> </span>up<span class="o">)</span><span class="w"> </span>scanned<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.12<span class="w"> </span>seconds
 </code></pre></div>
 <p><code>Ghidra</code> shows that the binary is a 64bit executable.  This is made obvious by the fact that the address size is 64, and the min/max address is in a range that is also only possible in a 64bit context.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031220323.png" data-desc-position="bottom"><img alt="Pasted_image_20251031220323.png" src="../../../../Pasted_image_20251031220323.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031220323.png" data-desc-position="top"><img alt="Pasted_image_20251031220323.png" src="../../../../Pasted_image_20251031220323.png"></a></p>
 <h2 id="ghidra-analysis">Ghidra analysis<a class="headerlink" href="#ghidra-analysis" title="Permanent link">¶</a></h2>
 <p>The entrypoint starts out by creating a stack cookie.  The only other function call is to <code>__scrt_common_main_seh()</code></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031223630.png" data-desc-position="bottom"><img alt="Pasted_image_20251031223630.png" src="../../../../Pasted_image_20251031223630.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031223630.png" data-desc-position="top"><img alt="Pasted_image_20251031223630.png" src="../../../../Pasted_image_20251031223630.png"></a></p>
 <h3 id="common_main_seh">common_main_seh()<a class="headerlink" href="#common_main_seh" title="Permanent link">¶</a></h3>
 <p>Once within this function, the function of interest is <code>FUN_140001bd0()</code>, which I have renamed to <code>bind_server</code> due to functions with ordinal numbers, which align to <code>ws2_32.dll</code>, and calls consistent with standing up a bind server.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031225644.png" data-desc-position="bottom"><img alt="Pasted_image_20251031225644.png" src="../../../../Pasted_image_20251031225644.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031225644.png" data-desc-position="top"><img alt="Pasted_image_20251031225644.png" src="../../../../Pasted_image_20251031225644.png"></a></p>
 <h3 id="bind_server">bind_server()<a class="headerlink" href="#bind_server" title="Permanent link">¶</a></h3>
 <p>A list of <code>ws2_32</code> ordinals: <a href="https://strontic.github.io/xcyclopedia/library/ws2_32.dll-9AB0235EC0B3AAC2A9E82C18B4677F89.html">https://strontic.github.io/xcyclopedia/library/ws2_32.dll-9AB0235EC0B3AAC2A9E82C18B4677F89.html</a></p>
 <p>The list is hard to digest due to sorting by function name.  It's easier to fix this by just copying them to a file, transforming it a bit, and sorting it by ordinal numerically, out to a csv format.</p>
@@ -1378,7 +1376,7 @@ create<span class="w"> </span>table<span class="w"> </span>ws2_32<span class="w"
 .import<span class="w"> </span>ordinals_ws2_32.csv<span class="w"> </span>ws2_32
 </code></pre></div>
 <p>Now in <code>bind_server()</code>:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031230337.png" data-desc-position="bottom"><img alt="Pasted_image_20251031230337.png" src="../../../../Pasted_image_20251031230337.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031230337.png" data-desc-position="top"><img alt="Pasted_image_20251031230337.png" src="../../../../Pasted_image_20251031230337.png"></a></p>
 <p>I am seeing calls to ordinals in the following order:
 </p><div class="highlight"><pre><span></span><code>115
 23
@@ -1398,9 +1396,9 @@ create<span class="w"> </span>table<span class="w"> </span>ws2_32<span class="w"
 <span class="m">1</span><span class="p">|</span>accept
 </code></pre></div>
 <p>Making it easier to visually follow once the references are renamed (a manual process but well worth it, wherever possible)</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031231057.png" data-desc-position="bottom"><img alt="Pasted_image_20251031231057.png" src="../../../../Pasted_image_20251031231057.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031231057.png" data-desc-position="top"><img alt="Pasted_image_20251031231057.png" src="../../../../Pasted_image_20251031231057.png"></a></p>
 <p>But, it's really here within line 49 where we are interested.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031231809.png" data-desc-position="bottom"><img alt="Pasted_image_20251031231809.png" src="../../../../Pasted_image_20251031231809.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251031231809.png" data-desc-position="top"><img alt="Pasted_image_20251031231809.png" src="../../../../Pasted_image_20251031231809.png"></a></p>
 <ol>
 <li><code>FUN_14000ee50</code>: This function calls functions like <code>CreateThread</code>, <code>CloseHandle</code>, and <code>FreeLibrary</code> </li>
 <li><code>FUN_140001000</code>:  This function calls <code>VirtualAlloc</code> twice, followed by <code>ws2_32</code> ordinals 19, 16, and 3</li>
@@ -1413,7 +1411,7 @@ create<span class="w"> </span>table<span class="w"> </span>ws2_32<span class="w"
 </code></pre></div>
 <p>It is for that reason I have named the function <code>bind_client</code>.  This is a function well worth examining closely, as this is a function that handles user input.</p>
 <h3 id="bind_client">bind_client()<a class="headerlink" href="#bind_client" title="Permanent link">¶</a></h3>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109102039.png" data-desc-position="bottom"><img alt="Pasted_image_20251109102039.png" src="../../../../Pasted_image_20251109102039.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109102039.png" data-desc-position="top"><img alt="Pasted_image_20251109102039.png" src="../../../../Pasted_image_20251109102039.png"></a></p>
 <p>We can see on line 24 and 25 above that there are two <code>VirtualAlloc</code>s that occur into local variables <code>local_48</code> and <code>local_40</code>.  Probably <code>recv</code> and <code>working_set</code> type buffers.  On line 27 it is shown a string, likely one that will be used in a prompt to select an option, either (1) <code>Set key</code> or (2) <code>Activate key</code>.  We enter into a <code>while</code> loop that is greater than what is displayed, and immediately enter into two more nested <code>while</code> loops.  This is where the string is sent to the user, and input is received by the user.  If the user input isn't "1", we break out of the third <code>while</code> loop, and nothing follows that <code>while</code> loop so we effectively break out of the second <code>while</code> loop as well.  </p>
 <p>We can see that on line 35, the server <code>send</code>s "Enter a key: ",  then on line 38 we see a <code>recv</code> into <code>local_40</code> (that is the second <code>VirtualAlloc</code>), without a size.  Of note, the first argument is <code>local_50</code> (actually to all the <code>send</code> and <code>recv</code> calls, which means that is the client <code>sockfd</code>.  So lines 35 and 38 prompt the user for a key input.  Line 40 is a do-nothing.  </p>
 <p>The function call on line 41 to <code>validate_key_format</code> is particularly interesting, it seems to process the supplied key by checking the key prefix and deeply nested function call to:</p>
@@ -1421,14 +1419,14 @@ create<span class="w"> </span>table<span class="w"> </span>ws2_32<span class="w"
 <span class="w">                          </span><span class="p">((</span><span class="n">format_string_parser</span><span class="o">&lt;</span><span class="kt">char</span><span class="o">&gt;</span><span class="w"> </span><span class="o">*</span><span class="p">)(</span><span class="n">param_1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mh">0x20</span><span class="p">));</span>
 </code></pre></div>
 <p>But it is what occurs after the first <code>while</code> loop that is most interesting.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109103106.png" data-desc-position="bottom"><img alt="Pasted_image_20251109103106.png" src="../../../../Pasted_image_20251109103106.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109103106.png" data-desc-position="top"><img alt="Pasted_image_20251109103106.png" src="../../../../Pasted_image_20251109103106.png"></a></p>
 <p>The function call to <code>find_key</code> does things like open a file <code>keys.txt</code> for reading, and nested function call within it seems to do what appears to be base64 decoding (could be wrong), and some string comparison.</p>
 <p>But it is the call to <code>case_exec</code> where the magic is at.  It is called with a pointer to the user-supplied buffer, null, and 0x1000 which I assume is a <code>maxlength</code>.</p>
 <h3 id="case_exec">case_exec<a class="headerlink" href="#case_exec" title="Permanent link">¶</a></h3>
 <p>The <code>case_exec</code> function starts off with a rather long <code>switch</code>/<code>case</code> statement, longer than I could fit in a screenshot so I include the first part of it</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109103837.png" data-desc-position="bottom"><img alt="Pasted_image_20251109103837.png" src="../../../../Pasted_image_20251109103837.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109103837.png" data-desc-position="top"><img alt="Pasted_image_20251109103837.png" src="../../../../Pasted_image_20251109103837.png"></a></p>
 <p>In order to trace with some dynamic analysis I rebase the application to 0x0, so I can use relative offsets in <code>windbg</code>.   For that, I open memory map in Ghidra, click the house icon, and rebase to 0x0.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109104546.png" data-desc-position="bottom"><img alt="Pasted_image_20251109104546.png" src="../../../../Pasted_image_20251109104546.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109104546.png" data-desc-position="top"><img alt="Pasted_image_20251109104546.png" src="../../../../Pasted_image_20251109104546.png"></a></p>
 <p>I use <code>windbg</code> to place a breakpoint at the call and step into it once the breakpoint is hit.  Here is what I use to handle lifecycle and breakpoint.</p>
 <div class="highlight"><pre><span></span><code><span class="o">((</span>cmd.exe<span class="w"> </span>/c<span class="w"> </span><span class="s2">"taskkill /F /IM dev_keysvc.exe"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"C:\reaper\dev_keysvc.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\r</span>eaper<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"C:\reaper\dev_keysvc.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\r</span>eaper<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\windbg.exe"</span><span class="w"> </span>-WF<span class="w"> </span>C:<span class="se">\w</span>indbg_custom.WEW<span class="w"> </span>-pn<span class="w"> </span>dev_keysvc.exe<span class="w"> </span>-c<span class="w"> </span><span class="s1">'bp dev_keysvc+0x1116; g'</span>
 </code></pre></div>
@@ -1438,22 +1436,22 @@ create<span class="w"> </span>table<span class="w"> </span>ws2_32<span class="w"
 </code></pre></div>
 <p>The function starts off with some function prologue followed by moving the base address into <code>r10</code>.</p>
 <p>Shortly after, there is a comparison of <code>maxlen</code> (arg3) to <code>0xf</code>.  <code>0x1000</code> is obviously greater than this, so we would take this jump, which basically we skip the <code>switch</code>/<code>case</code> statement.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109104931.png" data-desc-position="bottom"><img alt="Pasted_image_20251109104931.png" src="../../../../Pasted_image_20251109104931.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109104931.png" data-desc-position="top"><img alt="Pasted_image_20251109104931.png" src="../../../../Pasted_image_20251109104931.png"></a></p>
 <p>Stepping through execution to the jump above instruction, that is exactly what happens.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109105050.png" data-desc-position="bottom"><img alt="Pasted_image_20251109105050.png" src="../../../../Pasted_image_20251109105050.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109105050.png" data-desc-position="top"><img alt="Pasted_image_20251109105050.png" src="../../../../Pasted_image_20251109105050.png"></a></p>
 <p>That brings us here:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109105334.png" data-desc-position="bottom"><img alt="Pasted_image_20251109105334.png" src="../../../../Pasted_image_20251109105334.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109105334.png" data-desc-position="top"><img alt="Pasted_image_20251109105334.png" src="../../../../Pasted_image_20251109105334.png"></a></p>
 <p>We can skip over the IF statement on line 73 because <code>maxlen</code> is <code>0x1000</code>, so we know <code>maxlen</code> can't be less than <code>0x21</code>.</p>
 <p>We can also skip over the IF statement on line 79 because at the time we reach that comparison, the data region evaluates to 5.  Of interesting note is that there appears to be a function pointer exec on line 100, and things like this start to look relevant, interesting, and maybe even exciting.</p>
 <p>A comparison statement on line 106 is what follows.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109110513.png" data-desc-position="bottom"><img alt="Pasted_image_20251109110513.png" src="../../../../Pasted_image_20251109110513.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109110513.png" data-desc-position="top"><img alt="Pasted_image_20251109110513.png" src="../../../../Pasted_image_20251109110513.png"></a></p>
 <p>If execution can enter the innermost IF statement visible in the screenshot above, <code>maxlen</code> is tested against <code>0x120</code> through <code>0x1ff</code> through a series of <code>case</code> statements.  There are other cases too like <code>0x100</code> and a <code>default</code> case, only the latter of which doesn't result in a <code>vmovntdq_avx</code>.  That instruction moves memory around in chunks of 256 bytes based on analysis.</p>
 <p>But at the end of this operation there is another function pointer exec.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109111014.png" data-desc-position="bottom"><img alt="Pasted_image_20251109111014.png" src="../../../../Pasted_image_20251109111014.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109111014.png" data-desc-position="top"><img alt="Pasted_image_20251109111014.png" src="../../../../Pasted_image_20251109111014.png"></a></p>
 <p>Examining the code that is in fact exactly what happens</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109111336.png" data-desc-position="bottom"><img alt="Pasted_image_20251109111336.png" src="../../../../Pasted_image_20251109111336.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109111336.png" data-desc-position="top"><img alt="Pasted_image_20251109111336.png" src="../../../../Pasted_image_20251109111336.png"></a></p>
 <p>If I set a breakpoint on this <code>jmp r11</code> instruction and continue (g), sure enough, that is where execution lands.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109111639.png" data-desc-position="bottom"><img alt="Pasted_image_20251109111639.png" src="../../../../Pasted_image_20251109111639.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109111639.png" data-desc-position="top"><img alt="Pasted_image_20251109111639.png" src="../../../../Pasted_image_20251109111639.png"></a></p>
 <p>But unfortunately, it appears we actually just jump to code that zeroes out the memory</p>
 <div class="highlight"><pre><span></span><code><span class="m">0</span>:003&gt;<span class="w"> </span>u<span class="w"> </span>r11
 dev_keysvc+0x32d1:
@@ -1471,14 +1469,14 @@ dev_keysvc+0x32d1:
 <p>Based on what I understand so far, it seems we need to fill a buffer through Option 1, and we can cause arbitrary code execution through Option 2 so long as the key is found.</p>
 <h2 id="dynamic-analysis">Dynamic Analysis<a class="headerlink" href="#dynamic-analysis" title="Permanent link">¶</a></h2>
 <p>If I run the application on my sandbox VM, it opens a port 4141.  If I connect to it using <code>netcat</code>, and try supplying one of the keys provided in <code>dev_keys.txt</code>, it says it couldn't find the key.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101113232.png" data-desc-position="bottom"><img alt="Pasted_image_20251101113232.png" src="../../../../Pasted_image_20251101113232.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101113232.png" data-desc-position="top"><img alt="Pasted_image_20251101113232.png" src="../../../../Pasted_image_20251101113232.png"></a></p>
 <p>The console output of the application server-side:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101113453.png" data-desc-position="bottom"><img alt="Pasted_image_20251101113453.png" src="../../../../Pasted_image_20251101113453.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101113453.png" data-desc-position="top"><img alt="Pasted_image_20251101113453.png" src="../../../../Pasted_image_20251101113453.png"></a></p>
 <p>The function <code>find_key</code> does make mention of <code>keys.txt</code>, but just to be sure where it expects it...</p>
 <p>If I use Process Monitor from Sysinternals (<a href="https://learn.microsoft.com/en-us/sysinternals/downloads/procmon">https://learn.microsoft.com/en-us/sysinternals/downloads/procmon</a>), with the following filtering:
 * process name contains 'dev_keysvc'</p>
 <p>When I resend the same flow of requests (option 1, option 2), there is an attempt to <code>CreateFile</code>(handle) on a file <code>keys.txt</code> in the same working directory as the binary.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101114028.png" data-desc-position="bottom"><img alt="Pasted_image_20251101114028.png" src="../../../../Pasted_image_20251101114028.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101114028.png" data-desc-position="top"><img alt="Pasted_image_20251101114028.png" src="../../../../Pasted_image_20251101114028.png"></a></p>
 <p>So I'll create the file with the same contents as provided in the original <code>dev_keys.txt</code>:</p>
 <div class="highlight"><pre><span></span><code>100-FE9A1-500-A270-0102-U3RhbmRhcmQgTGljZW5zZQ==
 101-FE9A1-550-A271-0109-UHJlbWl1bSBMaWNlbnNl
@@ -1520,11 +1518,11 @@ Choose<span class="w"> </span>an<span class="w"> </span>option:
 <div class="highlight"><pre><span></span><code>ModLoad: 00007ff7`66a80000 00007ff7`66ab3000   C:\reaper\dev_keysvc.exe
 </code></pre></div>
 <p>Obviously my <code>Ghidra</code> analysis will need to be rebased to this range.  That is done by opening Alt+W (window), selecting Memory Map, and selecting the Home icon.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101154640.png" data-desc-position="bottom"><img alt="Pasted_image_20251101154640.png" src="../../../../Pasted_image_20251101154640.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101154640.png" data-desc-position="top"><img alt="Pasted_image_20251101154640.png" src="../../../../Pasted_image_20251101154640.png"></a></p>
 <p>Afterward all of the addressing will match up with <code>windbg</code>.  I need to break at the function call to <code>find_key</code></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101160445.png" data-desc-position="bottom"><img alt="Pasted_image_20251101160445.png" src="../../../../Pasted_image_20251101160445.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101160445.png" data-desc-position="top"><img alt="Pasted_image_20251101160445.png" src="../../../../Pasted_image_20251101160445.png"></a></p>
 <p>After rebase, it is at <code>7ff766a811ca</code></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101160555.png" data-desc-position="bottom"><img alt="Pasted_image_20251101160555.png" src="../../../../Pasted_image_20251101160555.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101160555.png" data-desc-position="top"><img alt="Pasted_image_20251101160555.png" src="../../../../Pasted_image_20251101160555.png"></a></p>
 <h3 id="fuzzing-for-a-controllable-crash">Fuzzing for a controllable crash<a class="headerlink" href="#fuzzing-for-a-controllable-crash" title="Permanent link">¶</a></h3>
 <p>I am able to select option 1, send the key, select option 2, and select option three with the following basic python </p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
@@ -1555,9 +1553,9 @@ Choose<span class="w"> </span>an<span class="w"> </span>option:
 dev_keysvc+0x11ca:
 00007ff7`66a811ca e841070000      call    dev_keysvc+0x1910 (00007ff7`66a81910)
 </code></pre></div>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101182531.png" data-desc-position="bottom"><img alt="Pasted_image_20251101182531.png" src="../../../../Pasted_image_20251101182531.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101182531.png" data-desc-position="top"><img alt="Pasted_image_20251101182531.png" src="../../../../Pasted_image_20251101182531.png"></a></p>
 <p>Looking at the exception chain, it is already overflowed by the buffer.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101182803.png" data-desc-position="bottom"><img alt="Pasted_image_20251101182803.png" src="../../../../Pasted_image_20251101182803.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251101182803.png" data-desc-position="top"><img alt="Pasted_image_20251101182803.png" src="../../../../Pasted_image_20251101182803.png"></a></p>
 <p>For reference, this crash occured with an input buffer (before base64) of just 3000 bytes.  Obviously these 3000 bytes get base64'd and appended to the beginning of the key.</p>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/reaper<span class="o">]</span>
 └─$<span class="w"> </span>./poc.py<span class="w"> </span><span class="m">192</span>.168.56.100:4141<span class="w"> </span><span class="m">3000</span>
@@ -2225,9 +2223,9 @@ sqlite&gt;<span class="w"> </span>.q
     <span class="p">]])</span>
 </code></pre></div>
 <p>In order to debug the ROPchain, I need to figure out the exact return address that  crashes.  As it turns out, it is the return instruction of the function I step over, not a nested return.  <code>00007ff74bcf16f1</code></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251102135755.png" data-desc-position="bottom"><img alt="Pasted_image_20251102135755.png" src="../../../../Pasted_image_20251102135755.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251102135755.png" data-desc-position="top"><img alt="Pasted_image_20251102135755.png" src="../../../../Pasted_image_20251102135755.png"></a></p>
 <p>For reference we're talking about this function here:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109120758.png" data-desc-position="bottom"><img alt="Pasted_image_20251109120758.png" src="../../../../Pasted_image_20251109120758.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109120758.png" data-desc-position="top"><img alt="Pasted_image_20251109120758.png" src="../../../../Pasted_image_20251109120758.png"></a></p>
 <p>I set a breakpoint for the address of the return instruction at the end of <code>crash_in_here</code>, after the three continues, that way I can step into the return, which takes me right to the ROPchain.</p>
 <div class="highlight"><pre><span></span><code><span class="o">((</span>cmd.exe<span class="w"> </span>/c<span class="w"> </span><span class="s2">"taskkill /F /IM dev_keysvc.exe"</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"C:\reaper\dev_keysvc.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\r</span>eaper<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span>START<span class="w"> </span>/B<span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="s2">"C:\reaper\dev_keysvc.exe"</span><span class="w"> </span>&gt;<span class="w"> </span>c:<span class="se">\r</span>eaper<span class="se">\o</span>utput.txt<span class="o">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>timeout<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="s2">"C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\windbg.exe"</span><span class="w"> </span>-WF<span class="w"> </span>C:<span class="se">\w</span>indbg_custom.WEW<span class="w"> </span>-pn<span class="w"> </span>dev_keysvc.exe<span class="w"> </span>-c<span class="w"> </span><span class="s1">'bp 0x7ff74bcf1937; g; g; g; bp 0x00007ff74bcf16f1; g;'</span>
 </code></pre></div>
@@ -2770,18 +2768,18 @@ SERVICE_NAME:<span class="w"> </span>reaper
 <h2 id="analyzing-reapersys">Analyzing Reaper.sys<a class="headerlink" href="#analyzing-reapersys" title="Permanent link">¶</a></h2>
 <p>It was an inevitability, really, that I take a look at <code>reaper.sys</code>.  As it turns out, the file is actually quite interesting for the fact that its loaded as a kernel module.  </p>
 <p>I found the module has a main runtime, </p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108193415.png" data-desc-position="bottom"><img alt="Pasted_image_20251108193415.png" src="../../../../Pasted_image_20251108193415.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108193415.png" data-desc-position="top"><img alt="Pasted_image_20251108193415.png" src="../../../../Pasted_image_20251108193415.png"></a></p>
 <p>The main runtime calls APIs such as <code>RtlGetVersion</code>, <code>IoCreateDevice</code>, <code>IoCreateSymbolicLink</code>, and <code>IoDeleteDevice</code>.  In the above screenshot, I found the top red box to be assignment operations, the righthand-operand shows <code>0x1000</code> but it is in fact a function call, that goes off to call <code>IofCompleteRequest</code>.  It just shows that way because I rebased to 0x0 so that I could get relative offsets while debugging.  </p>
 <p>The second red box also calls a function which in the screenshot above I named <code>threadwork</code>, but later after researching generally a kernel driver could be interacted with by a userland application, I discovered this function must actually be <code>DispatchDeviceControl</code>.</p>
 <p>It is that second red box that is actually the most interesting and relevant to the task at hand.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108195337.png" data-desc-position="bottom"><img alt="Pasted_image_20251108195337.png" src="../../../../Pasted_image_20251108195337.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108195337.png" data-desc-position="top"><img alt="Pasted_image_20251108195337.png" src="../../../../Pasted_image_20251108195337.png"></a></p>
 <p>When we think about the way <code>DispatchDeviceControl</code> is meant to be implemented, <a href="https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/dispatchdevicecontrol-and-dispatchinternaldevicecontrol-routines">https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/dispatchdevicecontrol-and-dispatchinternaldevicecontrol-routines</a></p>
 <div class="highlight"><pre><span></span><code>A driver's dispatch routines (see [**DRIVER_DISPATCH**](https://learn.microsoft.com/en-us/windows-hardware/drivers/ddi/wdm/nc-wdm-driver_dispatch)) handle IRPs with I/O function codes of [**IRP_MJ_DEVICE_CONTROL**](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/irp-mj-device-control) and [**IRP_MJ_INTERNAL_DEVICE_CONTROL**](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/irp-mj-internal-device-control), respectively.
 
 For every common type of peripheral device, the system defines a set of I/O control codes for **IRP_MJ_DEVICE_CONTROL** requests. New drivers for each type of device must support these requests. In most cases, these public I/O control codes for each type of device are not exported to user-mode applications.
 </code></pre></div>
 <p>The conditional statements on lines 14, 30, and 31 directly correlate to the following values seen as the source value in the comparison op:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108200018.png" data-desc-position="bottom"><img alt="Pasted_image_20251108200018.png" src="../../../../Pasted_image_20251108200018.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108200018.png" data-desc-position="top"><img alt="Pasted_image_20251108200018.png" src="../../../../Pasted_image_20251108200018.png"></a></p>
 <p>We can see that with a control code of <code>-0x7fffdffd</code>, or <code>0x80002003</code>, in the IF statement and clause, on line 21 there is a call to <code>ExAllocatePoolWithTag</code>.  The size is <code>0x20</code>, or 64 bytes.  The tag is <code>0x70616552</code>, which translates to <code>peaR</code>, or <code>Reap</code> backwards.  </p>
 <p>Line 22 checks if the allocation was good, if not we jump out of here to label <code>LAB_00001165</code> outside the IF statement, looks like function cleanup.</p>
 <p>Lines 23 through 27 take <code>parameter2</code> the function was called with (pointed to by <code>piVar3</code>) and assign it into the allocation.</p>
@@ -2889,7 +2887,7 @@ Then reboot this machine by running shutdown -r -t 0 from this command prompt.
 <div class="highlight"><pre><span></span><code>&amp; "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\windbg" -k net:port=50000,key=[...truncate...]
 </code></pre></div>
 <p>After which point I can connect to the target debugee by rebooting it, and it connects automatically.</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108213616.png" data-desc-position="bottom"><img alt="Pasted_image_20251108213616.png" src="../../../../Pasted_image_20251108213616.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251108213616.png" data-desc-position="top"><img alt="Pasted_image_20251108213616.png" src="../../../../Pasted_image_20251108213616.png"></a></p>
 <h3 id="building-the-poc">Building the PoC<a class="headerlink" href="#building-the-poc" title="Permanent link">¶</a></h3>
 <p>I started by creating a new C++ console application in VisualStudio.  </p>
 <p>The call to <code>DeviceIoControl</code> needs a handle to the module, for that I created a global variable that the handle could be assigned into, and a function for getting a handle.</p>
@@ -3013,8 +3011,8 @@ Then reboot this machine by running shutdown -r -t 0 from this command prompt.
 </code></pre></div>
 <p>However there are a number of things that need adjustment.  For example it should be able to take an arbitrary process ID.  The <code>EPROCESS</code> offsets specified in the function are in relation to <code>Windows 7 x64</code>, but this is <code>Windows 10 Pro x64</code>,  so is the real <code>REAPER</code> target machine, and the first document makes mention that the offsets are dependent on the version of windows as the structure keeps changing with each new version.</p>
 <p>And for the offsets, <code>EPROCESS</code> under <code>Windows 10 Pro x64</code>:</p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109012409.png" data-desc-position="bottom"><img alt="Pasted_image_20251109012409.png" src="../../../../Pasted_image_20251109012409.png"></a></p>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109012511.png" data-desc-position="bottom"><img alt="Pasted_image_20251109012511.png" src="../../../../Pasted_image_20251109012511.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109012409.png" data-desc-position="top"><img alt="Pasted_image_20251109012409.png" src="../../../../Pasted_image_20251109012409.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109012511.png" data-desc-position="top"><img alt="Pasted_image_20251109012511.png" src="../../../../Pasted_image_20251109012511.png"></a></p>
 <p>Here is what I finally settled on:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#define EPROCESS_UniqueProcessId        0x440</span>
 <span class="cp">#define EPROCESS_ActiveProcessLinks     0x448</span>
@@ -3081,7 +3079,7 @@ Type definitions:
 1. statically-compiled release x64: Project &gt; (binary) properties &gt; Configuration Properties &gt; C/C++ &gt; Code Generation &gt;  Runtime Library == "Multithreaded (/MT)"
 2. Auto-copy to Virtualbox shared drive:  Project &gt; (binary) properties &gt; Configuration Properties &gt; Custom Build Step &gt; Command Line  == <code>copy C:\Users\Admin\Desktop\EXCLUSION_ZONE_WHITELISTED\reapthereaper\x64\Release\reapthereaper.exe z:\</code></p>
 <h3 id="getting-the-shell_1">Getting the shell<a class="headerlink" href="#getting-the-shell_1" title="Permanent link">¶</a></h3>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109021310.png" data-desc-position="bottom"><img alt="Pasted_image_20251109021310.png" src="../../../../Pasted_image_20251109021310.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109021310.png" data-desc-position="top"><img alt="Pasted_image_20251109021310.png" src="../../../../Pasted_image_20251109021310.png"></a></p>
 <p>Upon exit:</p>
 <div class="highlight"><pre><span></span><code>C:<span class="se">\u</span>sers<span class="se">\k</span>eysvc&gt;exit
 <span class="nb">exit</span>
@@ -3092,7 +3090,7 @@ I<span class="w"> </span>am<span class="w"> </span>reapthereaper
 <span class="o">[</span>&gt;<span class="o">]</span><span class="w"> </span>System<span class="w"> </span>_EPROCESS:<span class="w"> </span>0xffff9101cae8d040
 <span class="o">[</span>&gt;<span class="o">]</span><span class="w"> </span>Process:<span class="w"> </span>ffff9101d1220080<span class="w"> </span><span class="o">(</span>PID:<span class="w"> </span><span class="m">2492</span>,<span class="w"> </span>TOKEN_PTR:<span class="w"> </span>ffff800aac4f2735<span class="o">)</span>
 </code></pre></div>
-<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109021631.png" data-desc-position="bottom"><img alt="Pasted_image_20251109021631.png" src="../../../../Pasted_image_20251109021631.png"></a></p>
+<p><a class="glightbox" data-type="image" data-width="100%" data-height="auto" href="../../../../Pasted_image_20251109021631.png" data-desc-position="top"><img alt="Pasted_image_20251109021631.png" src="../../../../Pasted_image_20251109021631.png"></a></p>
 <p>Scythes out for Reaper</p>
 
 
