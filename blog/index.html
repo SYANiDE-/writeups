@@ -617,7 +617,7 @@
     </div>
   </header>
   <div class="md-post__content md-typeset">
-    <h2 id="how-i-operate-in-a-kerberos-realm"><a class="toclink" href="2025/11/13/how-i-operate-in-a-kerberos-realm/">How I operate in a Kerberos realm</a></h2>
+    <h2 id="2025-11-13-how-i-operate-within-a-kerberos-realm"><a class="toclink" href="2025/11/13/2025-11-13-how-i-operate-within-a-kerberos-realm/">2025 11 13 How I Operate Within a Kerberos Realm</a></h2>
 <p>When I am working in a Kerberos realm, there are a few things I do as a collection of standard procedure on any given engagement.</p>
 <ol>
 <li><code>/etc/hosts</code>: Add hostname mappings to IPs, and for DCs, explode every component of the DCs FQDN and associate it to the IP of the domain controller</li>
@@ -634,18 +634,18 @@
 <li>many, many others</li>
 </ul>
 <p>There are many advantages to working from a primarily <code>linux</code>-based workflow, such as avoiding dropping files on disk (i.e., <code>mimikatz</code>, <code>rubeus.exe</code>,<code>certify</code> etc.), avoiding <code>applocker</code> policies or <code>Defender</code>, wonky shells, etc.  </p>
-<h3 id="etchosts"><a class="toclink" href="2025/11/13/how-i-operate-in-a-kerberos-realm/#etchosts">/etc/hosts</a></h3>
+<h3 id="etchosts"><a class="toclink" href="2025/11/13/2025-11-13-how-i-operate-within-a-kerberos-realm/#etchosts">/etc/hosts</a></h3>
 <p>Host entries in <code>/etc/hosts</code> should follow a pattern of most-descriptive to least-descriptive.  For example, a domain controller that serves as KDC for the realm would have a host entry like follows:</p>
 <div class="highlight"><pre><span></span><code>10.1.2.3 dc1.example.com example.com example dc1
 </code></pre></div>
 <p>Some tools and some protocols may only send part or all of the FQDN, an entry like above ensures that no matter the format of the request, the IP is the one that handles the request for that realm.</p>
-<h3 id="etcresolvconf"><a class="toclink" href="2025/11/13/how-i-operate-in-a-kerberos-realm/#etcresolvconf">/etc/resolv.conf</a></h3>
+<h3 id="etcresolvconf"><a class="toclink" href="2025/11/13/2025-11-13-how-i-operate-within-a-kerberos-realm/#etcresolvconf">/etc/resolv.conf</a></h3>
 <p>Consult the <a href="https://man7.org/linux/man-pages/man5/resolv.conf.5.html">manpage</a> or, a slightly more humanized conversation around <a href="https://www.baeldung.com/linux/etc-resolv-conf-file">resolv.conf usage</a></p>
 <p>But two entries I like to use as a baseline are the <code>nameserver</code> and <code>search</code> configuration options, and typically I will make these entries the topmost entries above all others so that they are preferred:</p>
 <div class="highlight"><pre><span></span><code>search example.com
 nameserver 10.1.2.3
 </code></pre></div>
-<h3 id="etckrb5conf"><a class="toclink" href="2025/11/13/how-i-operate-in-a-kerberos-realm/#etckrb5conf">/etc/krb5.conf</a></h3>
+<h3 id="etckrb5conf"><a class="toclink" href="2025/11/13/2025-11-13-how-i-operate-within-a-kerberos-realm/#etckrb5conf">/etc/krb5.conf</a></h3>
 <p>I have a <a href="https://github.com/SYANiDE-/make_krb5.conf">utility I wrote</a> for quickly building out the <code>/etc/krb5.conf</code>.  Automate the boring they say. </p>
 <p>The <code>-d</code> option can take a comma-delimited list of DC FQDNs, which is useful in cases where you need your <code>krb5.conf</code> to handle multiple realms.  The first DC specified in the list will be the default realm.</p>
 <p>Example:</p>
@@ -700,7 +700,7 @@ default = FILE:/var/log/krb5_default.log
 
 [+] Writing /etc/krb5.conf
 </code></pre></div>
-<h3 id="timesync-with-a-dc"><a class="toclink" href="2025/11/13/how-i-operate-in-a-kerberos-realm/#timesync-with-a-dc">timesync with a DC</a></h3>
+<h3 id="timesync-with-a-dc"><a class="toclink" href="2025/11/13/2025-11-13-how-i-operate-within-a-kerberos-realm/#timesync-with-a-dc">timesync with a DC</a></h3>
 <p>Anyone that has ever tried to authenticate to a DC using Kerberos, and the DC is in a different time zone, knows of the pain and struggle:</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/hercules<span class="o">]</span>
