@@ -5,34 +5,34 @@
       
       
       
-        <link rel="canonical" href="https://syanide-.github.io/writeups/blog/">
+        <link rel="canonical" href="https://syanide-.github.io/writeups/blog/How%20I%20operate%20in%20a%20Kerberos%20realm/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="How%20I%20operate%20in%20a%20Kerberos%20realm/">
+        <link rel="next" href="../../writeups/HackTheBox/Machines/Breach/">
       
       
         
       
       
-        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
-        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../feed_rss_updated.xml">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Blog - SYANiDE-.github.io writeups</title>
+        <title>How I operate in a Kerberos realm - SYANiDE-.github.io writeups</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,21 +51,21 @@
       
     
     
-      <link rel="stylesheet" href="../css/app.css">
+      <link rel="stylesheet" href="../../css/app.css">
     
-      <link rel="stylesheet" href="../css/terminal-player.css">
+      <link rel="stylesheet" href="../../css/terminal-player.css">
     
-      <link rel="stylesheet" href="../css/asciinema-player.css">
+      <link rel="stylesheet" href="../../css/asciinema-player.css">
     
-      <link rel="stylesheet" href="../assets/stylesheets/panzoom.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/panzoom.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -95,7 +95,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#blog" class="md-skip">
+        <a href="#etchosts" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +111,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="SYANiDE-.github.io writeups" class="md-header__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
+    <a href="../.." title="SYANiDE-.github.io writeups" class="md-header__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -131,7 +131,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Blog
+              How I operate in a Kerberos realm
             
           </span>
         </div>
@@ -229,7 +229,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -252,7 +252,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -288,7 +288,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../writeups/HackTheBox/Machines/Breach/" class="md-tabs__link">
+        <a href="../../writeups/HackTheBox/Machines/Breach/" class="md-tabs__link">
           
   
   
@@ -338,7 +338,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="SYANiDE-.github.io writeups" class="md-nav__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
+    <a href="../.." title="SYANiDE-.github.io writeups" class="md-nav__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -356,7 +356,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -415,7 +415,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -433,7 +433,7 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -456,10 +456,35 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="How%20I%20operate%20in%20a%20Kerberos%20realm/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How I operate in a Kerberos realm
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -475,6 +500,68 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#etchosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /etc/hosts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etcresolvconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /etc/resolv.conf
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etckrb5conf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /etc/krb5.conf
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timesync-with-a-dc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        timesync with a DC
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -487,7 +574,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -552,7 +639,7 @@
   
   
   
-    <a href="../writeups/HackTheBox/Machines/Breach/" class="md-nav__link">
+    <a href="../../writeups/HackTheBox/Machines/Breach/" class="md-nav__link">
       
   
   
@@ -591,16 +678,224 @@
             
           
           
-  <div class="md-content" data-md-component="content">
-    <div class="md-content__inner">
-      <header class="md-typeset">
-        <h1 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">¶</a></h1>
-      </header>
-      
-      
-    </div>
-  </div>
+            <div class="md-content" data-md-component="content">
+              
+                
 
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation">
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    About
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Blog
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>How I operate in a Kerberos realm</h1>
+
+<p>When I am working in a Kerberos realm, there are a few things I do as a collection of standard procedure on any given engagement.</p>
+<ol>
+<li><code>/etc/hosts</code>: Add hostname mappings to IPs, and for DCs, explode every component of the DCs FQDN and associate it to the IP of the domain controller</li>
+<li><code>/etc/resolv.conf</code>: map the <code>domain</code> and <code>nameserver</code> entries to the primary domain and DC </li>
+<li><code>/etc/krb5.conf</code>: Generate a new <code>krb5.conf</code>, I have a utility I wrote that generates a new one</li>
+<li>timesync with the DC I am working with (at any given time).</li>
+</ol>
+<p>These steps enable <code>linux</code> toolchains that are designed to work within a Kerberos realm, such as (just to name a few):</p>
+<ul>
+<li><a href="https://github.com/fortra/impacket">impacket</a></li>
+<li><a href="https://github.com/CravateRouge/bloodyAD">bloodyAD</a></li>
+<li><a href="https://github.com/aniqfakhrul/powerview.py">powerview.py</a></li>
+<li><a href="https://github.com/dirkjanm/BloodHound.py/tree/master">bloodhound-python</a> / <a href="https://github.com/dirkjanm/BloodHound.py/tree/bloodhound-ce">bloodhound-ce-python</a></li>
+<li>many, many others</li>
+</ul>
+<p>There are many advantages to working from a primarily <code>linux</code>-based workflow, such as avoiding dropping files on disk (i.e., <code>mimikatz</code>, <code>rubeus.exe</code>,<code>certify</code> etc.), avoiding <code>applocker</code> policies or <code>Defender</code>, wonky shells, etc.  </p>
+<h2 id="etchosts">/etc/hosts<a class="headerlink" href="#etchosts" title="Permanent link">¶</a></h2>
+<p>Host entries in <code>/etc/hosts</code> should follow a pattern of most-descriptive to least-descriptive.  For example, a domain controller that serves as KDC for the realm would have a host entry like follows:</p>
+<div class="highlight"><pre><span></span><code>10.1.2.3 dc1.example.com example.com example dc1
+</code></pre></div>
+<p>Some tools and some protocols may only send part or all of the FQDN, an entry like above ensures that no matter the format of the request, the IP is the one that handles the request for that realm.</p>
+<h2 id="etcresolvconf">/etc/resolv.conf<a class="headerlink" href="#etcresolvconf" title="Permanent link">¶</a></h2>
+<p>Consult the <a href="https://man7.org/linux/man-pages/man5/resolv.conf.5.html">manpage</a> or, a slightly more humanized conversation around <a href="https://www.baeldung.com/linux/etc-resolv-conf-file">resolv.conf usage</a></p>
+<p>But two entries I like to use as a baseline are the <code>nameserver</code> and <code>search</code> configuration options, and typically I will make these entries the topmost entries above all others so that they are preferred:</p>
+<div class="highlight"><pre><span></span><code>search example.com
+nameserver 10.1.2.3
+</code></pre></div>
+<h2 id="etckrb5conf">/etc/krb5.conf<a class="headerlink" href="#etckrb5conf" title="Permanent link">¶</a></h2>
+<p>I have a <a href="https://github.com/SYANiDE-/make_krb5.conf">utility I wrote</a> for quickly building out the <code>/etc/krb5.conf</code>.  Automate the boring they say. </p>
+<p>The <code>-d</code> option can take a comma-delimited list of DC FQDNs, which is useful in cases where you need your <code>krb5.conf</code> to handle multiple realms.  The first DC specified in the list will be the default realm.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>make_krb5.conf.py<span class="w"> </span>-d<span class="w"> </span>dc1.example.com,dc4.dev.example.com,dc2.engineering.example.com<span class="w"> </span>-w
+</code></pre></div>
+<p>Generates and writes a new <code>/etc/krb5.conf</code> like so:</p>
+<div class="highlight"><pre><span></span><code>kdc = FILE:/var/log/krb5_kdc.log
+admin-server = FILE:/var/log/krb5_admin-server.log
+default = FILE:/var/log/krb5_default.log
+
+[libdefaults]
+        default_realm = EXAMPLE.COM
+        dns_lookup_realm = false
+        dns_lookup_kdc = false
+        # dns_uri_lookup = false  ## use this when trying to troubleshoot
+# The following krb5.conf variables are only for MIT Kerberos.
+        kdc_timesync = 1
+        ccache_type = 4
+        forwardable = true
+        proxiable = true
+        rdns = false
+# The following libdefaults parameters are only for Heimdal Kerberos.
+        fcc-mit-ticketflags = true
+
+[realms]
+    EXAMPLE.COM = {
+        kdc = dc1.example.com:88
+        admin_server = dc1.example.com
+        password_server = dc1.example.com
+        default_domain = example.com
+    }        
+    DEV.EXAMPLE.COM = {
+        kdc = dc4.dev.example.com:88
+        admin_server = dc4.dev.example.com
+        password_server = dc4.dev.example.com
+        default_domain = dev.example.com
+    }        
+    ENGINEERING.EXAMPLE.COM = {
+        kdc = dc2.engineering.example.com:88
+        admin_server = dc2.engineering.example.com
+        password_server = dc2.engineering.example.com
+        default_domain = engineering.example.com
+    }        
+
+[domain_realm]
+    example.com = EXAMPLE.COM
+    .example.com = EXAMPLE.COM        
+    dev.example.com = DEV.EXAMPLE.COM
+    .dev.example.com = DEV.EXAMPLE.COM        
+    engineering.example.com = ENGINEERING.EXAMPLE.COM
+    .engineering.example.com = ENGINEERING.EXAMPLE.COM                
+
+[+] Writing /etc/krb5.conf
+</code></pre></div>
+<h2 id="timesync-with-a-dc">timesync with a DC<a class="headerlink" href="#timesync-with-a-dc" title="Permanent link">¶</a></h2>
+<p>Anyone that has ever tried to authenticate to a DC using Kerberos, and the DC is in a different time zone, knows of the pain and struggle:</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/hercules<span class="o">]</span>
+└─$<span class="w"> </span>impacket-getTGT<span class="w"> </span>example.com/g.oldie:<span class="s1">'RuffigeKru#2'</span>
+Impacket<span class="w"> </span>v0.13.0.dev0<span class="w"> </span>-<span class="w"> </span>Copyright<span class="w"> </span>Fortra,<span class="w"> </span>LLC<span class="w"> </span>and<span class="w"> </span>its<span class="w"> </span>affiliated<span class="w"> </span>companies<span class="w"> </span>
+
+Kerberos<span class="w"> </span>SessionError:<span class="w"> </span>KRB_AP_ERR_SKEW<span class="o">(</span>Clock<span class="w"> </span>skew<span class="w"> </span>too<span class="w"> </span>great<span class="o">)</span>
+</code></pre></div>
+<p>Now normally, we would just disable <code>ntpd</code> :</p>
+<div class="highlight"><pre><span></span><code>## one of the following, depending on what controls you
+sudo timedatectl set-ntp false
+sudo systemctl stop ntp.service
+</code></pre></div>
+<p>and sync the time with the DC using <code>ntpdate</code>:
+</p><div class="highlight"><pre><span></span><code>sudo ntpdate -u dc.example.com
+</code></pre></div><p></p>
+<p>However in my case, none of this works like above, because my Kali instance is in <code>Virtualbox</code>, and it is the one in control of time syncronization.  </p>
+<p>Its a little nuanced.  The short of it is that <code>virtualbox-guest-utils</code> service (systemd) is the one that calls  <code>/usr/sbin/VBoxService</code>, which handles (among a lot Guest Utils things), keeping the Guest OS time syncronized to the Host OS hypervisor.  I do need Guest Utils things, in fact all of them, with the exception of timesync (on these hacking Kerberos realm occasions).</p>
+<p>The service binary <code>/usr/sbin/VBoxService</code> can actually be called with an argument that disables time syncronization, but there is not interface for/to it through the <code>systemd</code> wrapper around it, or the init file that starts it.  You can't call <code>virtualbox-guest-utils</code> with any meaningful argument/environment variable to get passed to it being started, and there's no way of controlling the flag at the systemd unit.  </p>
+<p>So what I did was come up with another unit file, and some modifications to the init file, so that Guest Utils can be kept running but without time syncronization.  That way just the time syncronization could be toggled.</p>
+<p>Fully documented and repeatable <a href="https://github.com/SYANiDE-/tooling/tree/main/vbox-disable-timesync">here</a></p>
+<p>But basically with it, I can (effectively) disable just the timesync to the Host OS by starting the new service, then perform an <code>ntpdate -u [otherdomain]</code> as normal, and time synced to the otherdomain persists until reboot (or the service is stopped, forcing the real <code>virtualbox-guest-utils</code> to start again).</p>
+<div class="highlight"><pre><span></span><code><span class="c1">## decouple from VBox timesync</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>vbox-disable-timesync.service
+sudo<span class="w"> </span>ntpdate<span class="w"> </span>-u<span class="w"> </span>dc1.example.com
+
+<span class="c1">## recouple</span>
+sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>vbox-disable-timesync.service
+</code></pre></div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 14, 2025 05:15:38 UTC">November 14, 2025</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 14, 2025 05:15:38 UTC">November 14, 2025</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
           
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
@@ -680,12 +975,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "toc.integrate", "navigation.top", "header.autohide", "search.highlight", "search.share"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "toc.integrate", "navigation.top", "header.autohide", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
-        <script src="../javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
@@ -693,13 +988,13 @@
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
-        <script src="../javascripts/app.js"></script>
+        <script src="../../javascripts/app.js"></script>
       
-        <script src="../js/asciinema-player.min.js"></script>
+        <script src="../../js/asciinema-player.min.js"></script>
       
-        <script src="../assets/javascripts/panzoom.min.js"></script>
+        <script src="../../assets/javascripts/panzoom.min.js"></script>
       
-        <script src="../assets/javascripts/zoompan.js"></script>
+        <script src="../../assets/javascripts/zoompan.js"></script>
       
     
   

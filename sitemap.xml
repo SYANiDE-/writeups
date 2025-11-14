@@ -2,26 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://syanide-.github.io/writeups/</loc>
-         <lastmod>2025-11-09</lastmod>
+         <lastmod>2025-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://syanide-.github.io/writeups/blog/How%20I%20operate%20in%20a%20Kerberos%20realm/</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://syanide-.github.io/writeups/writeups/HackTheBox/Machines/Breach/</loc>
-         <lastmod>2025-11-09</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://syanide-.github.io/writeups/writeups/HackTheBox/Machines/Rainbow/</loc>
-         <lastmod>2025-11-09</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://syanide-.github.io/writeups/writeups/HackTheBox/Machines/Reaper/</loc>
-         <lastmod>2025-11-09</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://syanide-.github.io/writeups/writeups/HackTheBox/Machines/Redelegate/</loc>
-         <lastmod>2025-11-09</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
          <loc>https://syanide-.github.io/writeups/blog/</loc>
-         <lastmod>2025-11-09</lastmod>
+         <lastmod>2025-11-14</lastmod>
     </url>
 </urlset>
