@@ -119,7 +119,7 @@ So, can't provide much help there.
 
 But basically what I have done is create a directory to be used as a working directory for `ligolo-proxy`:
 
-![[Pasted image 20251119020408.png]]
+![[Pasted_image_20251119020408.png]]
 
 The real home of the `conf` file is in the `/etc` directory, symlinked into the working directory.
 
@@ -296,13 +296,13 @@ ligolo-ng » INFO[1077] Agent joined.                                 id=005056b
 
 The webserver can be accessed on port `11602` as per the `conf`.  Just need to activate the agent and assign it to one of the interfaces:
 
-![[Pasted image 20251119024013.png]]
+![[Pasted_image_20251119024013.png]]
 
-![[Pasted image 20251119024053.png]]
+![[Pasted_image_20251119024053.png]]
 
 Additional routes that the agent host can reach can be added to a given interface, from the interfaces tab, on the RJ45 icon:
 
-![[Pasted image 20251119024328.png]]
+![[Pasted_image_20251119024328.png]]
 
 Listeners can be managed from the interfaces tab, which is handy if you need to do additional port forwarding or route-fu
 
