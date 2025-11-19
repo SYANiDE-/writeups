@@ -2,6 +2,7 @@
 date: 2025-11-13
 ---
 
+# How I operate within a Kerberos Realm
 
 When I am working in a Kerberos realm, there are a few things I do as a collection of standard procedure on any given engagement.
 
