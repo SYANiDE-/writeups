@@ -69,6 +69,7 @@ plugins:
   - search
   - roamlinks
   - blog
+      blog_toc: true
   - rss:
       match_path: blog/posts/.* 
       date_from_meta:
