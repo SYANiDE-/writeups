@@ -68,7 +68,7 @@ markdown_extensions:
 plugins:
   - search
   - roamlinks
-  - blog
+  - blog:
       blog_toc: true
   - rss:
       match_path: blog/posts/.* 
